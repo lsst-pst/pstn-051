@@ -1,4 +1,80 @@
 \section{Introduction}
 
-This draft is still an early work in progress. 
-Check back summer 2020.
+Note: This paper needs to focus on survey strategies and their evaluation. 
+
+Introduction - cover basic idea of survey simulator, scheduler and weather/telescope models. 
+Cover basic survey strategy starting point - wide area, frequent coverage, ten year timespan - and why. 
+Mention COSEP and call for white papers - idea is to do the best science we can, add last 10\% "best" science. 
+
+
+\section{Survey Simulator Overview}
+Probably need some reference to what survey scheduler was used / how it was set up for various runs, how the runs were performed, and what the input weather and telescope models were like. 
+
+\section{Basic Survey Requirements}
+Basic survey strategy starting point and why - in more depth? Discuss metrics related to these requirements. 
+Probably should show that all survey strategies evaluated do / need to meet these requirements (but maybe later?)
+
+\section{Feedback from white papers and SAC} 
+Broad outline of points to evaluate for survey strategy, and our approach in running the subsequent experiments (this should help make sense of what comes next)
+Discuss basic types of SAC recommendations. 
+
+\section{Individual Visit Length}
+What to do - 1x30s vs. 2x15s? 1x30s much more efficient (show rough calculation of overhead) than 2x15s, but may have drawbacks due to cosmic ray rejection and potential to miss very rapid transients (or WD detection .. ref white paper). Subtle drawback that 2x15s gives the same "midpoint exposure time" across FOV, 1x30s does not. 
+Show difference in 1x30s vs. 2x15s in whatever is our 'standard baseline' at this point. 
+Show effect of 7\% loss in efficiency when attempting to combine minisurveys in various configurations (assume we will find some combinations possible with single exposure visits that are impossible with two snaps). 
+Relevant metrics: total number of visits, number of visits per field/filter
+
+\section{Intra-night Cadence}
+What to do for visit sequence within a night? White paper support for multiple filters within a night (except TNOs maybe?). Potential drawbacks - less efficient (show effect on efficiency). This applies to WFD primarily, but we've applied to any survey that did not have their own specifications (so, everywhere). 
+Extension of pairs to $u$ band and $y$ band (show effect). 
+Relevant metrics: inter-night visit gaps and SN discovery, SSO discovery/characterization, transient and variable discovery (??), number of visits
+
+\section{Wide-Fast-Deep Footprint}
+What to do for WFD footprint? SRD not specific, DESC want low-extinction sky (and depth), but WFD is generally the area of sky that receives the most visits, so generally other science will also benefit from more visits to their relevant areas (particularly galactic plane .. for time-domain studies primarily, not depth)
+Relevant metrics: area of sky with 825 visits (under particular restrictions, like total coadded depth and individual image seeing and dust extinction), number of galaxies, number of resolved galaxies, SSO discovery, transient and variable star discovery, astrometry in the galactic plane (?)
+
+\section{Rolling cadence}
+Motivation for a rolling cadence (more frequent visits in some years)
+Different options for rolling and explanation of how implemented
+Should really include discussion of recovery from bad weather years and simulation of same
+Relevant metrics: Maintain astrometry requirements, SN discovery, SSO discovery and characterization,  Transient and variable discovery, uniformity of coadded depth / number of visits, 
+
+\section{Northern minisurveys}
+Add extension to cover Euclid/DESI with various numbers of visits
+Observing NES 
+Effect of adding or removing these minisurveys
+Relevant metrics: SSO discovery and characterization (particularly active asteroids), depth and number of visits through remainder of North
+
+\section{Southern minisurveys}
+Add extension over south celestial pole, LMC/SMC with various #'s of visits
+Effect of adding or removing these minisurveys
+Relevant metrics: number of visits and coadded depth over SCP, discovery of variables in LMC/SMC (see Olsen white paper for metrics?)
+
+\section{Low Galactic Latitudes}
+Discussion of definitions from SAC and recommendations for visits
+Effect of adding or removing these minisurveys
+Relevant metrics: number of visits, astrometry in bulge, discovery of variables/transients/microlensing in bulge (?)
+
+\section{Twilight Observing}
+Discuss need for twilight observing to meet SRD goals (weather, total amount of time available)
+Add NEO twilight survey, add DCR white paper (season extension visits?)
+Effect of adding or removing these minisurveys
+Relevant metrics: NEO discovery, number of visits and coadded depth (and uniformity) in WFD, measurement of DCR, season length
+
+\section{Deep Drilling Fields}
+Discuss purpose and how these are scheduled (very different from other fields)
+Discuss potential cadences (AGN/ DESC) and how these differ, and our combination of the two
+Discuss timing issues with oversubscription (and how much of a problem this could be, what if worse weather?) -- include location of fifth DD field
+Effect of adding or removing these minisurveys
+Relevant metrics: number of visits and coadded depth for DD, SN detection in DDFs, AGN detection in DDFs
+*[solar system minisurvey DDF?]
+
+\section{ToO modes}
+Discuss impact of ToO, and how we could implement ToOs in scheduler (various modes: straight to queue by hand or set up known program and supply trigger, etc. -- that we're evaluating the second?)
+Relevant metrics: frequency of achieving ToO observations, number of visits and coadded depth in other surveys (WFD or other minisurveys that may be in particular contention)
+
+\section{Making it all work}
+Discuss combinations of the above that work together or don't 
+Relevant metrics: all
+
+\section{Conclusions}

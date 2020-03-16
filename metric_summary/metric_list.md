@@ -16,56 +16,50 @@ To display the full MAF output in your browser, have the simulations stack insta
 ## Survey Depth
 
 Compute the expected final coadded depth in each filter. 
-![](glance/thumb.baseline_v1_4_10yrs_CoaddM5_r_HEAL_SkyMap.png=200x)
+
+<img src="glance/thumb.baseline_v1_4_10yrs_CoaddM5_r_HEAL_SkyMap.png" width="300"/>
 
 ## Number of Visits
 
 Compute the total number of visits for each filter.
-![](glance/thumb.baseline_v1_4_10yrs_Count_observationStartMJD_r_HEAL_SkyMap.png)
+<img src="glance/thumb.baseline_v1_4_10yrs_Count_observationStartMJD_r_HEAL_SkyMap.png" width="300"/>
 
 Also done in alt/az space (useful for checking that we are not oberving at high airmass)
-![](glance/thumb.baseline_v1_4_10yrs_Nvisits_as_function_of_Alt_Az_r_HEAL_SkyMap.png)
-
+<img src="glance/thumb.baseline_v1_4_10yrs_Nvisits_as_function_of_Alt_Az_r_HEAL_SkyMap.png" width="300"/>
 ## Filter distribution
 
 Vizulization of what filters are loaded. Useful to see if redder filters are begin used in bright time and twilight.
 
-![](glance/thumb.baseline_v1_4_10yrs_Hourglass_year_0-1_HOUR_Hourglass.png)
-
+<img src="glance/thumb.baseline_v1_4_10yrs_Hourglass_year_0-1_HOUR_Hourglass.png" width="300"/>
 ## Open Shutter Fraction
 
 How much time is the camera shutter open compared to how much time is available. Drops when there is more slewing, more filter changing, or the shutter is closed for readout between snaps.
 
-![](glance/thumb.baseline_v1_4_10yrs_OpenShutterFraction_ONED_BinnedData.png)
-
+<img src="glance/thumb.baseline_v1_4_10yrs_OpenShutterFraction_ONED_BinnedData.png" width="300"/>
 ## Slew Stats
 
 XXX--explain bumps at 40s, 120s, etc. 
 
-![](glance/thumb.baseline_v1_4_10yrs_Slew_Time_Histogram_All_visits_ONED_BinnedData.png)
-
+<img src="glance/thumb.baseline_v1_4_10yrs_Slew_Time_Histogram_All_visits_ONED_BinnedData.png" width="300"/>
 ## Pair Fraction
 
 The fraction of observations taken as pairs (e.g., can be used to identify moving objects)
 
-![](glance/thumb.baseline_v1_4_10yrs_PairFraction_g_or_r_or_i_HEAL_SkyMap.png)
-
+<img src="glance/thumb.baseline_v1_4_10yrs_PairFraction_g_or_r_or_i_HEAL_SkyMap.png" width="300"/>
 # SRD Metrics
 
 ## fO
 
 How well do we meet the SRD requirement to observe 18,000 square degrees 825 times.
 
-![](glance/thumb.baseline_v1_4_10yrs_fO_All_visits_HEAL_FO.png)
 
+<img src="glance/thumb.baseline_v1_4_10yrs_fO_All_visits_HEAL_FO.png" width="300"/>
 ## Parallax and Proper Motion
 
 Estimates of how precicely we can measure proper motion and parallax for an isolated point source.
 
-![](glance/thumb.baseline_v1_4_10yrs_parallax_HEAL_SkyMap.png)
-
-![](glance/thumb.baseline_v1_4_10yrs_properMotion_HEAL_SkyMap.png)
-
+<img src="glance/thumb.baseline_v1_4_10yrs_parallax_HEAL_SkyMap.png" width="300"/>
+<img src="glance/thumb.baseline_v1_4_10yrs_properMotion_HEAL_SkyMap.png" width="300"/>
 
 # Science Metrics
 

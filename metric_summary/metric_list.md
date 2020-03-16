@@ -42,7 +42,7 @@ How much time is the camera shutter open compared to how much time is available.
 
 XXX--explain bumps at 40s, 120s, etc. 
 
-![](thumb.baseline_v1_4_10yrs_Slew_Time_Histogram_All_visits_ONED_BinnedData.png)
+![](glance/thumb.baseline_v1_4_10yrs_Slew_Time_Histogram_All_visits_ONED_BinnedData.png)
 
 ## Pair Fraction
 

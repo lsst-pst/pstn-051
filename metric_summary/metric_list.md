@@ -96,7 +96,7 @@ We compute the median depth of each DDF in each filter
 ## Annual coverage
 
 We check how many unique years a spot on the sky is observed per filter. Useful for determining if we will always have image subtraction templates.
-<img src="sci_baseline_v1.4_10yrs/thumb._CoverageMetric_u_HEAL_SkyMap.png" width="300"/>
+<img src="sci_baseline_v1.4_10yrs/thumb._YearCoverage_night_u_HEAL_SkyMap.png" width="300"/>
 
 ## Parallax and Proper Motion
 
@@ -115,8 +115,8 @@ Similar to the SNe metric, only now with a kilonova light curve.
 ## Camera Rotator Angle Distribution
 
 We look at how uniform the camera angle distribution is in each filter.
-<img src="sci_baseline_v1.4_10yrs/sci_baseline_v1.4_10yrs/thumb._Kuiper_rotTelPos_r_HEAL_SkyMap.png" width="300"/>
-<img src="sci_baseline_v1.4_10yrs/_Kuiper_rotSkyPos_r_HEAL_SkyMap.pdf" width="300"/>
+<img src="sci_baseline_v1.4_10yrs/thumb._Kuiper_rotTelPos_r_HEAL_SkyMap.png" width="300"/>
+<img src="sci_baseline_v1.4_10yrs/thumb._Kuiper_rotSkyPos_r_HEAL_SkyMap.png" width="300"/>
 
 
 ## Solar System Stuff

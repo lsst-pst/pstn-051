@@ -115,7 +115,9 @@ Similar to the SNe metric, only now with a kilonova light curve.
 
 ## Camera Rotator Angle Distribution
 
-We look at how uniform the camera angle distribution is in each filter.
+We look at how uniform the camera angle distribution is in each filter. For a perfectly uniform distribution between 0-360 degrees, the metric will return values of zero. For totally non-uniform (all observations taken at the same angle), the metric is one.  Because the camera rotation relative to the telescope is limited to +/- 90 degrees, the rotTelPos metric has a minimum of \~0.5. 
+
+
 <img src="sci_baseline_v1.4_10yrs/thumb._Kuiper_rotTelPos_r_HEAL_SkyMap.png" width="300"/>
 <img src="sci_baseline_v1.4_10yrs/thumb._Kuiper_rotSkyPos_r_HEAL_SkyMap.png" width="300"/>
 
@@ -157,5 +159,9 @@ Would be nice to know the total number of galaxies available for weak lensing. O
 ## Relevant populations of galactic transients
 
 ## Anything that is sensitive to the Galactic anti-center?
+
+## Something the depends on stellar crowding?
+
+We can compute how stellar crowding effects depth. Is there a metric to be made with this? Galactic stream detection metric? Galactic structure recovery metric? 
 
 

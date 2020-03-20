@@ -3,7 +3,7 @@
 Full MAF outputs available at:  http://astro-lsst-01.astro.washington.edu:8082/
 
 
-For metrics we run on every survey, we like to keep the runtime reasonable. Currently, the glance bundle runs in 15 minutes, and the science radar in XXX. The Solar System metrics require propagating orbits, so it's a 2-step process that takes a total of XXX.
+For metrics we run on every survey, we like to keep the runtime reasonable. Currently, the glance bundle runs in 15 minutes, and the science radar in 60 minutes for 10-year simulations. The Solar System metrics require propagating orbits, so it's a 2-step process that takes a total of XXX.
 
 
 # Basic Survey Properties
@@ -43,7 +43,8 @@ How much time is the camera shutter open compared to how much time is available.
 
 ## Slew Stats
 
-XXX--explain bumps at 40s, 120s, etc. Note this is a log scale, the vast majority of slews are under 5 seconds.
+We have plots for slew distances and times. Note the slewtime distribution has a bump around 40 seconds. Those are slews with a large enough altitude change that there is a 40s optics loop run. The peak at 120s are filter changes (filter change time is included in slewtime). Finally the peak at 160s is a filer change combined with an optics loop. Note the log scale, the vast majority of slews are under 5 seconds.
+
 <img src="glance/thumb.baseline_v1_4_10yrs_Slew_Time_Histogram_All_visits_ONED_BinnedData.png" width="300"/>
 
 ## Pair Fraction

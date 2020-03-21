@@ -77,7 +77,13 @@ Given a population of Type Ia SNe, we randomly distribute them on the sky and ch
 <img src="sci_baseline_v1.4_10yrs/thumb._SNIa_PrePeak_USER_SkyMap.png" width="300"/>
 <img src="sci_baseline_v1.4_10yrs/thumb._SNIa_WellSampled_USER_SkyMap.png" width="300"/>
 
+## TDE
 
+XXX--add plot for new TDE fraction metric
+
+## Periodic Stars
+
+XXX--add plots for periodic star detection metric
 
 ## Galaxy Counts
 

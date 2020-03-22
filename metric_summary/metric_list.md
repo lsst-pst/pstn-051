@@ -11,34 +11,39 @@ For metrics we run on every survey, we like to keep the runtime reasonable. Curr
 ## Survey Depth
 
 Compute the expected final coadded depth in each filter. 
+
 <img src="glance/thumb.baseline_v1_4_10yrs_CoaddM5_r_HEAL_SkyMap.png" width="300"/>
 
 ## Number of Visits
 
 Compute the total number of visits for each filter.
+
 <img src="glance/thumb.baseline_v1_4_10yrs_Count_observationStartMJD_r_HEAL_SkyMap.png" width="300"/>
 
 Also done in alt/az space (useful for checking that we are not observing at high airmass).
+
 <img src="glance/thumb.baseline_v1_4_10yrs_Nvisits_as_function_of_Alt_Az_r_HEAL_SkyMap.png" width="300"/>
 
 We have stats tables by fraction and total number for the different observing modes
 
 
-
 ## Filter distribution
 
 Visualization of what filters are loaded. Useful to see if redder filters are begin used in bright time and twilight. Rapid filter changes are usually deep drilling sequences.
+
 <img src="glance/thumb.baseline_v1_4_10yrs_Hourglass_year_0-1_HOUR_Hourglass.png" width="300"/>
 
 ## Filter Changes
 
 How often we change filters.
+
 <img src="glance/thumb.baseline_v1_4_10yrs_Filter_Changes_ONED_BinnedData.png" width="300"/>
 
 
 ## Open Shutter Fraction
 
 How much time is the camera shutter open compared to how much time is available. Drops when there is more slewing, more filter changing, or the shutter is closed for readout between snaps.
+
 <img src="glance/thumb.baseline_v1_4_10yrs_OpenShutterFraction_ONED_BinnedData.png" width="300"/>
 
 ## Slew Stats
@@ -50,6 +55,7 @@ We have plots for slew distances and times. Note the slewtime distribution has a
 ## Pair Fraction
 
 The fraction of observations taken as pairs (e.g., can be used to identify moving objects)
+
 <img src="glance/thumb.baseline_v1_4_10yrs_PairFraction_g_or_r_or_i_HEAL_SkyMap.png" width="300"/>
 
 # SRD Metrics
@@ -57,12 +63,14 @@ The fraction of observations taken as pairs (e.g., can be used to identify movin
 ## fO
 
 How well do we meet the SRD requirement to observe 18,000 square degrees 825 times.
+
 <img src="glance/thumb.baseline_v1_4_10yrs_fO_All_visits_HEAL_FO.png" width="300"/>
 
 
 ## Parallax and Proper Motion
 
 Estimates of how precisely we can measure proper motion and parallax for an isolated point source.
+
 <img src="glance/thumb.baseline_v1_4_10yrs_parallax_HEAL_SkyMap.png" width="300"/>
 <img src="glance/thumb.baseline_v1_4_10yrs_properMotion_HEAL_SkyMap.png" width="300"/>
 
@@ -79,20 +87,27 @@ Given a population of Type Ia SNe, we randomly distribute them on the sky and ch
 
 ## TDE
 
-XXX--add plot for new TDE fraction metric
+The fraction of tidal disruption events that are recovered.
+
+<img src="sci_baseline_v1.4_10yrs/thumb._TDEsAsciiMetric_HEAL_SkyMap.png" width="300"/>
 
 ## Periodic Stars
 
-XXX--add plots for periodic star detection metric
+Testing different period, amplitude, and magnitude combinations to see which periodic stars are identified.
+
+<img src="sci_baseline_v1.4_10yrs/thumb._Periodic_amp_1_00_mag_24_HEAL_SkyMap.png" width="300"/>
+<img src="sci_baseline_v1.4_10yrs/thumb._Periodic_amp_0_10_mag_21_HEAL_SkyMap.png" width="300"/>
 
 ## Galaxy Counts
 
 The number of galaxies that can be detected (in i-band) accounting for dust extinction
+
 <img src="sci_baseline_v1.4_10yrs/thumb._GalaxyCountsMetric_extended_i_HEAL_SkyMap.png" width="300"/>
 
 ## DDF SNe
 
 As with the full sky SNe recovery, only now focused on each DDF
+
 <img src="sci_baseline_v1.4_10yrs/thumb._DD_ECDFS_SNIa_Detected_USER_SkyMap.png" width="300"/>
 
 ## DDF depth
@@ -103,6 +118,7 @@ We compute the median depth of each DDF in each filter
 ## Annual coverage
 
 We check how many unique years a spot on the sky is observed per filter. Useful for determining if we will always have image subtraction templates.
+
 <img src="sci_baseline_v1.4_10yrs/thumb._YearCoverage_night_u_HEAL_SkyMap.png" width="300"/>
 
 ## Parallax and Proper Motion
@@ -122,7 +138,6 @@ Similar to the SNe metric, only now with a kilonova light curve.
 ## Camera Rotator Angle Distribution
 
 We look at how uniform the camera angle distribution is in each filter. For a perfectly uniform distribution between 0-360 degrees, the metric will return values of zero. For totally non-uniform (all observations taken at the same angle), the metric is one.  Because the camera rotation relative to the telescope is limited to +/- 90 degrees, the rotTelPos metric has a minimum of \~0.5. 
-
 
 <img src="sci_baseline_v1.4_10yrs/thumb._Kuiper_rotTelPos_r_HEAL_SkyMap.png" width="300"/>
 <img src="sci_baseline_v1.4_10yrs/thumb._Kuiper_rotSkyPos_r_HEAL_SkyMap.png" width="300"/>

@@ -7,17 +7,18 @@ Full examples of MAF outputs are available online at \url{http://astro-lsst-01.a
 \subsubsection{Survey Depth}
 
 Compute the expected final coadded depth in each filter. 
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_CoaddM5_r_HEAL_SkyMap.png'}
+\centering
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_CoaddM5_r_HEAL_SkyMap.png}
 
 \subsubsection{Number of Visits}
 
 Compute the total number of visits for each filter.
 
-%\includegraphics{'metric_summaryglance/thumb.baseline_v1_4_10yrs_Count_observationStartMJD_r_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_Count_observationStartMJD_r_HEAL_SkyMap.png}
 
 Also done in alt/az space (useful for checking that we are not observing at high airmass).
 
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_Nvisits_as_function_of_Alt_Az_r_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_Nvisits_as_function_of_Alt_Az_r_HEAL_SkyMap.png}
 
 We have stats tables by fraction and total number for the different observing model
 
@@ -25,31 +26,31 @@ We have stats tables by fraction and total number for the different observing mo
 
 Visualization of what filters are loaded. Useful to see if redder filters are begin used in bright time and twilight. Rapid filter changes are usually deep drilling sequences.
 
-%\includegraphics{metric_summary/glance/thumb.baseline_v1_4_10yrs_Hourglass_year_0-1_HOUR_Hourglass'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_Hourglass_year_0-1_HOUR_Hourglass.png}
 
 \subsubsection{Filter Changes}
 
 How often we change filters.
 
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_Filter_Changes_ONED_BinnedData'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_Filter_Changes_ONED_BinnedData.png}
 
 \subsubsection{Open Shutter Fraction}
 
 How much time is the camera shutter open compared to how much time is available. Drops when there is more slewing, more filter changing, or the shutter is closed for readout between snaps.
 
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_OpenShutterFraction_ONED_BinnedData'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_OpenShutterFraction_ONED_BinnedData.png}
 
 \subsubsection{Slew Stats}
 
 We have plots for slew distances and times. Note the slewtime distribution has a bump around 40 seconds. Those are slews with a large enough altitude change that there is a 40s optics loop run. The peak at 120s are filter changes (filter change time is included in slewtime). Finally the peak at 160s is a filer change combined with an optics loop. Note the log scale, the vast majority of slews are under 5 seconds.
 
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_Slew_Time_Histogram_All_visits_ONED_BinnedData'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_Slew_Time_Histogram_All_visits_ONED_BinnedData.png}
 
 \subsubsection{Pair Fraction}
 
 The fraction of observations taken as pairs (e.g., can be used to identify moving objects)
 
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_PairFraction_g_or_r_or_i_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_PairFraction_g_or_r_or_i_HEAL_SkyMap.png}
 
 \subsection{SRD Metrics}
 
@@ -57,15 +58,15 @@ The fraction of observations taken as pairs (e.g., can be used to identify movin
 
 How well do we meet the SRD requirement to observe 18,000 square degrees 825 times.
 
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_fO_All_visits_HEAL_FO'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_fO_All_visits_HEAL_FO.png}
 
 
 \subsubsection{Parallax and Proper Motion}
 
 Estimates of how precisely we can measure proper motion and parallax for an isolated point source.
 
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_parallax_HEAL_SkyMap'}
-%\includegraphics{'metric_summary/glance/thumb.baseline_v1_4_10yrs_properMotion_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_parallax_HEAL_SkyMap.png}
+\includegraphics[width=0.5\textwidth]{metric_summary/glance/thumb.baseline_v1_4_10yrs_properMotion_HEAL_SkyMap.png}
 
 \subsection{Science Metrics}
 
@@ -73,35 +74,35 @@ Estimates of how precisely we can measure proper motion and parallax for an isol
 
 Given a population of Type Ia SNe, we randomly distribute them on the sky and check what fraction are detected at all, how many observation of SNe there are, what fraction are detected pre-peak, and what fraction are "well sampled"
 
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._SNIa_Detected_USER_SkyMap'}
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._SNIa_Nobs_USER_SkyMap'}
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._SNIa_PrePeak_USER_SkyMap'}
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._SNIa_WellSampled_USER_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._SNIa_Detected_USER_SkyMap.png}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._SNIa_Nobs_USER_SkyMap.png}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._SNIa_PrePeak_USER_SkyMap.png}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._SNIa_WellSampled_USER_SkyMap.png}
 
 \subsubsection{TDE}
 
 The fraction of tidal disruption events that are recovered.
 
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._TDEsAsciiMetric_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._TDEsAsciiMetric_HEAL_SkyMap.png}
 
 \subsubsection{Periodic Stars}
 
 Testing different period, amplitude, and magnitude combinations to see which periodic stars are identified.
 
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._Periodic_amp_1_00_mag_24_HEAL_SkyMap'}
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._Periodic_amp_0_10_mag_21_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._Periodic_amp_1_00_mag_24_HEAL_SkyMap.png}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._Periodic_amp_0_10_mag_21_HEAL_SkyMap.png}
 
 \subsubsection{Galaxy Counts}
 
 The number of galaxies that can be detected (in i-band) accounting for dust extinction
 
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._GalaxyCountsMetric_extended_i_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._GalaxyCountsMetric_extended_i_HEAL_SkyMap.png}
 
 \subsubsection{DDF SNe}
 
 As with the full sky SNe recovery, only now focused on each DDF
 
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._DD_ECDFS_SNIa_Detected_USER_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._DD_ECDFS_SNIa_Detected_USER_SkyMap.png}
 
 \subsubsection{DDF depth}
 
@@ -112,7 +113,7 @@ We compute the median depth of each DDF in each filter
 
 We check how many unique years a spot on the sky is observed per filter. Useful for determining if we will always have image subtraction templates.
 
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._YearCoverage_night_u_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._YearCoverage_night_u_HEAL_SkyMap.png}
 
 \subsubsection{Parallax and Proper Motion}
 
@@ -122,7 +123,7 @@ A variety of parallax and proper motion metrics computed for point sources at r=
 
 An SRD requirement, checking how much of the sky receives at least 82 visits between 0.667 and 30.0 minutes, with at least 28 of those visits falling between 0.667 and 20.0 minutes
 
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._RapidRevisits_All_visits_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._RapidRevisits_All_visits_HEAL_SkyMap.png}
 
 \subsubsection{Kilonova}
 
@@ -132,8 +133,8 @@ Similar to the SNe metric, only now with a kilonova light curve.
 
 We look at how uniform the camera angle distribution is in each filter. For a perfectly uniform distribution between 0-360 degrees, the metric will return values of zero. For totally non-uniform (all observations taken at the same angle), the metric is one.  Because the camera rotation relative to the telescope is limited to +/- 90 degrees, the rotTelPos metric has a minimum of \~0.5. 
 
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._Kuiper_rotTelPos_r_HEAL_SkyMap'}
-%\includegraphics{'metric_summary/sci_baseline_v1.4_10yrs/thumb._Kuiper_rotSkyPos_r_HEAL_SkyMap'}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._Kuiper_rotTelPos_r_HEAL_SkyMap.png}
+\includegraphics[width=0.5\textwidth]{metric_summary/sci_baseline_v1.4_10yrs/thumb._Kuiper_rotSkyPos_r_HEAL_SkyMap.png}
 
 
 \subsubsection{Solar System Stuff}

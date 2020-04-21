@@ -5,3 +5,20 @@
 #
 # Example:
 #   MIA:Missing In Action
+SCOC:Survey Cadence Optimization Committee
+MAF:Metrics Analysis Framework
+COSEP:Community Observing Strategy Evaluation Paper
+DESC:Dark Energy Science Collaboration
+DESI:Dark Energy Spectroscopic Instrument
+WFD:Wide Fast Deep (standard 'universal' footprint)
+NES:North Ecliptic Spur (northern extension in ecliptic plane to survey footprint)
+SCP:Southern Celestial Pole (southern extension to survey footprint)
+GP:Galactic Plane (galactic plane modification to survey footprint)
+FOV:Field of View (LSST FOV is 3.5 sq deg)
+TDE:Tidal Disruption Event
+AGN:Active Galactic Nuclei
+SN:Supernova
+LMC:Large Magellanic Cloud
+SMC:Small Magellanic Cloud
+SSO:Solar System Object
+WD:White Dwarf

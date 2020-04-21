@@ -1,3 +1,5 @@
+% replace large sections with \include files 
+
 \section{Introduction}
 
 Note: This paper needs to focus on survey strategies and their evaluation. 
@@ -21,6 +23,9 @@ Probably should show that all survey strategies evaluated do / need to meet thes
 Broad outline of points to evaluate for survey strategy, and our approach in running the subsequent experiments (this should help make sense of what comes next)
 
 Discuss basic types of SAC recommendations. 
+
+%\section{Overview of Metrics}
+\include{metrics}
 
 \section{Individual Visit Length}
 What to do - 1x30s vs. 2x15s? 1x30s much more efficient (show rough calculation of overhead) than 2x15s, but may have drawbacks due to cosmic ray rejection and potential to miss very rapid transients (or WD detection .. ref white paper). Subtle drawback that 2x15s gives the same "midpoint exposure time" across FOV, 1x30s does not. 
@@ -112,3 +117,8 @@ Somewhere in here we probably ought to talk about optimizing the parameters for 
 \section{Conclusions}
 Hopefully here we pare down the evaluation of 100s of runs (like promised) to a set of between 10 to 20 (if this is possible, after combining along different axes). 
 The results should come with some basic comments about what's particularly good or bad in each of these areas and how we arrived at these general options. 
+
+
+% Make sure lsst-texmf/bin/generateAcronyms.py is in your path
+\section{Acronyms} \label{sec:acronyms}
+\input{acronyms.tex}

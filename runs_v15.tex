@@ -1,0 +1,144 @@
+
+
+\section{FBS release v1.5}
+
+Here we discuss the experiments run as part of v1.5. 
+
+
+
+\subsection{alt\_roll\_dust}
+
+These are motivated by the DESC collaboration and their desire to observe as many galaxies as possible. The WFD area is extended north and south and the galactic plane (defined by a dust map) is decreased down to $\sim$350 visits. The footprint also includes a northern stripe which gets $\sim220$\ visits. The motivation for the northern stripe is that it can provide image differencing templates for any gravitational wave detections in the north, as well as provide overlap with other survey missions (Euclid, WFIRST).
+
+These simulations tend to fall just short of the fOArea benchmark (e.g., only $\sim$17,500 square degrees receive 825 visits), but meet the formal SRD requirement by having a median number of 891 visits in the WFD area.  
+
+The dust exclusion zones make certain parts of the year undersubscribed. This suggests it might be relatively low-impact to add some bridges to the footprint across the galactic bulge and the galactic anti-center.  
+
+\subsubsection{alt\_dust\_v1.5\_10yrs}
+
+This uses the dusty footprint, and uses a basis function to encourage the scheduler to alternate between the north and south nightly. This was originally done in the altSched (cite). This can help keep light curve sampling optimally spaced. By using a basis function, we encourage alternating north/south, but it is not absolutely enforced, making it possible for the scheduler to avoid the moon.
+
+
+\subsubsection{roll\_mod2\_dust\_sdf\_0.20\_v1.5\_10yrs}
+
+Now we divide the WFD area into quarters, and employ a rolling cadence. For the first 1.5 years and final 2.5 years, the full footprint is used as normal. 
+
+<fig of first year> <year 1.5-2.5> <2.5-3.5>
+
+The use of dividing the WFD into quarters will be obvious when we combine with the altSched strategy.
+
+
+\subsection{baseline}
+
+We divide the sky into the standard WFD, NES, SCP and GP. The NES does not get observed in the u and y filters. 
+
+We run 2 versions of the baseline. One with 2x15s visits and one with 1x30s visits. The extra readtime needed for the 2-snap version results in the open shutter fraction dropping from 77\% to 72\%. Over the 10-year survey, this comes out to about 60 observations fewer for a typical point in the sky. 
+
+The 2-snap baseline meets the SRD requirements, but has very little extra contingency.
+
+\subsection{bulge}
+
+We used recommendations from the SAC for different strategies for observing the galactic bulge. These simulations use the Big Sky footprint similar to the Olsen et al white paper.  
+
+The run \emph{bulges\_bs\_v1.5\_10yrs} includes light coverage of the bulge and entire galactic plane, \emph{bulges\_bulge\_wfd\_v1.5\_10yrs} covers the bulge, and \emph{bulges\_i\_heavy\_v1.5\_10yrs} covers the bulge with more observations in \emph{i}. 
+
+We make similar runs where we try to force a specific cadence in g,r,i, and z on the bulge-region. These are runs \emph{bulges\_cadence\_bs\_v1.5\_10yrs}, \emph{bulges\_cadence\_i\_heavy\_v1.5\_10yrs}, and \emph{bulges\_cadence\_bulge\_wfd\_v1.5\_10yrs} respectively. The bulge region is boosted in priority if it has been more than 2.5 days 
+
+<maybe the i-band visit function for all three>
+
+
+\subsection{daily\_ddf}
+
+The run \emph{daily\_ddf\_v1.5\_10yrs} was an attempt to have the standard DDF sequences and additional shorter sequences that would execute every day that did not have a long sequence.  This way, AGN science would have dense time sampling, while still reaching depth desired by cosmology.
+
+\subsection{dcr}
+
+The LSST will not have an atmospheric chromatic corrector, thus difference imaging can be complicated by differential chromatic refraction. There is also potential science opportunities by being able to measure the 
+
+These experiments look at how we could intentionally schedule a subset of images to be at high airmass so a DCR model could be built up. We test various combinations of filters to demand DCR observations (u+g, u+g+r, and u+g+r+i), and the number of observations to take at high airmass per year (1 or 2). 
+
+Note, even with 2 high airmass observations per year, we would still expect some area of the sky to fall in chip and raft gaps.  It is also worth noting that in our baseline simulation, we observe a spot on the sky in u typically 60 times, or 6 times per year. Taking 2 high airmass observations per year in u decreases the final coadded depth by 0.15 mags.
+
+   
+\subsection{DDFs}
+\subsubsection{agnddf\_v1.5\_10yrs}
+
+An experiment following the AGN cadence white paper
+
+only $\sim$2.5\% of visits are spent on DDFs. 
+
+Because the DDFs fire more frequently, and have a small number of exposures per filter, the OSF drops to 76\%. That is, we are changing filters more per exposure with this DDF sequence. 
+
+\subsubsection{descddf\_v1.5\_10yrs}
+
+An experiment based on the DESC DDF white paper.
+
+
+\subsection{filter\_dist}
+
+Testing a simple WFD-only footprint, but varying the requested ratio of observations in different filters.
+
+
+\subsection{footprints}
+
+We test a wide variation of potential survey footprints. Some of these are more realistic than others. 
+
+\subsection{goodseeing}\label(ss:goodseeing)
+
+These test the ability to ensure the entire WFD area is imaged in ``good seeing" conditions every year, here defined as FWHM of 0.7 arcseconds or better.  
+
+These runs work well and it seems to add no particular overhead to the observing. It might make it more challenging to implement in operations, simply because the baseline simulation can simulate an entire night and pass off the list to be observed. If we want to run with the goal of collecting good seeing images, we will need to update the observing queue every time the seeing conditions change significantly, which could result in changing the upcomming observations more often than is desired.
+
+\subsection{rolling}
+
+We test breaking the WFD region up into 2, 3, and 6 declination bands which are then ``rolled". 
+
+\subsection{short\_exp}
+
+We try taking additional short exposures (1s or 5s) twice or five times per year. Taking shorter exposures is a less efficient observing mode, but it seems to have little impact on the overall open shutter fraction.
+
+\subsection{spiders}
+
+We look at keeping diffraction spikes aligned along CCD rows and columns. This may result in the camera rotator angle being much less randomized than our baseline rotational dithering strategy.
+
+\subsection{third\_obs}
+
+For early identification of transients, it can be helpful to have more than two observations in a night. In these observations, we dedicate between 15 and 120 minutes at the end of the night to attempting to observe areas of sky that already have been observed.
+
+\subsection{twilight\_neo}
+
+This is an implementation of white paper XXX, where we use twilight time to take short exposures along the ecliptic to search for NEOs. 
+
+If we dedicate all twilight time to NEO searches, we fail to meet the SRD requirements. Thus we also check running the NEO survey every 2, 3, or 4 days.
+
+\subsection{u60}\label{ss:u60}
+
+The u-band observations can often be readnoise limited. We test doubling the u-band exposure time and cutting the number of exposures in half. This results in the u-band final coadded depth reaching $\sim$0.20 mags deeper. The g-band is also 0.10 mags deeper, with the rest of the filters essentially unchanged in final depth.
+
+Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeting the SRD value of 825 visits in the WFD area. Adopting longer exposures in u seems like a good idea, but the SRD will probably need to be modified to ensure it is not ambiguous.
+
+\subsection{var\_expt}
+
+A test where we vary the exposure time based on the current conditions so individual exposures have similar depths. There is an argument that taking a full 30s visit in ideal dark time conditions results in ``wasted depth", as more objects and transients will be detected, but then it will be impossible to identify them as later visits are unlikely to be as deep. Similarly, taking a 30s visit in poor conditions will result in a shallow image which will be of limited use.
+
+As with \ref{ss:u}, this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.
+
+Having variable exposure time introduces at least 6 new free parameters to the scheduler (the target individual depth for each filter), as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times.
+
+\subsection{wfd\_depth}
+
+We vary what fraction of the observing time is dedicated to the WFD area, from 60\% to 99\% with and without the standard DDF surveys. Unsurprisingly, the SRD is not met if the WFD is only given 60\%.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

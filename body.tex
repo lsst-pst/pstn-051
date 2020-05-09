@@ -40,6 +40,8 @@ Show difference in 1x30s vs. 2x15s in whatever is our 'standard baseline' at thi
 
 Show effect of 7\% loss in efficiency when attempting to combine minisurveys in various configurations (assume we will find some combinations possible with single exposure visits that are impossible with two snaps). 
 
+Also possible to use variable exposure time depending on seeing and sky brightness conditions. Shorter exposures in good conditions keeps us from observing ``wasted" depth, letting us take longer exposures in poor conditions. This does introduce a host of new free parameters (an ideal target depth for each filter and minimum and maximum exposure times).  This would might require rewording the SRD to ensure, e.g., that 20s visits in good conditions count for the number of visit requirement.
+
 Relevant metrics: total number of visits, number of visits per field/filter
 
 \section{Intra-night Cadence}
@@ -109,6 +111,8 @@ Relevant metrics: number of visits and coadded depth for DD, SN detection in DDF
 
 \section{ToO modes}
 Discuss impact of ToO, and how we could implement ToOs in scheduler (various modes: straight to queue by hand or set up known program and supply trigger, etc. -- that we're evaluating the second?)
+
+Discuss how we can have a low coverage region to the north to maintain templates for all possible ToOs, or we could decide ot only search for ToOs that are likely to be in the WFD area.
 
 Relevant metrics: frequency of achieving ToO observations, number of visits and coadded depth in other surveys (WFD or other minisurveys that may be in particular contention)
 

@@ -42,7 +42,7 @@ We used recommendations from the SAC for different strategies for observing the 
 
 The run \emph{bulges\_bs\_v1.5\_10yrs} includes light coverage of the bulge and entire galactic plane, \emph{bulges\_bulge\_wfd\_v1.5\_10yrs} covers the bulge, and \emph{bulges\_i\_heavy\_v1.5\_10yrs} covers the bulge with more observations in \emph{i}. 
 
-We make similar runs where we try to force a specific cadence in g,r,i, and z on the bulge-region. These are runs \emph{bulges\_cadence\_bs\_v1.5\_10yrs}, \emph{bulges\_cadence\_i\_heavy\_v1.5\_10yrs}, and \emph{bulges\_cadence\_bulge\_wfd\_v1.5\_10yrs} respectively. The bulge region is boosted in priority if it has been more than 2.5 days 
+We make similar runs where we try to force a specific cadence in g,r,i, and z on the bulge-region. These are runs \emph{bulges\_cadence\_bs\_v1.5\_10yrs}, \emph{bulges\_cadence\_i\_heavy\_v1.5\_10yrs}, and \emph{bulges\_cadence\_bulge\_wfd\_v1.5\_10yrs} respectively. The bulge region is boosted in priority if it has been more than 2.5 days since there has been an observation.
 
 <maybe the i-band visit function for all three>
 
@@ -112,7 +112,6 @@ This is an implementation of white paper XXX, where we use twilight time to take
 If we dedicate all twilight time to NEO searches, we fail to meet the SRD requirements. Thus we also check running the NEO survey every 2, 3, or 4 days.
 
 \subsection{u60}\label{ss:u60}
-
 The u-band observations can often be readnoise limited. We test doubling the u-band exposure time and cutting the number of exposures in half. This results in the u-band final coadded depth reaching $\sim$0.20 mags deeper. The g-band is also 0.10 mags deeper, with the rest of the filters essentially unchanged in final depth.
 
 Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeting the SRD value of 825 visits in the WFD area. Adopting longer exposures in u seems like a good idea, but the SRD will probably need to be modified to ensure it is not ambiguous.
@@ -121,7 +120,7 @@ Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeti
 
 A test where we vary the exposure time based on the current conditions so individual exposures have similar depths. There is an argument that taking a full 30s visit in ideal dark time conditions results in ``wasted depth", as more objects and transients will be detected, but then it will be impossible to identify them as later visits are unlikely to be as deep. Similarly, taking a 30s visit in poor conditions will result in a shallow image which will be of limited use.
 
-As with \ref{ss:u}, this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.
+As with \ref{ss:u60}, this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.
 
 Having variable exposure time introduces at least 6 new free parameters to the scheduler (the target individual depth for each filter), as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times.
 

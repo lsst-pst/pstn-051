@@ -38,6 +38,8 @@ What to do - 1x30s vs. 2x15s? 1x30s much more efficient (show rough calculation 
 
 Show difference in 1x30s vs. 2x15s in whatever is our 'standard baseline' at this point. 
 
+There has been thought of using a variety of exposure times if we use two snaps (e.g., 5s + 25s). Because there are not plans to release catalogs from individual snaps, it's not clear if this would enable much new science.
+
 Show effect of 7\% loss in efficiency when attempting to combine minisurveys in various configurations (assume we will find some combinations possible with single exposure visits that are impossible with two snaps). 
 
 Also possible to use variable exposure time depending on seeing and sky brightness conditions. Shorter exposures in good conditions keeps us from observing ``wasted" depth, letting us take longer exposures in poor conditions. This does introduce a host of new free parameters (an ideal target depth for each filter and minimum and maximum exposure times).  This would might require rewording the SRD to ensure, e.g., that 20s visits in good conditions count for the number of visit requirement.
@@ -55,6 +57,15 @@ Relevant metrics: inter-night visit gaps and SN discovery, SSO discovery/charact
 What to do for WFD footprint? SRD not specific, DESC want low-extinction sky (and depth), but WFD is generally the area of sky that receives the most visits, so generally other science will also benefit from more visits to their relevant areas (particularly galactic plane .. for time-domain studies primarily, not depth)
 
 Relevant metrics: area of sky with 825 visits (under particular restrictions, like total coadded depth and individual image seeing and dust extinction), number of galaxies, number of resolved galaxies, SSO discovery, transient and variable star discovery, astrometry in the galactic plane (?)
+
+\section{Dithering}
+
+The spatial dithering strategy for the large area surveys seems to work well.
+
+We need to decide on a rotational dithering strategy. Should we try to randomize, or keep diffraction spikes aligned along rows and columns?
+
+The dithering strategy for the DDFs pose a tension. DDF science is best served by small spatial dithers, but DM would prefer large spatial dithers. Also need to do something unique for the Euclid pair of fields, and any fields with nearby bright stars.
+
 
 \section{Rolling cadence}
 Motivation for a rolling cadence (more frequent visits in some years)
@@ -111,6 +122,8 @@ Relevant metrics: number of visits and coadded depth for DD, SN detection in DDF
 
 \section{ToO modes}
 Discuss impact of ToO, and how we could implement ToOs in scheduler (various modes: straight to queue by hand or set up known program and supply trigger, etc. -- that we're evaluating the second?)
+
+Any ToO survey should also take into account that chip and raft gaps mean full sky coverage will require multiple images with spatial dithering.
 
 Discuss how we can have a low coverage region to the north to maintain templates for all possible ToOs, or we could decide ot only search for ToOs that are likely to be in the WFD area.
 

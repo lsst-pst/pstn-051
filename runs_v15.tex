@@ -120,7 +120,7 @@ Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeti
 
 A test where we vary the exposure time based on the current conditions so individual exposures have similar depths. There is an argument that taking a full 30s visit in ideal dark time conditions results in ``wasted depth", as more objects and transients will be detected, but then it will be impossible to identify them as later visits are unlikely to be as deep. Similarly, taking a 30s visit in poor conditions will result in a shallow image which will be of limited use.
 
-As with \ref{ss:u60}, this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.
+As with doing 60s u band exposures , this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.
 
 Having variable exposure time introduces at least 6 new free parameters to the scheduler (the target individual depth for each filter), as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times.
 

@@ -15,6 +15,55 @@ Earlier attempts at simulating LSST in \citet{Rothchild19} and \citet{Naghib19}.
 \section{Survey Simulator Overview}
 Probably need some reference to what survey scheduler was used / how it was set up for various runs, how the runs were performed, and what the input weather and telescope models were like. 
 
+\subsection{The Model Observatory}
+Discuss kinematic model, seeing model, weather model. 
+
+\subsection{The Scheduler}
+
+The scheduler is designed to provide real-time decisions on where and how to observe. Because we expect there to be things like weather interruptions, we need a system that can recover quickly. Unlike other traditional telescope schedulers, we do not try to optimize a large number of observations in advance, but rather use a decision tree along with a modified Markov Decision Process. The scheduler behavior is set by a small number of free parameters that can be tuned.
+
+Our baseline scheduler uses a three tier decision tree when deciding what observations to attempt. 
+
+\subsubsection{Tier 1:  Deep Drilling Fields}
+
+The first tier of the decision tree is to check if there are any deep drilling fields that should be executed. We typically have five DDFs in a simulation. 
+
+For a DDF to be eligible to send a sequence to the observing queue, it must
+\begin{itemize}
+\item{Not currently be twilight}
+\item{Have enough time to finish a sequence before twilight begins}
+\item{Be in it's target hour angle range}
+\item{The moon must be down}
+\item{The DDF must not have exceeded it's limit of observations (typically $\sim$1\% of the total number of visits)}
+\end{itemize}
+
+If the DDF has not fallen behind, it will space sequences by at least 1.5 days. There is also a check to see if the DDF will be feasible and better observed later in the night, in which case no observations are requested.
+
+If the above conditions are met, the DDF sends it's sequence of observations to the queue to be executed. There are currently no attempts at recovery if a sequence is interrupted. 
+
+The spatial position of the DDF is dithered nightly up to 0.7 degrees.  The camera rotator is also varied nightly to be between -75 and 75 degrees with respect to the telescope. 
+
+
+\subsubsection{Tier 2:  The Blobs}
+
+If there are no DDFs requesting observations, the decision tree moves to the second tier. This tier is the survey workhorse, executing $\sim$80\% of the simulation visits.  This tier will only request observations if it is not currently twilight, and there is at least 30 minutes before twilight begins.
+
+A modified Markov Decision Process is used to decide what sky region and filter combination to observe given the current conditions and observation history.  We describe the specifics of the MDP in more detail in \S\ref{xxx}.  Briefly, the MDP balances the desire to observe areas 1) that are closest to the optimal possible in terms of 5-sigma depth, 2) which have fallen behind the specified desired survey footprint, 3) are near the current telescope pointing and 4) in the currently loaded filter to minimize filter changes.  In addition to these core components, the MDP includes a mask around zenith, a 30 degree mask around the moon, and small masks around the bright planets (Venus, Mars, Jupiter). The end product of the MDP is a reward function that ranks the desirability of every point in the sky. Because this tier does not execute in twilight, we assume the reward function is relatively stable on 40 minute timescales.
+
+A sky area around the reward function maximum that will take $\sim$22 minutes to observe ($\sim$35 pointings) is then selected. If possible, the area is selected to be be contiguous.  The exact position of the telescope pointings are determined by the sky tessellation, which is randomly oriented for each night. The camera rotator angle (relative to the telescope) is also randomized between $\pm 80$\ degrees each night.
+
+A traveling salesman algorithm is used to put the pointings in an order that minimizes the slew time. The list of pointings are then repeated, usually in a different filter, ensuring moving objects can be detected.  One of seven possible filter combinations is used: $u+g$, $u+r$, $g+r$, $r+i$, $i+z$, $z+y$, or $y+y$.  We use 30 second visits for the majority of simulations. The official baseline uses visits comprised of two 15 second snaps.  
+
+
+\subsubsection{Tier 3:  Greedy}
+
+If it is during morning or evening twilight, or close to morning twilight, the DDFs and Blob surveys will pass and the decision tree goes to the third and final tier, the greedy surveys. 
+
+The greedy surveys use a similar Markov Decision Process as in Tier 2, but rather than selecting large areas of sky to observe, the survey selects a single pointing at a time.  No attempt is made to observe greedy scheduled observations in pairs.  Since this tier is primarily used in twilight time, it only schedules observations in the redder filters $r$, $i$, $z$, and $y$.  
+
+As with the Blob tier, the sky tessellation orientation is randomized each night so the final survey is spatially dithered. 
+
+
 \section{Basic Survey Requirements}
 Basic survey strategy starting point and why - in more depth? Discuss metrics related to these requirements. 
 

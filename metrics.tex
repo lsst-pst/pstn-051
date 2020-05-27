@@ -1,4 +1,5 @@
 \section{Overview of Metrics}
+
 This section provides a high-level overview of some metrics used for evaluation of simulated surveys, ranging from basic metrics to evaluate scheduler sensibility and performance to more sophisticated metrics aimed at evaluating science return.
 Full examples of MAF outputs are available online at \url{http://astro-lsst-01.astro.washington.edu:8082}.  
 
@@ -10,8 +11,12 @@ Full examples of MAF outputs are available online at \url{http://astro-lsst-01.a
 \subsubsection{Survey Depth}
 
 Compute the expected final coadded depth in each filter. 
-
-\includegraphics[width=0.5\textwidth]{metric_summary/baseline_v1.5_10yrs/baseline_v1_5_10yrs_CoaddM5_r_HEAL_SkyMap.pdf}
+\begin{figure}
+\epsscale{.8}
+\plotone{metric_summary/baseline_v1.5_10yrs/baseline_v1_5_10yrs_CoaddM5_r_HEAL_SkyMap.pdf}
+%\includegraphics[width=0.5\textwidth]{metric_summary/baseline_v1.5_10yrs/baseline_v1_5_10yrs_CoaddM5_r_HEAL_SkyMap.pdf}
+\caption{Final coadded depth in $r$. } \label{fig:metric-depth}
+\end{figure}
 
 \subsubsection{Number of Visits}
 

@@ -34,12 +34,12 @@ How much contingency should we aim for when designing the survey strategy?  Curr
 
 \subsection{Deep Drilling Fields}
 
-We have run a number of Deep Drilling strategies. The DDF strategy is largely separable from the rest of the survey design, and we have a number of proposals for DDFs that we have yet to explore (e.g., rolling DDFs where a single DDF is completed in one observing season).
+We have run a number of Deep Drilling strategies. The DDF strategy is largely separable from the rest of the survey design, and we have a number of proposals for DDFs that we have yet to explore (e.g., rolling DDFs where a single DDF is completed in one observing season).  We have started experimenting with pre-scheduling DDF observations. 
 
 \begin{itemize}
     \item{What fraction of the survey should be dedicated to the DDFs?}
     \item{Should DDFs be preferentially executed in dark time, or is it more important to maintain cadence?}
-    \item{Where should the DDFs be placed (can we finalize the 5th DDF as a Euclid double-pointing DDF)?}
+    \item{Where should the DDFs be placed (can we finalize the 5th DDF as a Euclid double-pointing)?}
     \item{What is the preferred dithering strategy (spatially and rotationally) for the DDFs? There is tension in that DM generally prefers larger dithers for calibration and co-addition purposes, while science cases prefer smaller dithers to preserve the area that reaches the deepest levels.}
     \item{Should we try ``rolling" the DDFs, completing DDF observations in a field in only a few years?}
 \end{itemize}
@@ -52,7 +52,7 @@ We have also experimented with setting the camera rotation angle to ensure stell
 
 \subsection{Spatial Dithering}
 
-For the wide area regions we have this pretty well under control, randomizing the tessellation orientation nightly. This does result in a small percent of time being spent observing outside the desired survey footprint. The alternative would be to limit the amount one dithers out of the footprint, but then one risks imprinting systematics on objects near the footprint border (e.g., an object is never observed in the center of the focal plane, only by outer rafts).
+For the wide area regions we have had excellent results randomizing the tessellation orientation nightly. This does result in a small percent of time being spent observing outside the desired survey footprint. The alternative would be to limit the amount one dithers out of the footprint, but then one risks imprinting systematics on objects near the footprint border (e.g., an object is never observed in the center of the focal plane, only by outer rafts).
 
 \subsection{Survey Footprint}
 
@@ -64,12 +64,12 @@ Perhaps the biggest question, what should we set the survey footprint to be?
     \item{Should we avoid areas of high dust extinction for the WFD area?}
     \item{What is the ideal filter distribution to use? It would be nice to have a photo-z metric to help make this decision.}
     \item{Should we cover the LMC and SMC as part of the WFD survey? As their own DDF-like survey? We have few metrics that touch on LMC/SMC science directly.}
-    \item{SHould we add area in the north to overlap with Euclid, WFIRST, and/or DESI?}
+    \item{Should we add area in the north to overlap with Euclid, WFIRST, and/or DESI?}
 \end{itemize}
 
 \subsection{Best Use of Twilight Time}
 
-Our baseline simulation uses twilight time to fill in observations in redder filters ($rizy$). We can use some of the time to conduct a NEO survey. We can also vary which filters get used in twilight time. The baseline greedy algorithm used in twilight is known to be rather unstable, so we could also try running more contiguous blocks in twilight. We could also emphasize targeting areas that have already been observed 4 or more times in the night, potentially gathering important color information for a small number of transients.
+Our baseline simulation uses twilight time to fill in WFD observations in redder filters ($rizy$). We can use some of the time to conduct a NEO survey. We can also vary which filters get used in twilight time. The baseline greedy algorithm used in twilight is known to be rather unstable, so we could also try running more contiguous blocks in twilight. We could also emphasize targeting areas that have already been observed 4 or more times in the night, potentially gathering important color information for a small number of transients.
 
 
 \subsection{Target of Opportunity}
@@ -80,7 +80,7 @@ Currently, the only expected ToO use of Rubin observatory is follow up of gravit
     \item{When should Rubin interrupt observations to look for GW optical counterparts?}
     \item{When the detection is in the WFD area, or anywhere on the sky?}
     \item{Should we expand the survey footprint so we have image differencing templates over the entire accessible sky, in at least a few filters?}
-    \item{Should Rubin plan on observing the entire light curve of ToO events, or make observations that allow for detection and leave detailed follow up to other observatories?}
+    \item{Should Rubin plan on observing the entire light curve of ToO events, or make observations primarily for detection/identification and leave detailed follow up to other observatories?}
     \item{What filter combination and dither strategy should be used for observing ToO triggers?} 
 \end{itemize}
 

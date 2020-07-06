@@ -5,28 +5,27 @@ Here we go through some of the outstanding questions that the SCOC and scientifi
 
 \subsection{Exposure Time(s)}
 
-We will probably need on-sky data to make a final answer to this question, but we need to eventually decide how many snaps to take in a visit.
+We will probably need on-sky data to make a final answer to this question, but we need to eventually decide how many snaps to take in a visit. We have run the baseline simulation with both 1x30s visits and 2x15s visits. Another possibility is using variable exposure times to make the single visit depths more uniform.
 
-XXX--1 or two snaps
-XXX--variable exposure time?
+Other questions related to exposure time
+\begin{itemize}
+    \item{Should we change the u-band to default to 60 second exposures to ensure they are not readnoise dominated? This might require decreasing the SRD 825 value.}
+    \item{Should we include some very short exposure time exposures. That would let us have better tie-in with other surveys (e.g., Gaia).  It is relatively little exposure time, but the readout time means it is a low-efficiency way to operate the telescope.}
+    \item{Should we decrease the exposure time in twilight to keep the saturation level reasonable?}
+\end{itemize}
 
-xxx-Should we change the u-band to default to 60 second exposures to ensure they are not readnoise dominated? 
-
-xxx--should we include some very short exposure time exposures. That would let us have better tie-in with other surveys (e.g., Gaia).  It is relatively little exposure time, but the readout time means it is a low-efficiency way to operate the telescope. 
-
-Should we decrease the exposure time in twilight to keep the saturation level reasonable?
 
 \subsection{Pairs and Filter Choice}
 
-There is a strong preference to take observations in pairs. Closely spaced observations let the pipeline identify moving objects. Similarly, observations in different filters are essential for transient identification. 
+There is a strong preference to take observations in pairs. Closely spaced observations let the pipeline identify moving objects. Similarly, observations in different filters are essential for transient classification. 
 
-The baseline survey (and most of our other experiments), take pairs in neighboring filters (e.g., ug, g+r, etc).  We should verify that this is a good pairing strategy. Similarly, we have done experiments where we attempt to observe a third observation in a night. 
+The baseline survey (and most of our other experiments), take pairs in neighboring filters (e.g., u+g, g+r, etc).  We should verify that this is a good pairing strategy. Similarly, we have done experiments where we attempt to observe a third observation in a night. 
 
-XXX--note that taking pairs in different filters does increase time spent changing filters, but it's something like a 4\% hit that seems totally worth the science gain so far. 
+Taking pairs in different filters does increase time spent changing filters, but it's something like a 4\% hit that seems totally worth the science gain so far. 
 
 Our baseline strategies heavily prefer to take y-band observations in bright time. While this is optimal for the possible SNR, it can result in long gaps between observations in bluer filters. 
 
-Similarly, we could expand or constrict the filters we pursue in twilight time. 
+Similarly, we could expand or constrict the filters we pursue in twilight time. XXX--some 1.5 runs I think that vary which filters we run in twilight.
 
 \subsection{Survey Contingency}
 
@@ -34,7 +33,7 @@ How much contingency should we aim for when designing the survey strategy?  Curr
 
 \subsection{Deep Drilling Fields}
 
-We have run a number of Deep Drilling strategies. The DDF strategy is largely separable from the rest of the survey design, and we have a number of proposals for DDFs that we have yet to explore (e.g., rolling DDFs where a single DDF is completed in one observing season).  We have started experimenting with pre-scheduling DDF observations. 
+We have run a variety of Deep Drilling strategies. The DDF strategy is largely separable from the rest of the survey design, and we have a number of proposals for DDFs that we have yet to explore (e.g., rolling DDFs where a single DDF is completed in one observing season).  We have started experimenting with pre-scheduling DDF observations. 
 
 \begin{itemize}
     \item{What fraction of the survey should be dedicated to the DDFs?}
@@ -46,13 +45,19 @@ We have run a number of Deep Drilling strategies. The DDF strategy is largely se
 
 \subsection{Rotational Dithering}
 
-By default, we select a random camera rotation angle (wrt the telescope) nightly. This creates minimal additional slewtime, and seems to provide adequate angular randomization.  We currently have no science metrics that depend on the angular distribution, and this should be something very important to weak lensing science.
+By default, we select a random camera rotation angle (wrt the telescope) nightly. This creates minimal additional slewtime, and seems to provide adequate angular randomization.  We currently have no science metrics that depend on the angular distribution, and this should be something very important to weak lensing science (although we do not have a metric to measure this).
 
 We have also experimented with setting the camera rotation angle to ensure stellar diffraction spikes fall preferentially along rows and columns. 
+
+\begin{itemize}
+    \item{How should we rotationally dither visits?}
+\end{itemize}
 
 \subsection{Spatial Dithering}
 
 For the wide area regions we have had excellent results randomizing the tessellation orientation nightly. This does result in a small percent of time being spent observing outside the desired survey footprint. The alternative would be to limit the amount one dithers out of the footprint, but then one risks imprinting systematics on objects near the footprint border (e.g., an object is never observed in the center of the focal plane, only by outer rafts).
+
+% XXX--There's no question here, the SCOC doesn't have to say anything about dithering in the wide area surveys.
 
 \subsection{Survey Footprint}
 
@@ -63,8 +68,20 @@ Perhaps the biggest question, what should we set the survey footprint to be?
     \item{How should we observe the Galactic bulge?}
     \item{Should we avoid areas of high dust extinction for the WFD area?}
     \item{What is the ideal filter distribution to use? It would be nice to have a photo-z metric to help make this decision.}
+    \item{What is the ideal filter distribution in the GP and SCP?}
     \item{Should we cover the LMC and SMC as part of the WFD survey? As their own DDF-like survey? We have few metrics that touch on LMC/SMC science directly.}
     \item{Should we add area in the north to overlap with Euclid, WFIRST, and/or DESI?}
+\end{itemize}
+
+Once the general survey footprint is decided, we can fine-tune the footprint (e.g., tapering the WFD region slightly around the RA with multiple DDFs, and flaring at under-subscribed RAs).
+
+\subsection{Rolling Cadence}
+
+We have gone through several iterations of rolling cadence, and now have started to converge on a technique that does not seem to impact the final survey depth. 
+
+\begin{itemize}
+    \item{Should we use a rolling cadence strategy?}
+    \item{Should we roll just the WFD area, or other regions as well?}
 \end{itemize}
 
 \subsection{Best Use of Twilight Time}
@@ -78,14 +95,14 @@ Currently, the only expected ToO use of Rubin observatory is follow up of gravit
 
 \begin{itemize}
     \item{When should Rubin interrupt observations to look for GW optical counterparts?}
-    \item{When the detection is in the WFD area, or anywhere on the sky?}
+    \item{Do we look for GW events in the WFD area, or anywhere on the sky?}
     \item{Should we expand the survey footprint so we have image differencing templates over the entire accessible sky, in at least a few filters?}
-    \item{Should Rubin plan on observing the entire light curve of ToO events, or make observations primarily for detection/identification and leave detailed follow up to other observatories?}
-    \item{What filter combination and dither strategy should be used for observing ToO triggers?} 
+    \item{Should Rubin plan on observing the entire light curve of ToO events, or make observations primarily for detection/classification and leave detailed follow up to other observatories?}
+    \item{What filter combination and dither strategy (filling chip and raft gaps) should be used for observing ToO triggers? } 
 \end{itemize}
 
 
-\subsection{Image Differencing Templates}
+\subsection{Image Differencing Templates, DCR}
 
 Do we need to do anything special to ensure we have adequate image templates? A certain number of observations per year? A certain fraction of images taken in good seeing conditions?
 
@@ -95,7 +112,7 @@ There have been claims that measuring DCR can be used for science.  We do not ha
 
 \subsection{Satellite Megaconstellations}
 
-xxx -- Starlink is poised to launch thousands of LEO satellites. Observations so far imply that on orbit Starlink satellites should not saturate Rubin exposures, and thus can be masked fairly easily in the image reduction pipeline. 
+Starlink is poised to launch thousands of LEO satellites. Observations so far imply that final-orbit Starlink satellites should not saturate Rubin exposures, and thus can be masked fairly easily in the image reduction pipeline. 
 
 Do we need any further satellite mitigations? Will NEO twilight surveys still be viable in the presence of megaconstellations, or should we use twilight strategies that avoid the horizon?
 

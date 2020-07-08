@@ -64,6 +64,20 @@ The greedy surveys use a similar Markov Decision Process as in Tier 2, but rathe
 As with the Blob tier, the sky tessellation orientation is randomized each night so the final survey is spatially dithered. 
 
 
+
+\begin{figure}
+\epsscale{0.3}
+\plotone{plots/night_plots/baseline_nexp1_v1_6_Count_note_like_DD_and_night810_HEAL_SkyMap.pdf}
+\plotone{plots/night_plots/baseline_nexp1_v1_6_Count_note_like_blob_and_night810_HEAL_SkyMap.pdf}
+\plotone{plots/night_plots/baseline_nexp1_v1_6_Count_note_like_greedy_and_night810_HEAL_SkyMap.pdf}
+
+\plotone{plots/night_plots/baseline_nexp1_v1_6_altAz_Count_note_like_DD_and_night810_HEAL_SkyMap.pdf}
+\plotone{plots/night_plots/baseline_nexp1_v1_6_altAz_Count_note_like_blob_and_night810_HEAL_SkyMap.pdf}
+\plotone{plots/night_plots/baseline_nexp1_v1_6_altAz_Count_note_like_greedy_and_night810_HEAL_SkyMap.pdf}
+\epsscale{1}
+\caption{Examples of how the three scheduler tiers execute during a single night. Left panels show how a DDF sequence was observed during the night. Middle panels show observations taken as part of blob pairs. Right panels show the greedy observations taken in twilight time.} \label{fig:examplenight}
+\end{figure}
+
 \section{Basic Survey Requirements}
 Basic survey strategy starting point and why - in more depth? Discuss metrics related to these requirements. 
 
@@ -74,7 +88,8 @@ Broad outline of points to evaluate for survey strategy, and our approach in run
 
 Discuss basic types of SAC recommendations. 
 
-%\section{Overview of Metrics}
+\section{Overview of Metrics}
+XXX--maybe a subset of the most important metrics? 
 %\include{metrics}
 
 \include{runs_v15}
@@ -106,14 +121,6 @@ Relevant metrics: inter-night visit gaps and SN discovery, SSO discovery/charact
 What to do for WFD footprint? SRD not specific, DESC want low-extinction sky (and depth), but WFD is generally the area of sky that receives the most visits, so generally other science will also benefit from more visits to their relevant areas (particularly galactic plane .. for time-domain studies primarily, not depth)
 
 Relevant metrics: area of sky with 825 visits (under particular restrictions, like total coadded depth and individual image seeing and dust extinction), number of galaxies, number of resolved galaxies, SSO discovery, transient and variable star discovery, astrometry in the galactic plane (?)
-
-\section{Dithering}
-
-The spatial dithering strategy for the large area surveys seems to work well.
-
-We need to decide on a rotational dithering strategy. Should we try to randomize, or keep diffraction spikes aligned along rows and columns?
-
-The dithering strategy for the DDFs pose a tension. DDF science is best served by small spatial dithers, but DM would prefer large spatial dithers. Also need to do something unique for the Euclid pair of fields, and any fields with nearby bright stars.
 
 
 \section{Rolling cadence}
@@ -183,8 +190,12 @@ Discuss combinations of the above that work together or don't
 
 Relevant metrics: all
 
-\section{Optimizing parameters}
+\section{Further Optimizing}
 Somewhere in here we probably ought to talk about optimizing the parameters for each run, and doing bigger sweeps across parameter space. That would easily expand each of the above options by many factors.
+
+XXX--need to optimize basis function weights for both the blobs and the greedy algo.
+
+XXX--can also discuss pre-scheduling the DDF sequences here.
 
 \section{Conclusions}
 Hopefully here we pare down the evaluation of 100s of runs (like promised) to a set of between 10 to 20 (if this is possible, after combining along different axes). 

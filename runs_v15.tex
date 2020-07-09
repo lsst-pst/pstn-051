@@ -1,31 +1,33 @@
 
 
-\section{FBS release v1.5}
+\section{Individual Scheduler Experiments}
 
-Here we discuss the experiments run as part of v1.5. 
+Here we look at various experiments that explore varying a single aspect of the scheduler.
 
 
+% old rolling
+%\subsection{alt\_roll\_dust}
 
-\subsection{alt\_roll\_dust}
+%These are motivated by the DESC collaboration and their desire to observe as many galaxies as possible. The WFD area is extended north and south and the galactic plane (defined by a dust map) is decreased down to $\sim$350 visits. The footprint also includes a northern stripe which gets $\sim220$\ visits. The motivation for the northern stripe is that it can provide image differencing templates for any gravitational wave detections in the north, as well as provide overlap with other survey missions (Euclid, WFIRST).
 
-These are motivated by the DESC collaboration and their desire to observe as many galaxies as possible. The WFD area is extended north and south and the galactic plane (defined by a dust map) is decreased down to $\sim$350 visits. The footprint also includes a northern stripe which gets $\sim220$\ visits. The motivation for the northern stripe is that it can provide image differencing templates for any gravitational wave detections in the north, as well as provide overlap with other survey missions (Euclid, WFIRST).
+%These simulations tend to fall just short of the fOArea benchmark (e.g., only $\sim$17,500 square degrees receive 825 visits), but meet the formal SRD requirement by having a median number of 891 visits in the WFD area.  
 
-These simulations tend to fall just short of the fOArea benchmark (e.g., only $\sim$17,500 square degrees receive 825 visits), but meet the formal SRD requirement by having a median number of 891 visits in the WFD area.  
+%The dust exclusion zones make certain parts of the year undersubscribed. This suggests it might be relatively low-impact to add some bridges to the footprint across the galactic bulge and the galactic anti-center.  
 
-The dust exclusion zones make certain parts of the year undersubscribed. This suggests it might be relatively low-impact to add some bridges to the footprint across the galactic bulge and the galactic anti-center.  
 
 \subsubsection{alt\_dust\_v1.5\_10yrs}
 
-This uses the dusty footprint, and uses a basis function to encourage the scheduler to alternate between the north and south nightly. This was originally done in the altSched (cite). This can help keep light curve sampling optimally spaced. By using a basis function, we encourage alternating north/south, but it is not absolutely enforced, making it possible for the scheduler to avoid the moon.
+This uses the dusty footprint, and uses a basis function to encourage the scheduler to alternate between the north and south nightly. This was originally done in the altSched \citep{Rothchild19}. This can help keep light curve sampling optimally spaced. By using a basis function, we encourage alternating north/south, but it is not absolutely enforced, making it possible for the scheduler to avoid the moon.
 
 
-\subsubsection{roll\_mod2\_dust\_sdf\_0.20\_v1.5\_10yrs}
+% old rolling
+%\subsubsection{roll\_mod2\_dust\_sdf\_0.20\_v1.5\_10yrs}
 
-Now we divide the WFD area into quarters, and employ a rolling cadence. For the first 1.5 years and final 2.5 years, the full footprint is used as normal. 
+%Now we divide the WFD area into quarters, and employ a rolling cadence. For the first 1.5 years and final 2.5 years, the full footprint is used as normal. 
 
-<fig of first year> <year 1.5-2.5> <2.5-3.5>
+%<fig of first year> <year 1.5-2.5> <2.5-3.5>
 
-The use of dividing the WFD into quarters will be obvious when we combine with the altSched strategy.
+%The use of dividing the WFD into quarters will be obvious when we combine with the altSched strategy.
 
 
 \subsection{baseline}
@@ -47,9 +49,7 @@ We make similar runs where we try to force a specific cadence in g,r,i, and z on
 <maybe the i-band visit function for all three>
 
 
-\subsection{daily\_ddf}
 
-The run \emph{daily\_ddf\_v1.5\_10yrs} was an attempt to have the standard DDF sequences and additional shorter sequences that would execute every day that did not have a long sequence.  This way, AGN science would have dense time sampling, while still reaching depth desired by cosmology.
 
 \subsection{dcr}
 
@@ -73,6 +73,10 @@ Because the DDFs fire more frequently, and have a small number of exposures per 
 
 An experiment based on the DESC DDF white paper.
 
+\subsubsection{daily\_ddf}
+
+The run \emph{daily\_ddf\_v1.5\_10yrs} was an attempt to have the standard DDF sequences and additional shorter sequences that would execute every day that did not have a long sequence.  This way, AGN science would have dense time sampling, while still reaching depth desired by cosmology.
+
 
 \subsection{filter\_dist}
 
@@ -89,9 +93,9 @@ These test the ability to ensure the entire WFD area is imaged in ``good seeing"
 
 These runs work well and it seems to add no particular overhead to the observing. It might make it more challenging to implement in operations, simply because the baseline simulation can simulate an entire night and pass off the list to be observed. If we want to run with the goal of collecting good seeing images, we will need to update the observing queue every time the seeing conditions change significantly, which could result in changing the upcomming observations more often than is desired.
 
-\subsection{rolling}
-
-We test breaking the WFD region up into 2, 3, and 6 declination bands which are then ``rolled". 
+% old rolling
+%\subsection{rolling}
+%We test breaking the WFD region up into 2, 3, and 6 declination bands which are then ``rolled". 
 
 \subsection{short\_exp}
 
@@ -130,10 +134,13 @@ We vary what fraction of the observing time is dedicated to the WFD area, from 6
 
 
 
+\subsection{Rolling Cadences}
 
+XXX--show off the different rolling runs from 1.6
 
+\subsection{Even Filters}
 
-
+Looking at varying how aggressive we are with matching filter choice to sky brightness.  
 
 
 

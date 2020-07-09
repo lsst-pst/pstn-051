@@ -43,6 +43,24 @@ If the above conditions are met, the DDF sends it's sequence of observations to 
 
 The spatial position of the DDF is dithered nightly up to 0.7 degrees.  The camera rotator is also varied nightly to be between -75 and 75 degrees with respect to the telescope. 
 
+\begin{table}
+\begin{tabular}{lcc}
+\toprule
+    Name &      RA &     Dec \\
+    &          (Deg) &  (Deg) \\
+    \hline
+ ELAISS1 &   9.450 & -44.000 \\
+ XMM-LSS &  35.708 &  -4.750 \\
+   ECDFS &  53.125 & -28.100 \\
+  COSMOS & 150.100 &   2.182 \\
+    EDFS &  58.970 & -49.280 \\
+    EDFS &  63.600 & -47.600 \\
+    \hline
+\end{tabular}
+\caption{The location of the deep drilling fields used in our simulations.}\label{table:ddfs}
+\end{table}
+
+
 
 \subsubsection{Tier 2:  The Blobs}
 
@@ -77,6 +95,11 @@ As with the Blob tier, the sky tessellation orientation is randomized each night
 \epsscale{1}
 \caption{Examples of how the three scheduler tiers execute during a single night. Left panels show how a DDF sequence was observed during the night. Middle panels show observations taken as part of blob pairs. Right panels show the greedy observations taken in twilight time.} \label{fig:examplenight}
 \end{figure}
+
+\subsection{Filter Mounting Schedule}
+
+XXX--discuss how we decide which filters to have mounted at a given time.
+
 
 \section{Basic Survey Requirements}
 Basic survey strategy starting point and why - in more depth? Discuss metrics related to these requirements. 

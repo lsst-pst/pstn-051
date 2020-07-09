@@ -9,7 +9,7 @@ We will probably need on-sky data to make a final answer to this question, but w
 
 Other questions related to exposure time
 \begin{itemize}
-    \item{Should we change the u-band to default to 60 second exposures to ensure they are not readnoise dominated? This might require decreasing the SRD 825 visit value.}
+    \item{Should we change the u-band to default to 60 second exposures to ensure they are not readnoise dominated? This might require decreasing the SRD 825 visit value. This choice would also severely limit $u$\ band time domain science (e.g., TDE early detection)}
     \item{Should we include some very short exposure time exposures. That would let us have better tie-in with other surveys (e.g., Gaia).  It is relatively little exposure time, but the readout time means it is a low-efficiency way to operate the telescope.}
     \item{Should we decrease the exposure time in twilight to keep the saturation level reasonable?}
     \item{Should we use variable exposure times so individual exposures have more uniform depth? In poor observing conditions, we would have fewer exposures that were londer and in good conditions we would have more observations that are shorter.}
@@ -105,7 +105,9 @@ Currently, the only expected ToO use of Rubin observatory is follow up of gravit
 
 \subsection{Image Differencing Templates, DCR}
 
-Do we need to do anything special to ensure we have adequate image templates? A certain number of observations per year? A certain fraction of images taken in good seeing conditions?
+Do we need to do anything special to ensure we have adequate image templates? A certain number of observations per year? A certain fraction of images taken in good seeing conditions? 
+
+If we need to start considering image quality, that makes it more difficult to simulate a night ahead of time and maintain the list of upcoming observations.
 
 Should we intentionally extend to high airmass to facilitate DCR modeling? Note that in the baseline, we only image a location in the WFD region $\sim$9 times per year in $g$ and $\sim$6 times in $u$. Also, we have chip and raft gaps, so if we want to build a DCR model for the entire sky in $g$, we might be dedicating 1/3 of the $g$ observations in a year to DCR. If we switch to 60s $u$ band exposures, there would be no observations beyond building the DCR model. 
 

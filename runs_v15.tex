@@ -30,15 +30,15 @@ This uses the dusty footprint, and uses a basis function to encourage the schedu
 %The use of dividing the WFD into quarters will be obvious when we combine with the altSched strategy.
 
 
-\subsection{baseline}
+%\subsection{baseline}
 
-We divide the sky into the standard WFD, NES, SCP and GP. The NES does not get observed in the u and y filters. 
+%We divide the sky into the standard WFD, NES, SCP and GP. The NES does not get observed in the u and y filters. 
 
-We run 2 versions of the baseline. One with 2x15s visits and one with 1x30s visits. The extra readtime needed for the 2-snap version results in the open shutter fraction dropping from 77\% to 72\%. Over the 10-year survey, this comes out to about 60 observations fewer for a typical point in the sky. 
+%We run 2 versions of the baseline. One with 2x15s visits and one with 1x30s visits. The extra readtime needed for the 2-snap version results in the open shutter fraction dropping from 77\% to 72\%. Over the 10-year survey, this comes out to about 60 observations fewer for a typical point in the sky. 
 
-The 2-snap baseline meets the SRD requirements, but has very little extra contingency.
+%The 2-snap baseline meets the SRD requirements, but has very little extra contingency.
 
-\subsection{bulge}
+\subsection{Bulge}
 
 We used recommendations from the SAC for different strategies for observing the galactic bulge. These simulations use the Big Sky footprint similar to the Olsen et al white paper.  
 
@@ -47,13 +47,22 @@ The run \emph{bulges\_bs\_v1.5\_10yrs} includes light coverage of the bulge and 
 We make similar runs where we try to force a specific cadence in g,r,i, and z on the bulge-region. These are runs \emph{bulges\_cadence\_bs\_v1.5\_10yrs}, \emph{bulges\_cadence\_i\_heavy\_v1.5\_10yrs}, and \emph{bulges\_cadence\_bulge\_wfd\_v1.5\_10yrs} respectively. The bulge region is boosted in priority if it has been more than 2.5 days since there has been an observation.
 
 <maybe the i-band visit function for all three>
+\begin{figure}
+\epsscale{0.35}
+\plotone{plots/pulled_plots/bulges_bs_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/bulges_bulge_wfd_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+%\plotone{plots/pulled_plots/bulges_cadence_bs_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+%\plotone{plots/pulled_plots/bulges_cadence_bulge_wfd_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+%\plotone{plots/pulled_plots/bulges_cadence_i_heavy_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/bulges_i_heavy_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+\epsscale{1}
+\caption{Series of simulations trying different bulge observing strategies.}\label{fig:bulge}
+\end{figure}
 
 
+\subsection{DCR}
 
-
-\subsection{dcr}
-
-The LSST will not have an atmospheric chromatic corrector, thus difference imaging can be complicated by differential chromatic refraction. There is also potential science opportunities by being able to measure the 
+The LSST will not have an atmospheric chromatic corrector, thus difference imaging can be complicated by differential chromatic refraction (DCR). There is also potential science opportunities by being able to measure the chromatic shift in objects with sharp features in their SEDs.
 
 These experiments look at how we could intentionally schedule a subset of images to be at high airmass so a DCR model could be built up. We test various combinations of filters to demand DCR observations (u+g, u+g+r, and u+g+r+i), and the number of observations to take at high airmass per year (1 or 2). 
 
@@ -126,7 +135,9 @@ A test where we vary the exposure time based on the current conditions so indivi
 
 As with doing 60s u band exposures , this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.
 
-Having variable exposure time introduces at least 6 new free parameters to the scheduler (the target individual depth for each filter), as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times.
+Having variable exposure time introduces at least 6 new free parameters to the scheduler (the target individual depth for each filter), as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times, although the predicted sky brightness may be accurate enough.
+
+
 
 \subsection{wfd\_depth}
 
@@ -149,5 +160,7 @@ XXX--should show a hit on the coadded depth. Maybe some improvement in SNe
 \caption{The filter distribution for the even filter simulations. Unlike the baseline simulations, more filters are observed in bright time.}\label{fig:even_filt_hourglass}
 \end{figure}
 
+\subsection{Aliasing}
 
+Make a note that we looked at if we are aliased. It's not as bad as the old runs, so we probably don't need to do anything extra to avoid aliasing.
 

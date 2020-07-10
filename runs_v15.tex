@@ -131,6 +131,12 @@ Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeti
 
 \subsection{var\_expt}
 
+
+\begin{figure}
+\plottwo{plots/variable_expt_plots/baseline_spot.pdf}{plots/variable_expt_plots/varexpt_spot.pdf}
+\caption{XXX-variable exposure time}\label{fig:varexptime}
+\end{figure}
+
 A test where we vary the exposure time based on the current conditions so individual exposures have similar depths. There is an argument that taking a full 30s visit in ideal dark time conditions results in ``wasted depth", as more objects and transients will be detected, but then it will be impossible to identify them as later visits are unlikely to be as deep. Similarly, taking a 30s visit in poor conditions will result in a shallow image which will be of limited use.
 
 As with doing 60s u band exposures , this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.

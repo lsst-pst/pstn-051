@@ -15,9 +15,18 @@ Here we look at various experiments that explore varying a single aspect of the 
 %The dust exclusion zones make certain parts of the year undersubscribed. This suggests it might be relatively low-impact to add some bridges to the footprint across the galactic bulge and the galactic anti-center.  
 
 
-\subsubsection{alt\_dust\_v1.5\_10yrs}
+\subsubsection{Dust With Alternating}
 
+XXX--add the alt dust plots
+\begin{figure}
+\caption{}\label{fig:altdust}
+\end{figure}
 This uses the dusty footprint, and uses a basis function to encourage the scheduler to alternate between the north and south nightly. This was originally done in the altSched \citep{Rothchild19}. This can help keep light curve sampling optimally spaced. By using a basis function, we encourage alternating north/south, but it is not absolutely enforced, making it possible for the scheduler to avoid the moon.
+
+There is no additional NES, however there is a strip in the north observed in $g$, $r$, $i$, and $z$.
+
+
+XXX--science recap
 
 
 % old rolling
@@ -42,11 +51,8 @@ This uses the dusty footprint, and uses a basis function to encourage the schedu
 
 We used recommendations from the SAC for different strategies for observing the galactic bulge. These simulations use the Big Sky footprint similar to the Olsen et al white paper.  
 
-The run \emph{bulges\_bs\_v1.5\_10yrs} includes light coverage of the bulge and entire galactic plane, \emph{bulges\_bulge\_wfd\_v1.5\_10yrs} covers the bulge, and \emph{bulges\_i\_heavy\_v1.5\_10yrs} covers the bulge with more observations in \emph{i}. 
+We use three footprints for bulge coverage 1) light coverage of the bulge and entire galactic plane, 2) the bulge as deep as WFD and 3) the bulge covered similarly to WFD, but with more observations in $i$.  For each of these strategies, we run a version with natural cadence and one where we boost the priority of the bulge if it has not been observed in 2.5 days. 
 
-We make similar runs where we try to force a specific cadence in g,r,i, and z on the bulge-region. These are runs \emph{bulges\_cadence\_bs\_v1.5\_10yrs}, \emph{bulges\_cadence\_i\_heavy\_v1.5\_10yrs}, and \emph{bulges\_cadence\_bulge\_wfd\_v1.5\_10yrs} respectively. The bulge region is boosted in priority if it has been more than 2.5 days since there has been an observation.
-
-<maybe the i-band visit function for all three>
 \begin{figure}
 \epsscale{0.35}
 \plotone{plots/pulled_plots/bulges_bs_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
@@ -60,7 +66,12 @@ We make similar runs where we try to force a specific cadence in g,r,i, and z on
 \end{figure}
 
 
+xxx-science recap
+
+
 \subsection{DCR}
+
+xxx--example plots for DCR
 
 The LSST will not have an atmospheric chromatic corrector, thus difference imaging can be complicated by differential chromatic refraction (DCR). There is also potential science opportunities by being able to measure the chromatic shift in objects with sharp features in their SEDs.
 
@@ -68,8 +79,22 @@ These experiments look at how we could intentionally schedule a subset of images
 
 Note, even with 2 high airmass observations per year, we would still expect some area of the sky to fall in chip and raft gaps.  It is also worth noting that in our baseline simulation, we observe a spot on the sky in u typically 60 times, or 6 times per year. Taking 2 high airmass observations per year in u decreases the final coadded depth by 0.15 mags.
 
+XXX--science recap
+
    
 \subsection{DDFs}
+
+Maybe make a plot of the sequence of DDF observations over a few months in a season
+
+\begin{figure}
+\plottwo{plots/ddf_plots/ddf_m5_AGN.pdf}{plots/ddf_plots/gap_hist_AGN.pdf}
+\plottwo{plots/ddf_plots/ddf_m5_Baseline_v1_5.pdf}{plots/ddf_plots/gap_hist_Baseline_v1_5.pdf}
+\plottwo{plots/ddf_plots/ddf_m5_Baseline_v1_6.pdf}{plots/ddf_plots/gap_hist_Baseline_v1_6.pdf}
+\plottwo{plots/ddf_plots/ddf_m5_DESC.pdf}{plots/ddf_plots/gap_hist_DESC.pdf}
+\plottwo{plots/ddf_plots/ddf_m5_Daily.pdf}{plots/ddf_plots/gap_hist_Daily.pdf}
+\caption{Plots looking at one observing season of the DDF ELIASS1. }
+\end{figure}
+
 \subsubsection{agnddf\_v1.5\_10yrs}
 
 An experiment following the AGN cadence white paper

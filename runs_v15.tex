@@ -57,9 +57,6 @@ We use three footprints for bulge coverage 1) light coverage of the bulge and en
 \epsscale{0.35}
 \plotone{plots/pulled_plots/bulges_bs_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/bulges_bulge_wfd_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
-%\plotone{plots/pulled_plots/bulges_cadence_bs_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
-%\plotone{plots/pulled_plots/bulges_cadence_bulge_wfd_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
-%\plotone{plots/pulled_plots/bulges_cadence_i_heavy_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/bulges_i_heavy_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
 \epsscale{1}
 \caption{Series of simulations trying different bulge observing strategies.}\label{fig:bulge}
@@ -70,6 +67,15 @@ xxx-science recap
 
 
 \subsection{DCR}
+
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/pulled_plots/dcr_nham2_ugri_v1_5_10yrs_Nvisits_as_function_of_Alt_Az_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/dcr_nham2_ugri_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/dcr_nham2_ugri_v1_5_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}
+\epsscale{1}
+\caption{Intentionally taking observations at higher airmass to measure DCR.}
+\end{figure}
 
 xxx--example plots for DCR
 
@@ -82,9 +88,17 @@ Note, even with 2 high airmass observations per year, we would still expect some
 XXX--science recap
 
    
-\subsection{DDFs}
+\subsection{DDF}
 
-Maybe make a plot of the sequence of DDF observations over a few months in a season
+We have run a variety of DDF strategies. Figure~\ref{fig:ddfexamples} shows the same observing season of the DDF ELIASS1 with 5 different strategies. 
+
+\begin{itemize}
+    \item{AGN: This strategy takes shorter DDF sequences more often. Only $\sim$2.5\% of visits are spent on DDFs, making the final coadded depths much shallower than other strategies.}
+    \item{DESC: a strategy that split the blue and red filters to different days, emphasizing a 3-day cadence}
+    \item{Baseline:  }
+    \item{Daily: Similar to the baseline, but includes short DDF sequences that can execute daily so there are no long gaps between observations}
+\end{itemize}
+
 
 \begin{figure}
 \plottwo{plots/ddf_plots/ddf_m5_AGN.pdf}{plots/ddf_plots/gap_hist_AGN.pdf}
@@ -92,34 +106,42 @@ Maybe make a plot of the sequence of DDF observations over a few months in a sea
 \plottwo{plots/ddf_plots/ddf_m5_Baseline_v1_6.pdf}{plots/ddf_plots/gap_hist_Baseline_v1_6.pdf}
 \plottwo{plots/ddf_plots/ddf_m5_DESC.pdf}{plots/ddf_plots/gap_hist_DESC.pdf}
 \plottwo{plots/ddf_plots/ddf_m5_Daily.pdf}{plots/ddf_plots/gap_hist_Daily.pdf}
-\caption{Plots looking at one observing season of the DDF ELIASS1. }
+\caption{Plots looking at one observing season of the DDF ELIASS1. }\label{fig:ddfexamples}
 \end{figure}
 
-\subsubsection{agnddf\_v1.5\_10yrs}
+XXX--massive table(s) of DDF, run, filter, coadded depth?
 
-An experiment following the AGN cadence white paper
-
-only $\sim$2.5\% of visits are spent on DDFs. 
-
-Because the DDFs fire more frequently, and have a small number of exposures per filter, the OSF drops to 76\%. That is, we are changing filters more per exposure with this DDF sequence. 
-
-\subsubsection{descddf\_v1.5\_10yrs}
-
-An experiment based on the DESC DDF white paper.
-
-\subsubsection{daily\_ddf}
-
-The run \emph{daily\_ddf\_v1.5\_10yrs} was an attempt to have the standard DDF sequences and additional shorter sequences that would execute every day that did not have a long sequence.  This way, AGN science would have dense time sampling, while still reaching depth desired by cosmology.
+XXX--science discussion.  Point out we desperately need more DDF-specific metrics from the community. 
 
 
-\subsection{filter\_dist}
+\subsection{Filter Distribution}
 
 Testing a simple WFD-only footprint, but varying the requested ratio of observations in different filters.
 
 
-\subsection{footprints}
+\subsection{Footprints}
 
-We test a wide variation of potential survey footprints. Some of these are more realistic than others. 
+\begin{figure}
+\epsscale{.25}
+\plotone{plots/pulled_plots/footprint_add_mag_cloudsv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_sky_dustv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_sky_nouiyv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_skyv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_wfdv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_bluer_footprintv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_gp_smoothv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_newAv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_newBv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_no_gp_northv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_standard_goalsv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_stuck_rollingv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\epsscale{1}
+\caption{The different survey footprints simulated.}
+\end{figure}
+
+We test a wide variation of possible survey footprints. Some of these are more realistic than others. 
+
+
 
 \subsection{goodseeing}\label{ss:goodseeing}
 
@@ -131,19 +153,21 @@ These runs work well and it seems to add no particular overhead to the observing
 %\subsection{rolling}
 %We test breaking the WFD region up into 2, 3, and 6 declination bands which are then ``rolled". 
 
-\subsection{short\_exp}
+\subsection{Short Exposures}
 
 We try taking additional short exposures (1s or 5s) twice or five times per year. Taking shorter exposures is a less efficient observing mode, but it seems to have little impact on the overall open shutter fraction.
 
-\subsection{spiders}
+\subsection{Spiders}
 
 We look at keeping diffraction spikes aligned along CCD rows and columns. This may result in the camera rotator angle being much less randomized than our baseline rotational dithering strategy.
 
-\subsection{third\_obs}
+xxx--Science recap: Should be almost identical to baseline. 
+
+\subsection{Third Observation}
 
 For early identification of transients, it can be helpful to have more than two observations in a night. In these observations, we dedicate between 15 and 120 minutes at the end of the night to attempting to observe areas of sky that already have been observed.
 
-\subsection{twilight\_neo}
+\subsection{Twilight NEO Survey}
 
 This is an implementation of white paper XXX, where we use twilight time to take short exposures along the ecliptic to search for NEOs. 
 
@@ -154,7 +178,7 @@ The u-band observations can often be readnoise limited. We test doubling the u-b
 
 Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeting the SRD value of 825 visits in the WFD area. Adopting longer exposures in u seems like a good idea, but the SRD will probably need to be modified to ensure it is not ambiguous.
 
-\subsection{var\_expt}
+\subsection{Variable Exposure Times}
 
 
 \begin{figure}
@@ -170,7 +194,7 @@ Having variable exposure time introduces at least 6 new free parameters to the s
 
 
 
-\subsection{wfd\_depth}
+\subsection{WFD Depth}
 
 We vary what fraction of the observing time is dedicated to the WFD area, from 60\% to 99\% with and without the standard DDF surveys. Unsurprisingly, the SRD is not met if the WFD is only given 60\%.
 
@@ -195,3 +219,9 @@ XXX--should show a hit on the coadded depth. Maybe some improvement in SNe
 
 Make a note that we looked at if we are aliased. It's not as bad as the old runs, so we probably don't need to do anything extra to avoid aliasing.
 
+XXX--maybe add some plots from the aliasing notebook I made a while back.
+
+\begin{figure}
+\plotone{plots/alias_plots/aliasing.pdf}
+\caption{Aliasing at a sample position in a baseline simulation. There are peaks at harmonics of 24 hours, but this is inevitable with a ground-based telescope. The aliasing seems much lower than earlier version of OpSim.}
+\end{figure}

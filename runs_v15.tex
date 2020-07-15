@@ -159,6 +159,11 @@ These runs work well and it seems to add no particular overhead to the observing
 %############ Short Exposures ############
 \subsection{Short Exposures}
 
+\begin{figure}
+\plottwo{plots/short_exp_plots/opsim_Count_filter_visitexposuretime_gt_10_and_note_not_like_DD_HEAL_SkyMap.pdf}{plots/short_exp_plots/opsim_Count_filter_visitexposuretime_lt_10_HEAL_SkyMap.pdf}
+\caption{Results from including 5s exposures (up to 5 per year). The left shows the number of regular 30s visits (excluding DDF observations) and the right shows the number of 5s visits.}
+\end{figure}
+
 We try taking additional short exposures (1s or 5s) twice or five times per year. Taking shorter exposures is a less efficient observing mode, but it seems to have little impact on the overall open shutter fraction.
 
 %############ Spiders ############
@@ -195,7 +200,7 @@ Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeti
 \caption{Comparison of a sample WFD point in the baseline and when we vary the exposure time. The individual observations depths become more uniform, especially in the redder filters that can be observed in bright time and twilight.}\label{fig:varexptime}
 \end{figure}
 
-We vary the exposure time based on the current conditions so individual exposures have similar depths. There is an argument that taking a full 30s visit in ideal dark time conditions results in ``wasted depth", as more objects and transients will be detected, but then it will be impossible to identify them as later visits are unlikely to be as deep. Similarly, taking a 30s visit in poor conditions will result in a shallow image which will be of limited use.
+We vary the exposure time based on the current conditions so individual exposures have similar depths. There is an argument that taking a full 30s visit in ideal dark time conditions results in ``wasted depth", as more objects and transients will be detected, but then it will be impossible to identify them as later visits are unlikely to be as deep. Similarly, taking a 30s visit in poor conditions will result in a shallow image which will be of limited use. In good conditions, the expsoure time is allowed to shrink to 20s, and in poor conditions it can extend to 100s.
 
 As with doing 60s u band exposures, this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.
 

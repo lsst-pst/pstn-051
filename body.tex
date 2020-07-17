@@ -1,19 +1,12 @@
-% replace large sections with \include files 
+\clearpage
 
-\section{Introduction}
-
-Note: This paper needs to focus on survey strategies and their evaluation. 
-
-Introduction - cover basic idea of survey simulator, scheduler and weather/telescope models. 
-
-Cover basic survey strategy starting point - wide area, frequent coverage, ten year timespan - and why. xxx--scheduling LSST is a balance between meeting the SRD requirements, and optimizing the return of the four primary science goals. 
-
-Mention COSEP and call for white papers - idea is to do the best science we can, add last 10\% "best" science. 
-
-Earlier attempts at simulating LSST in \citet{Rothchild19} and \citet{Naghib19}.
+\input{introduction}
 
 \section{Survey Simulator Overview}
+\label{section:simulator}
 Probably need some reference to what survey scheduler was used / how it was set up for various runs, how the runs were performed, and what the input weather and telescope models were like. 
+
+Earlier attempts at simulating LSST in \citet{Rothchild19} and \citet{Naghib19}. ?
 
 \subsection{The Model Observatory}
 Discuss kinematic model, seeing model, weather model. 
@@ -119,11 +112,11 @@ Discuss basic types of SAC recommendations.
 
 \section{Overview of Metrics}
 XXX--maybe a subset of the most important metrics? 
-%\include{metrics}
+%\input{metrics}
 
-\include{runs_v15}
+\input{runs_v15}
 
-\include{runs_v16}
+\input{runs_v16}
 
 
 \section{Individual Visit Length}
@@ -226,7 +219,7 @@ XXX--can also discuss pre-scheduling the DDF sequences here.
 Hopefully here we pare down the evaluation of 100s of runs (like promised) to a set of between 10 to 20 (if this is possible, after combining along different axes). 
 The results should come with some basic comments about what's particularly good or bad in each of these areas and how we arrived at these general options. 
 
-\include{questions}
+\input{questions}
 
 
 % Make sure lsst-texmf/bin/generateAcronyms.py is in your path

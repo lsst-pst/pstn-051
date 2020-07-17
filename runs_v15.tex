@@ -257,8 +257,9 @@ The baseline simulation is fairly aggressive in switching to redder filters in b
 
 
 \begin{figure}
+\label{fig:even_filt_hourglass}
 \plottwo{plots/pulled_plots/even_filters_g_v1_6_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}{plots/pulled_plots/even_filtersv1_6_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}
-\caption{The filter distribution for the even filter simulations. Unlike the baseline simulations, bluer filters are observed in bright time.}\label{fig:even_filt_hourglass}
+\caption{The filter distribution for the even filter simulations. Unlike the baseline simulations, bluer filters are observed in bright time.}
 \end{figure}
 
 XXX--science recap. Should be less depth, but maybe better long transient light curves.
@@ -269,8 +270,9 @@ XXX--science recap. Should be less depth, but maybe better long transient light 
 There was concern that if observations were too uniformly placed on the meridian, periodic sources would be aliased. Figure~\ref{fig:alias} shows the FFT of observations at a sample WFD point in the baseline simulation. There is some aliasing at $\sim1$\ day which is inevitable for any ground-based telescope.  The aliasing is much lower than the minion\_1016 simulation that was analyzed in the Bell et al. cadence white paper. 
 
 \begin{figure}
+\label{fig:alias}
 \epsscale{0.65}
 \plotone{plots/alias_plots/aliasing.pdf}
 \epsscale{1}
-\caption{Aliasing at a sample position in a baseline simulation. There are peaks at harmonics of 24 hours, but this is inevitable with a ground-based telescope. The aliasing seems much lower than earlier version of OpSim where harmonic peaks could be seen past 200 $\mu$Hz.}\label{fig:alias}
+\caption{Aliasing at a sample position in a baseline simulation. There are peaks at harmonics of 24 hours, but this is inevitable with a ground-based telescope. The aliasing seems much lower than earlier version of OpSim where harmonic peaks could be seen past 200 $\mu$Hz.}
 \end{figure}

@@ -5,6 +5,7 @@
 
 % Package imports go here.
 \usepackage{graphicx}
+\usepackage{hyperref}
 
 % Local commands go here.
 
@@ -14,6 +15,8 @@
 \newcommand{\docUpstreamLocation}{\url{https://github.com/lsst-pst/pstn-051}}
 
 
+\NewPageAfterKeywords
+
 \begin{document}
 \input{authors}
 \date{\today}
@@ -21,6 +24,11 @@
 \hypersetup{pdftitle={\@title}, pdfauthor={\@author}, pdfkeywords={\@keywords}}
 
 \input{abstract}
+
+
+\tableofcontents
+
+\clearpage
 
 \input{body}
 

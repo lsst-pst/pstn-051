@@ -6,21 +6,29 @@ Here we look at various experiments that explore varying a single aspect of the 
 
 
 %############ Dust With Alternating ############
-\subsubsection{Dust With Alternating}
+\subsection{Dust With Alternating}
 
-XXX--add the alt dust plots
 \begin{figure}
-\caption{}\label{fig:altdust}
+\epsscale{0.5}
+\plotone{plots/pulled_plots/alt_roll_mod2_dust_sdf_0_20_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap}
+\plotone{plots/pulled_plots/alt_roll_mod2_dust_sdf_0_20_v1_5_10yrs_Nvisits_as_function_of_Alt_Az_HEAL_SkyMap}
+\plotone{plots/pulled_plots/alt_roll_mod2_dust_sdf_0_20_v1_5_10yrs_Hourglass_year_0-1_HOUR_Hourglass}
+\epsscale{1}
+\caption{The alt\_roll\_dust simulation that uses a footprint to avoid high extinction and tries to drive an every-other-day cadence.}\label{fig:altdust}
 \end{figure}
-This uses the dusty footprint, and uses a basis function to encourage the scheduler to alternate between the north and south nightly. This was originally done in the altSched \citep{Rothchild19}. This can help keep light curve sampling optimally spaced. By using a basis function, we encourage alternating north/south, but it is not absolutely enforced, making it possible for the scheduler to avoid the moon.
+
+This uses the dusty footprint and a basis function to encourage the scheduler to alternate between the north and south nightly. This is similar to what was originally done in the altSched simulations \citep{Rothchild19}. This can help keep light curve sampling optimally spaced. By using a basis function, we encourage alternating north/south, but it is not absolutely enforced, making it possible for the scheduler to avoid the moon. Note we have improved the rolling cadence implementation to eliminate the over-exposed stripes and high airmass observations.
 
 There is no additional NES, however there is a strip in the north observed in $g$, $r$, $i$, and $z$.
 
+The science impact of this strategy is fairly minimal. By avoiding extinction regions, we have more stars and galaxies. The coverage of the LMC also increases the number of fast microlensing events. 
 
-XXX--science recap
-
-
-
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/alt_dust_radar}
+\epsscale{1}
+\caption{The science impact for alt\_roll\_dust.}
+\end{figure}
 
 %############ Bulge ############
 \subsection{Bulge}
@@ -38,9 +46,14 @@ We use three footprints for bulge coverage 1) light coverage of the bulge and en
 \caption{Series of simulations trying different bulge observing strategies.}\label{fig:bulge}
 \end{figure}
 
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/bulge_radar}
+\epsscale{1}
+\caption{Science impact of our different bulge strategy simulations. The right panel is a zoom in of the left.}\label{fig:bulgeradar}
+\end{figure}
 
-xxx-science recap
-
+Covering the bulge more deeply, we see an increase in the number of stars and fast microlensing events, with a slight decrease in the SRD metrics.
 
 %############ DCR ############
 \subsection{DCR}
@@ -55,29 +68,37 @@ xxx-science recap
 \end{figure}
 
 
-The LSST will not have an atmospheric chromatic corrector, thus difference imaging can be complicated by differential chromatic refraction (DCR). There is also potential science opportunities by being able to measure the chromatic shift in objects with sharp features in their SEDs.
+The LSST will not have an atmospheric chromatic corrector, thus difference imaging can be complicated by differential chromatic refraction (DCR). There is also potential science opportunities by being able to measure the chromatic shift in objects with sharp features in their SEDs (e.g., AGN with large emission lines).
 
 These experiments look at how we could intentionally schedule a subset of images to be at high airmass so a DCR model could be built up. We test various combinations of filters to demand DCR observations (u+g, u+g+r, and u+g+r+i), and the number of observations to take at high airmass per year (1 or 2). 
 
-Note, even with 2 high airmass observations per year, we would still expect some area of the sky to fall in chip and raft gaps.  It is also worth noting that in our baseline simulation, we observe a spot on the sky in u typically 60 times, or 6 times per year. Taking 2 high airmass observations per year in u decreases the final coadded depth by 0.15 mags.
+Even with 2 high airmass observations per year, we would still expect some area of the sky to fall in chip and raft gaps.  It is also worth noting that in our baseline simulation, we observe a spot on the sky in u typically 60 times, or 6 times per year. Taking 2 high airmass observations per year in u decreases the final coadded depth by 0.15 mags.
 
+Figure~\ref{fig:dcr_radar} shows the science impact is fairly minimal, but we tend to lose $\sim0.1-0.2$\ magnitudes of final coadded depth.
 
-XXX--science recap
-
+\begin{figure}
+\plottwo{plots/radar_plots/dcr_radar}{plots/radar_plots/dcr_mags_radar}
+\caption{Science impact of including observations at high airmass for DCR. As expected, pushing observations to high airmass lowers the coadded depths (right) and has as slight negative impact on most science metrics (left).}\label{fig:dcr_radar}
+\end{figure}
    
 %############ Deep Drilling Fields ############
 \subsection{Deep Drilling Fields}
 
-We have run a variety of DDF strategies. Figure~\ref{fig:ddfexamples} shows the same observing season of the DDF ELIASS1 with 5 different strategies. 
+We have run a variety of DDF strategies. Figure~\ref{fig:ddfexamples} shows the same observing season of the DDF ELIASS1 with 5 different strategies. We have run DDF strategies based on white papers from the AGN group and DESC, as well as several other variations. 
 
 \begin{itemize}
     \item{AGN: This strategy takes shorter DDF sequences more often. Only $\sim$2.5\% of visits are spent on DDFs, making the final coadded depths much shallower than other strategies.}
     \item{DESC: a strategy that split the blue and red filters to different days, emphasizing a 3-day cadence}
     \item{Baseline:  Our baseline strategy where 5\% of observations are allocated to DDF observations.}
     \item{Daily: Similar to the baseline, but includes short DDF sequences that can execute daily so there are no long gaps between observations}
-    \item{DDF Heavy:  Similar to the baseline, but XXX\% of visits are allocated to DDF observations}
+    \item{DDF Heavy:  Similar to the baseline, but 13.4\% of visits are allocated to DDF observations}
 \end{itemize}
 
+
+\begin{figure}
+\plottwo{plots/radar_plots/ddf1_radar.pdf}{plots/radar_plots/ddf2_radar.pdf}
+\caption{On the left, we show the coadded depth in each filter for a representative Deep Drilling Field. Larger values mean deeper coadded depth. On the right we show the standard science metrics.  Because the DDFs take only a small fraction of the total time, the science impacts are fairly minimal.}\label{fig:ddf_differences}
+\end{figure}
 
 \begin{figure}
 \epsscale{.9}
@@ -91,10 +112,7 @@ We have run a variety of DDF strategies. Figure~\ref{fig:ddfexamples} shows the 
 \caption{One observing season of the DDF ELIASS1 from 5 different DDF strategies. }\label{fig:ddfexamples}
 \end{figure}
 
-XXX--massive table(s) of DDF, run, filter, coadded depth?
-
-XXX--science discussion.  Point out we desperately need more DDF-specific metrics from the community. 
-
+Figure~\ref{fig:ddf_differences} shows the different coadded depths and science impact of the different DDF strategies. Overall, the sceince impact is minimal because all the DDF strategies use a limited amount of the total time, leaving the WFD region relatively unaffected. 
 
 %############ Filter Distribution ############
 \subsection{Filter Distribution}
@@ -120,8 +138,15 @@ Testing a simple WFD-only footprint, but varying the requested ratio of observat
 \end{centering}
 \end{table}
 
-XXX--science recap.  Note that we don't have a photo-z metric, which seems very relevant. 
+\begin{figure}
+\epsscale{0.85}
+\plotone{plots/radar_plots/filter_dist_radar}
+\epsscale{1}
+\caption{Science impact of varying the filter distribution}\label{}
+\end{figure}
 
+
+Varying the filter distribution reveals a slight tension between SNe science and solar system science, with SNe benefiting from more observations in bluer filters. Perhaps most relevant, we do not currently have a photometric redshift metric, which should be very sensitive to the filter distribution.
 
 
 %############ Footprints ############
@@ -148,13 +173,29 @@ XXX--science recap.  Note that we don't have a photo-z metric, which seems very 
 We test a wide variation of possible survey footprints. Some of these are more realistic than others. 
 
 
+\begin{figure}
+\plotone{plots/radar_plots/footprints_radar}
+\caption{Science impact of varying the survey footprint.}
+\end{figure}
+
+As we have come to learn, the fast microlensing rate depends strongly on the footprint. Similarly, the number of stars and number of stars can very greatly on the footprint depending on how much of the galactic plane is covered or how much dusty regions are avoided. The one slightly surprising result is how the number of TNOs can vary with the footprints.
+
 %############ Good Seeing ############
 
 \subsection{Good Seeing}\label{ss:goodseeing}
 
 These test the ability to ensure the entire WFD area is imaged in ``good seeing" conditions every year, here defined as FWHM of 0.7 arcseconds or better.  
 
-These runs work well and it seems to add no particular overhead to the observing. It might make it more challenging to implement in operations, simply because the baseline simulation can simulate an entire night and pass off the list to be observed. If we want to run with the goal of collecting good seeing images, we will need to update the observing queue every time the seeing conditions change significantly, which could result in changing the upcomming observations more often than is desired.
+These runs work well and it seems to add no particular overhead to the observing. It might make it more challenging to implement in operations, simply because the baseline simulation can simulate an entire night and pass off the list to be observed. If we want to run with the goal of collecting good seeing images, we will need to update the observing queue every time the seeing conditions change significantly, which could result in changing the upcoming observations more often than is desired.
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/goodseeing_radar}
+\epsscale{1}
+\caption{The science impact of making sure the sky has template images in good seeing conditions.}
+\end{figure}
+
+The science impact of ensuring we have good seeing templates seems to be very minimal, with science metrics varying by only a few percent. 
 
 %############ Short Exposures ############
 \subsection{Short Exposures}
@@ -164,33 +205,62 @@ These runs work well and it seems to add no particular overhead to the observing
 \caption{Results from including 5s exposures (up to 5 per year). The left shows the number of regular 30s visits (excluding DDF observations) and the right shows the number of 5s visits.}
 \end{figure}
 
-We try taking additional short exposures (1s or 5s) twice or five times per year. Taking shorter exposures is a less efficient observing mode, but it seems to have little impact on the overall open shutter fraction.
+We try taking additional short exposures (1s or 5s) twice or five times per year. Taking shorter exposures is a less efficient observing mode, but it seems to have little impact on the overall open shutter fraction. Similar to taking exposures in good seeing conditions, including short exposures each year has only a few percent impact on our science metrics.
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/shortexp_radar}
+\epsscale{1}
+\caption{Science impact of covering the sky in short exposures. }
+\end{figure}
 
 %############ Spiders ############
 \subsection{Spiders}
 
-We look at keeping diffraction spikes aligned along CCD rows and columns. This may result in the camera rotator angle being much less randomized than our baseline rotational dithering strategy.
+We look at keeping diffraction spikes aligned along CCD rows and columns. This may result in the camera rotator angle being much less randomized than our baseline rotational dithering strategy. There is little impact on our science metrics, but we note we do not currently have a metric the measures weak lensing systematics.
 
-xxx--Science recap: Should be almost identical to baseline. 
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/spider_radar}
+\epsscale{1}
+\caption{Science impact of keeping diffraction spikes aligned along rows and columns. }
+\end{figure}
 
 %############ Third Observation ############
 \subsection{Third Observation}
 
-For early identification of transients, it can be helpful to have more than two observations in a night. In these observations, we dedicate between 15 and 120 minutes at the end of the night to attempting to observe areas of sky that already have been observed.
+For early identification of transients, it can be helpful to have more than two observations in a night. In these observations, we dedicate between 15 and 120 minutes at the end of the night to attempting to observe areas of sky that already have been observed.  The science impact of adding third observations seems to be minimal. This highlights our need for a metric that quantifies how well we will be able to classify new transients.
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/third_radar}
+\epsscale{1}
+\caption{The science impact of dedicating the end of the night to gathering observations of areas that already have pairs.  }
+\end{figure}
 
 %############ Twilight NEO Survey ############
 \subsection{Twilight NEO Survey}
 
-This is an implementation of white paper XXX, where we use twilight time to take short exposures along the ecliptic to search for NEOs. 
+This is an implementation of Seaman et al. white paper where we use twilight time to take short exposures along the ecliptic to search for NEOs.  If we dedicate all twilight time to NEO searches, we fail to meet the SRD requirements. Thus we also check running the NEO survey every 2, 3, or 4 days. Despite being designed to discover more NEOs, we find that we only discover a few more bright NEOs than the baseline and lose detections of faint NEOs. 
 
-If we dedicate all twilight time to NEO searches, we fail to meet the SRD requirements. Thus we also check running the NEO survey every 2, 3, or 4 days.
+\begin{figure}
+\epsscale{0.85}
+\plotone{plots/radar_plots/twineo_radar}
+\epsscale{1}
+\caption{The science impact of using some or all of twilight time for a NEO survey.}\label{fig:neoradar}
+\end{figure}
 
 %############ Longer u ############
 \subsection{Longer $u$\ Exposure Time}\label{ss:u60}
 
-The u-band observations are often expected be readnoise limited. We test doubling the u-band exposure time and cutting the number of exposures in half. This results in the u-band final coadded depth reaching $\sim$0.20 mags deeper. The g-band is also 0.10 mags deeper, with the rest of the filters essentially unchanged in final depth.
+The u-band observations are often expected be readnoise limited. We test doubling the u-band exposure time and cutting the number of exposures in half. This results in the u-band final coadded depth reaching $\sim$0.20 mags deeper. The $g$-band is also 0.10 mags deeper, with the rest of the filters essentially unchanged in final depth. The $g$\ depth increases because 60s $u$\ exposures decrease the overhead time, freeing up more dark time for $g$\ observations.
 
 Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeting the SRD value of 825 visits in the WFD area. Adopting longer exposures in u seems like a good idea, but the SRD will probably need to be modified to ensure it is not ambiguous.
+
+\begin{figure}
+\plottwo{plots/radar_plots/u60_radar.pdf}{plots/radar_plots/u60_mags_radar.pdf}
+\caption{Increasing the $u$\ exposure time to 60s.  As expected, this results in a substantial gain in $u$\ coadded depth.}
+\end{figure}
 
 %############ Variable Exposure Times ############
 \subsection{Variable Exposure Times}
@@ -206,7 +276,14 @@ As with doing 60s u band exposures, this may require modifying the detailed spec
 
 Having variable exposure time introduces at least 8 new free parameters to the scheduler (the target individual depth for each filter), as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times, although the predicted sky brightness may be accurate enough.
 
-XXX--science recap:
+Figure~\ref{fig:var_radar} shows the science impact of varying the exposure time is fairly minimal. 
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/var_exp_radar.pdf}
+\epsscale{1}
+\caption{Science impact of using variable exposure times.}\label{fig:var_radar}
+\end{figure}
 
 
 %############ WFD Depth ############
@@ -230,8 +307,17 @@ XXX--science recap:
 We vary what fraction of the observing time is dedicated to the WFD area, from 60\% to 99\% with and without the standard DDF surveys. Unsurprisingly, the SRD is not met if the WFD is only given 60\%.
 
 
+\begin{figure}
+\epsscale{0.85}
+\plotone{plots/radar_plots/wfd_depth_radar.pdf}
+\epsscale{1}
+\caption{The Science impact of varying the WFD depth.}\label{fig:wfd_depth_radar}
+\end{figure}
+
 %############ Rolling Cadences ############
 \subsection{Rolling Cadences}
+
+Rolling cadence is the term we have given to executing the survey in a non-uniform manner, emphasizing some region of sky one year, then deemphasizing it the next.  Because the SRD includes requirements on stellar proper motion measurements, we are constrained to cover the sky uniformly in at least year 1 and year 10.  We experiment with using rolling cadences where the WFD region is divided in 2, 3, and 6 declination bands. We also scale the rolling strength to be 80, 90, and 99\%. 
 
 \begin{figure}
 \epsscale{.35}
@@ -249,11 +335,22 @@ We vary what fraction of the observing time is dedicated to the WFD area, from 6
 \end{figure}
 
 
+Figure~\ref{fig:rolling_radar} shows the science impact of the different rolling cadence simulations. Overall, the rolling has fairly negligible impact on the science metrics. Metrics from DESC show rolling can be beneficial to SNe lightcurves. 
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/rolling_radar.pdf}
+\epsscale{1}
+\caption{Science impact of different rolling simulations. The overall impact seems to be very small. While fast microlensing events can be impacted, that can be made up for by including more of the bulge in the WFD footprint. }\label{fig:rolling_radar}
+\end{figure}
+
 
 %############ Even Filters ############
 \subsection{Even Filters}
 
 The baseline simulation is fairly aggressive in switching to redder filters in bright time. This can create long gaps in light curves with no bluer observations. We have run a simulation where only the $u$, and $g$\ filters avoid bright time, and a simulation where only $u$\ avoids bright time. Figure~\ref{fig:even_filt_hourglass} shows the resulting filter distributions in year one. Unlike the baseline simulations, there are no longer sections of several days where only $y$\ is observed.
+
+While the goal of these simulations was to improve SNe Ia lightcurves, the gains appear to be minimal over the baseline strategy.
 
 
 \begin{figure}
@@ -262,7 +359,29 @@ The baseline simulation is fairly aggressive in switching to redder filters in b
 \caption{The filter distribution for the even filter simulations. Unlike the baseline simulations, bluer filters are observed in bright time.}
 \end{figure}
 
-XXX--science recap. Should be less depth, but maybe better long transient light curves.
+
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/even_filt_radar.pdf}
+\epsscale{1}
+\caption{Science performance for the Even Filters runs.  Taking bluer filters in bright time can improve SNe performance and fast transients, but is detrimental to Solar System science.  The loss of depth shows up in most of the other metrics as well.}\label{fig:even_filt_radar}
+\end{figure}
+
+
+
+%############## Greedy 
+\subsection{Ecliptic Pairs}
+
+This simulation prohibits the twilight greedy algorithm from observing near the ecliptic, thus ensuring that all observations near the ecliptic are taken in pairs. This results in modest gains for NEO detection. 
+
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/greedy_radar}
+\epsscale{1}
+\caption{Science impact of not permitting greedy observations near the ecliptic. }
+\end{figure}
 
 %############ Aliasing ############
 \subsection{Aliasing}

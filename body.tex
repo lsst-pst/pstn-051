@@ -7,7 +7,17 @@ Probably need some reference to what survey scheduler was used / how it was set 
 Earlier attempts at simulating LSST in \citet{Rothchild19} and \citet{Naghib19}. ?
 
 \subsection{The Model Observatory}
-Discuss kinematic model, seeing model, weather model. 
+Discuss kinematic model, seeing model, weather model, sky brightness model. 
+
+The model observatory includes kinematic models for the dome, telescope altitude, telescope azimuth, and camera rotator. The model tracks relevant cable wraps angles for the telescope and camera. Filter changes are assumed to take two minutes, and changes of XXX degrees in altitude incur a 40s delay for open optics loops. The basic parameters of the kinematic model are laregly unchanged from \citet{Delgado14}.
+
+XXX--weather model
+
+XXX--sky brightness The model observatory serves pre-computed sky brightness maps. 
+
+xxx--scheduled and unscheduled downtime
+
+\include{seeing}
 
 \subsection{The Scheduler}
 
@@ -35,6 +45,7 @@ If the above conditions are met, the DDF sends it's sequence of observations to 
 The spatial position of the DDF is dithered nightly up to 0.7 degrees.  The camera rotator is also varied nightly to be between -75 and 75 degrees with respect to the telescope. 
 
 \begin{table}
+\begin{centering}
 \begin{tabular}{lcc}
 \toprule
     Name &      RA &     Dec \\
@@ -49,6 +60,7 @@ The spatial position of the DDF is dithered nightly up to 0.7 degrees.  The came
     \hline
 \end{tabular}
 \caption{The location of the deep drilling fields used in our simulations.}\label{table:ddfs}
+\end{centering}
 \end{table}
 
 
@@ -89,7 +101,7 @@ As with the Blob tier, the sky tessellation orientation is randomized each night
 
 \subsection{Filter Mounting Schedule}
 
-XXX--discuss how we decide which filters to have mounted at a given time.
+In addition to the observations scheduler, we have a separate scheduler that decides which five filters should be loaded for the start of each night.  By default, we mount redder filters ($grizy$) when the moon is more than 40\% illuminated and bluer filters ($ugriy$) closer to new moon. 
 
 
 \section{Basic Survey Requirements}
@@ -111,6 +123,9 @@ Discuss basic types of SAC recommendations.
 \section{Overview of Metrics}
 XXX--maybe a subset of the most important metrics? 
 %\input{metrics}
+
+
+
 
 \input{runs_v15}
 
@@ -216,6 +231,16 @@ XXX--can also discuss pre-scheduling the DDF sequences here.
 \section{Conclusions}
 Hopefully here we pare down the evaluation of 100s of runs (like promised) to a set of between 10 to 20 (if this is possible, after combining along different axes). 
 The results should come with some basic comments about what's particularly good or bad in each of these areas and how we arrived at these general options. 
+
+Metrics we know we need to get from the community:
+\begin{itemize}
+    \item{Photometric redshift performance, especially as it relates to filter distribution}
+    \item{Weak Lensing systematics, especially as related to camera rotator angle}
+    \item{Deep Drilling Field metrics beyond coadded depth (e.g., AGN performance)}
+    \item{Deep Drilling metrics that are sensitive to the spatial dither strategy}
+    \item{Transient early classification metric}
+    \item{More populations in the Galactic plane beyond the simple number of stars.}
+\end{itemize}
 
 \input{questions}
 

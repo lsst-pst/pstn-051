@@ -2,26 +2,62 @@
 
 \section{Survey Simulator Overview}
 \label{section:simulator}
+
+In operations, the LSST needs an automated scheduler to appropriately plan and execute the $\approx1000$ visits per night. Prior to operations, we have a need to use the same scheduler to understand the range of possible survey strategies and their science potential; even in operations it is useful to run the scheduler in a `simulation' mode in order to evaluate the future impact of changes in observatory hardware or changes to the observing strategy. As such, we need a robust scheduler, together with high-fidelity model inputs for the telescope operations and observing telemetry.  
+
 Probably need some reference to what survey scheduler was used / how it was set up for various runs, how the runs were performed, and what the input weather and telescope models were like. 
 
-Earlier attempts at simulating LSST in \citet{Rothchild19} and \citet{Naghib19}. ?
-
 \subsection{The Model Observatory}
-Discuss kinematic model, seeing model, weather model, sky brightness model. 
 
-The model observatory includes kinematic models for the dome, telescope altitude, telescope azimuth, and camera rotator. The model tracks relevant cable wraps angles for the telescope and camera. Filter changes are assumed to take two minutes, and changes of XXX degrees in altitude incur a 40s delay for open optics loops. The basic parameters of the kinematic model are laregly unchanged from \citet{Delgado14}.
+\subsubsection{Telescope Model}
 
-XXX--weather model
+The physical telescope operations are modeled using the LSST software package \href{https://github.com/lsst-ts/ts_observatory_model}{ts\_observatory\_model}. This package includes a kinematic model of the telescope, with appropriate acceleration/deceleration and maximum velocity limits, including requirements for sequencing (changing the filter before slewing, for example). It also enforces requirements needed before image acquisition, such as the settle time after slewing and the active optics open- and closed-loop acquisition times. Other important considerations are the extent of cable wrap due to azimuth slews or camera rotation. The parameters for the telescope model are configurable, coming from the Telescope and Site and Camera teams. These parameters are largely unchanged from \citet{Delgado14}; a subset of these parameters are described in Table~\ref{tab:tsModel}. 
 
-XXX--sky brightness The model observatory serves pre-computed sky brightness maps. 
+\begin{table}
+\begin{centering}
+\begin{tabular}{lc}
+\toprule
+Parameter  & Value \\
+Min altitude  & 20 deg \\
+Max altitude & 86.5 deg \\
+Camera readout & 2 sec\\
+Shutter time & 1 sec \\
+Filter change time & 120 sec \\
+Number filters mounted & 5 \\
+Azimuth slew settle time & 1 sec \\
+Closed Optics Loop Delay & 36 sec (when $>9$ deg altitude change) \\
+Approximate azimuth slew time &   $ t_{slew \, Az} = 0.66 \, {\rm sec/deg} * \delta Az ({\rm deg}) + C^{Az} $ ;    min = 3 sec \\
+Approximate altitude slew time  &  $  t_{slew \, Alt} = 0.57 \, {\rm sec/deg} * \delta Alt ({\rm deg}) + C^{Alt} $ \\
+\hline
+\end{tabular}
+\caption{A subset of ts\_observatory\_model parameters and slew time approximations.}
+\label{tab:tsModel}
+\end{centering}
+\end{table}
 
-xxx--scheduled and unscheduled downtime
+\subsubsection{Cloud Model}
+
+
+
+\subsubsection{Seeing Model}
 
 \include{seeing}
+
+
+\subsubsection{Skybrightness Model}
+
+The model observatory serves pre-computed sky brightness maps. 
+
+\subsubsection{Maintenance Downtime Model}
+
+
+
 
 \subsection{The Scheduler}
 
 The scheduler is designed to provide real-time decisions on where and how to observe. Because we expect there to be things like weather interruptions, we need a system that can recover quickly. Unlike other traditional telescope schedulers, we do not try to optimize a large number of observations in advance, but rather use a decision tree along with a modified Markov Decision Process. The scheduler behavior is set by a small number of free parameters that can be tuned.
+
+Earlier attempts at simulating LSST in \citet{Rothchild19} and \citet{Naghib19}. Eric's scheduler paper. 
 
 Our baseline scheduler uses a three tier decision tree when deciding what observations to attempt. 
 

@@ -107,7 +107,7 @@ def unit_poly_verts(theta):
 
 
 def radar(df, legend_col='runName', rgrids=[0.7, 1.0, 1.3, 1.6],
-          alpha=0.1, legend=True, figsize=(8, 5), fill=True,
+          alpha=0.1, legend=True, figsize=(8.5, 5), fill=True,
           bbox_to_anchor=(1.6, 0.5)):
     """
     make a radar plot!

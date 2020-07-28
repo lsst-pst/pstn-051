@@ -145,35 +145,36 @@ As with the Blob tier, the sky tessellation orientation is randomized each night
 In addition to the observations scheduler, we have a separate scheduler that decides which five filters should be loaded for the start of each night.  By default, we mount redder filters ($grizy$) when the moon is more than 40\% illuminated and bluer filters ($ugriy$) closer to new moon. 
 
 
-\section{Basic Survey Requirements}
+\section{Survey Requirements and Metrics}
 Basic survey strategy starting point and why - in more depth? Discuss metrics related to these requirements. 
 
 Probably should show that all survey strategies evaluated do / need to meet these requirements (but maybe later?)
 
+\subsection{SRD Metrics}
+
 XXX--Relevant SRD requirements. 825 observations over 18,000 square degrees, fast revisits, and astrometry
 
-XXX--general requirement to advance all 4 pillars of Rubin science
 
 XXX--relevant requirement to publish a list of upcoming planned observations (1?2?) hours in advance. 
 
-\section{Feedback from white papers and SAC} 
+\subsection{Science Metrics}
+
+%\input{metrics}  %% metrics_short here
+
+\section{Survey Strategy Experiments} 
+
 Broad outline of points to evaluate for survey strategy, and our approach in running the subsequent experiments (this should help make sense of what comes next)
 
-Discuss basic types of SAC recommendations. 
-
-\section{Overview of Metrics}
-XXX--maybe a subset of the most important metrics? 
-%\input{metrics}
-
-
-
-
+Reformat these, can add science impact highlights, but primary evaluation later. 
 \input{runs_v15}
 
 \input{runs_v16}
 
+\section{Science impacts}
 
-\section{Individual Visit Length}
+The broad categories of experiments covered in the FBS 1.4, 1.5 and 1.6 releases address different aspects of survey strategy. While each family of simulations maintained the approach of varying a single kind of parameter (such as the amount of time devoted to triplets of visits in the `third_visit' runs or the footprint coverage in the `footprint' runs), the underlying science optimization questions can cover multiple families. In addition, when looking at individual science cases, there can be effects that cover multiple families but have the same underlying cause -- preferring more visits in the WFD or needing more visits in $u$ band, for example .. which can be the result of variations in survey strategy in multiple different families (i.e. we get to the same place via different means). 
+
+\subsection{Individual Visit Length}
 What to do - 1x30s vs. 2x15s? 1x30s much more efficient (show rough calculation of overhead) than 2x15s, but may have drawbacks due to cosmic ray rejection and potential to miss very rapid transients (or WD detection .. ref white paper). Subtle drawback that 2x15s gives the same "midpoint exposure time" across FOV, 1x30s does not. 
 
 Show difference in 1x30s vs. 2x15s in whatever is our 'standard baseline' at this point. 
@@ -186,29 +187,20 @@ Also possible to use variable exposure time depending on seeing and sky brightne
 
 Relevant metrics: total number of visits, number of visits per field/filter
 
-\section{Intra-night Cadence}
+\subsection{Intra-night Cadence}
+
 What to do for visit sequence within a night? White paper support for multiple filters within a night (except TNOs maybe?). Potential drawbacks - less efficient (show effect on efficiency). This applies to WFD primarily, but we've applied to any survey that did not have their own specifications (so, everywhere). 
 
 Extension of pairs to $u$ band and $y$ band (show effect). 
 
 Relevant metrics: inter-night visit gaps and SN discovery, SSO discovery/characterization, transient and variable discovery (??), number of visits
 
-\section{Wide-Fast-Deep Footprint}
+\subsection{Survey Footprint}
 What to do for WFD footprint? SRD not specific, DESC want low-extinction sky (and depth), but WFD is generally the area of sky that receives the most visits, so generally other science will also benefit from more visits to their relevant areas (particularly galactic plane .. for time-domain studies primarily, not depth)
 
 Relevant metrics: area of sky with 825 visits (under particular restrictions, like total coadded depth and individual image seeing and dust extinction), number of galaxies, number of resolved galaxies, SSO discovery, transient and variable star discovery, astrometry in the galactic plane (?)
 
-
-\section{Rolling cadence}
-Motivation for a rolling cadence (more frequent visits in some years)
-
-Different options for rolling and explanation of how implemented
-
-Should really include discussion of recovery from bad weather years and simulation of same
-
-Relevant metrics: Maintain astrometry requirements, SN discovery, SSO discovery and characterization,  Transient and variable discovery, uniformity of coadded depth / number of visits, 
-
-\section{Northern minisurveys}
+\subsubsection{Northern minisurveys}
 Add extension to cover Euclid/DESI with various numbers of visits
 
 Observing NES 
@@ -217,21 +209,33 @@ Effect of adding or removing these minisurveys
 
 Relevant metrics: SSO discovery and characterization (particularly active asteroids), depth and number of visits through remainder of North
 
-\section{Southern minisurveys}
+\subsubsection{Southern minisurveys}
 Add extension over south celestial pole, LMC/SMC with various numbers of visits
 
 Effect of adding or removing these minisurveys
 
 Relevant metrics: number of visits and coadded depth over SCP, discovery of variables in LMC/SMC (see Olsen white paper for metrics?)
 
-\section{Low Galactic Latitudes}
+\subsubsection{Low Galactic Latitudes}
 Discussion of definitions from SAC and recommendations for visits
 
 Effect of adding or removing these minisurveys
 
 Relevant metrics: number of visits, astrometry in bulge, discovery of variables/transients/microlensing in bulge (?)
 
-\section{Twilight Observing}
+
+\subsection{Rolling cadence}
+Motivation for a rolling cadence (more frequent visits in some years)
+
+Different options for rolling and explanation of how implemented
+
+Should really include discussion of recovery from bad weather years and simulation of same
+
+Relevant metrics: Maintain astrometry requirements, SN discovery, SSO discovery and characterization,  Transient and variable discovery, uniformity of coadded depth / number of visits, 
+
+
+
+\subsection{Twilight Observing}
 Discuss need for twilight observing to meet SRD goals (weather, total amount of time available)
 
 Add NEO twilight survey, add DCR white paper (season extension visits?)
@@ -240,7 +244,7 @@ Effect of adding or removing these minisurveys
 
 Relevant metrics: NEO discovery, number of visits and coadded depth (and uniformity) in WFD, measurement of DCR, season length
 
-\section{Deep Drilling Fields}
+\subsection{Deep Drilling Fields}
 Discuss purpose and how these are scheduled (very different from other fields)
 
 Discuss potential cadences (AGN/ DESC) and how these differ, and our combination of the two
@@ -252,7 +256,7 @@ Effect of adding or removing these minisurveys
 Relevant metrics: number of visits and coadded depth for DD, SN detection in DDFs, AGN detection in DDFs
 *[solar system minisurvey DDF?]
 
-\section{ToO modes}
+\subsection{ToO modes}
 Discuss impact of ToO, and how we could implement ToOs in scheduler (various modes: straight to queue by hand or set up known program and supply trigger, etc. -- that we're evaluating the second?)
 
 Any ToO survey should also take into account that chip and raft gaps mean full sky coverage will require multiple images with spatial dithering.
@@ -261,13 +265,9 @@ Discuss how we can have a low coverage region to the north to maintain templates
 
 Relevant metrics: frequency of achieving ToO observations, number of visits and coadded depth in other surveys (WFD or other minisurveys that may be in particular contention)
 
+\subsection{Number of visits in WFD}
+Overall survey number of visits vs. number of visits in WFD (see twilight survey, DCRham surveys, variable exposure, shortexp surveys)
 
-\section{Further Optimizing}
-Somewhere in here we probably ought to talk about optimizing the parameters for each run, and doing bigger sweeps across parameter space. That would easily expand each of the above options by many factors.
-
-XXX--need to optimize basis function weights for both the blobs and the greedy algo.
-
-XXX--can also discuss pre-scheduling the DDF sequences here.
 
 \section{Conclusions}
 Hopefully here we pare down the evaluation of 100s of runs (like promised) to a set of between 10 to 20 (if this is possible, after combining along different axes). 

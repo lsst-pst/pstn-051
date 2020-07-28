@@ -9,6 +9,7 @@ Probably need some reference to what survey scheduler was used / how it was set 
 
 \subsection{The Model Observatory}
 
+
 \subsubsection{Telescope Model}
 
 The physical telescope operations are modeled using the LSST software package \href{https://github.com/lsst-ts/ts_observatory_model}{ts\_observatory\_model}. This package includes a kinematic model of the telescope, with appropriate acceleration/deceleration and maximum velocity limits, including requirements for sequencing (changing the filter before slewing, for example). It also enforces requirements needed before image acquisition, such as the settle time after slewing and the active optics open- and closed-loop acquisition times. Other important considerations are the extent of cable wrap due to azimuth slews or camera rotation. The parameters for the telescope model are configurable, coming from the Telescope and Site and Camera teams. These parameters are largely unchanged from \citet{Delgado14}; a subset of these parameters are described in Table~\ref{tab:tsModel}. 
@@ -55,7 +56,9 @@ The model observatory serves pre-computed sky brightness maps.
 
 \subsection{The Scheduler}
 
-The scheduler is designed to provide real-time decisions on where and how to observe. Because we expect there to be things like weather interruptions, we need a system that can recover quickly. Unlike other traditional telescope schedulers, we do not try to optimize a large number of observations in advance, but rather use a decision tree along with a modified Markov Decision Process. The scheduler behavior is set by a small number of free parameters that can be tuned.
+Optimally scheduling telescopic observations is a traditionally difficult problem. Most observatories have traditionally scheduled observations by hand. The LCO and ZTF have implemented integer linear programming techniques to optimize their scheduling \citep{Lampoudi15, Bellm19}. Integer programming is difficult to use for Rubin because we have multiple science goals which are intended to be serviced simultaneously. Thus, there is no well-defined value which can be maximized when scheduling Rubin. \citet{Rothchild19} simulated Rubin observations with a very fast deterministic scheduler, essentially repeating a fixed raster pattern mostly along the meridian. This algorithm showed great promise, but had several downsides (such as occasionally pointing at the moon). For the Rubin scheduler, we follow the example in \citet{Naghib19} and use a Markov Decision Process to select most of the observations.
+
+The Rubin scheduler is designed to provide real-time decisions on where and how to observe. Because we expect there to be weather interruptions, we need a system that can recover quickly. Unlike other traditional telescope schedulers, we do not try to optimize a large number of observations in advance, but rather use a decision tree along with a modified Markov Decision Process. The scheduler behavior is set by a small number of free parameters that can be tuned.
 
 Earlier attempts at simulating LSST in \citet{Rothchild19} and \citet{Naghib19}. Eric's scheduler paper. 
 
@@ -132,7 +135,7 @@ As with the Blob tier, the sky tessellation orientation is randomized each night
 \plotone{plots/night_plots/baseline_nexp1_v1_6_altAz_Count_note_like_blob_and_night810_HEAL_SkyMap.pdf}
 \plotone{plots/night_plots/baseline_nexp1_v1_6_altAz_Count_note_like_greedy_and_night810_HEAL_SkyMap.pdf}
 \epsscale{1}
-\caption{Examples of how the three scheduler tiers execute during a single night. Left panels show how a DDF sequence was observed during the night. Middle panels show observations taken as part of blob pairs. Right panels show the greedy observations taken in twilight time.} \label{fig:examplenight}
+\caption{Examples of how the three scheduler tiers execute during a single night. Left panels show how a DDF sequence was observed during the night. Middle panels show observations taken as part of blob pairs. Right panels show the greedy observations taken in twilight time.  The panels from left to right show the different decision tiers the scheduler uses, with the DDFs as the top tier and the greedy algorithm as the bottom tier. } \label{fig:examplenight}
 \end{figure}
 
 \subsection{Filter Mounting Schedule}

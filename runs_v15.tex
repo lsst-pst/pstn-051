@@ -6,7 +6,7 @@ Here we look at various experiments that explore varying a single aspect of the 
 
 
 %############# varying u-band #############
-\subsection{$u$\ Filter Variations}
+\subsection{$u$\ Filter Pairing}\label{ss:ufilt}
 
 \begin{figure}
 \plotone{plots/radar_plots/upairs30_radar}
@@ -14,6 +14,9 @@ Here we look at various experiments that explore varying a single aspect of the 
 \caption{Varying when the $u$\ filter is swapped out of the camera as well as adding additional weight to the $u$\ footprint.}
 \end{figure}
 
+For this family of simulations, we only take $u$\ observations paired $\sim$22 minutes later with $g$\ or with $r$. We vary when the $u$\ filter is loaded into the camera (at lunar illuminations of 15, 30, 40, and 60\%) and vary the strength of the $u$\ footprint (1, 2, or 4 times the baseline footprint).
+
+There is a tension between TDEs and most other science cases, with TDEs benefitting from more $u$\ visits and other science cases staying the same or dropping with increased $u$.
 
 
 %############# Filter Loading #############
@@ -26,7 +29,9 @@ Here we look at various experiments that explore varying a single aspect of the 
 \caption{Varying when the $u$\ filter is loaded.}
 \end{figure}
 
-XXX
+Similar to the experiment in \S\ref{ss:ufilt}, only $u$\ visits can be paired with $u$, $g$, or $r$. We vary when the $u$ filter is loaded into the camera (lunar illumination of 5, 10, 15, 20, 30, 45, or 60\%). 
+
+As before, the TDE metric seems to be the most sensitive to the $u$\ observing strategy.
 
 
 %############ Dust With Alternating ############

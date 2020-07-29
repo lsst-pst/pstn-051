@@ -39,8 +39,24 @@ Approximate altitude slew time  &  $  t_{slew \, Alt} = 0.57 \, {\rm sec/deg} * 
 \subsubsection{Cloud Model}
 
 The cloud model is based on historical cloud sky coverage data from Cerro-Tololo Inter-American Observatory (CTIO), from the ten year period 1996 to 2005. 
-<plot of fraction of time sky is covered to various levels> 
-<plot of time available per night over year -- wrapped per year >
+
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/cloud_levels}
+\epsscale{1}
+\caption{The distribution of cloudiness as measured at CTIO. We model the observatory as closed for cloud levels above 3/10.}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/hours_pernight}
+\epsscale{1}
+\caption{The average amount of time available per night over the course of a year after removing weather downtime.}
+\end{figure}
+
+The SOAR telescope reports losing 15.3-33.4\% (mean=22.9\%) of science time to weather from 2014-2018\footnote{\url{http://www.ctio.noao.edu/soar/content/soar-observing-statistics}}. This is consistent with the weather downtime reported by Gemini South (private communication). 
+
+If we model the observatory as closed when the sky is 30\% cloudy or cloudier, we reach a weather downtime of 29.8\%. While we expect some observations will be possible in 30\% cloudy skies, this cutoff also accounts for other weather related closures (humidity, wind, dust, etc).
 
 \subsubsection{Seeing Model}
 
@@ -49,11 +65,20 @@ The cloud model is based on historical cloud sky coverage data from Cerro-Tololo
 
 \subsubsection{Skybrightness Model}
 
-The model observatory serves pre-computed sky brightness maps. 
+The observatory model includes a model for the sky brightness. The model is built mostly from the ESO sky brightness model which includes upper and lower atmosphere emission lines, airglow continuum, scattered lunar light, and zodiacal light. In addition, we have added a twilight model fit from all-sky camera observations at the site. The sky brightness model does not include human generated light pollution. While the ESO model does include the ability to scale the airglow component with solar activity, we use the default mean solar activity throughout. Compared to all sky camera observations, the skybrightness model has RMS deviations of $\sim$0.2-0.3 magnitudes per square arcsecond \citep{Yoachim16}. 
+
+With so many independent components, the sky brightness is potentially the most computationally expensive aspects of the simulations. We pre-compute sky brightness maps in all six Rubin filters in 5-15 minute time steps which can then be rapidly interpolated to exact times.
 
 \subsubsection{Maintenance Downtime Model}
 
-Number of days of downtime and how they're clustered
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/downtimes}
+\epsscale{1}
+\caption{The simulated scheduled and unscheduled downtimes over 10 years.}\label{fig:downtime}
+\end{figure}
+
+The observatory model includes both scheduled and unscheduled downtime. Figure~\ref{fig:downtime} shows we simulate approximately 10\% of time lost to maintenance. 
 
 
 \subsection{The Scheduler}
@@ -157,13 +182,19 @@ XXX--Relevant SRD requirements. 825 observations over 18,000 square degrees, fas
 
 XXX--relevant requirement to publish a list of upcoming planned observations (1?2?) hours in advance. 
 
-\subsection{Science Metrics}
 
-%\input{metrics}  %% metrics_short here
+\subsection{Science Metrics}
+\input{metrics_short}
 
 \section{Survey Strategy Experiments} 
 
 Broad outline of points to evaluate for survey strategy, and our approach in running the subsequent experiments (this should help make sense of what comes next)
+
+\section{Feedback from white papers and SAC} 
+Broad outline of points to evaluate for survey strategy, and our approach in running the subsequent experiments (this should help make sense of what comes next)
+
+Discuss basic types of SAC recommendations. 
+
 
 Reformat these, can add science impact highlights, but primary evaluation later. 
 \input{runs_v15}

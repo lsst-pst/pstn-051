@@ -51,7 +51,7 @@ The cloud model is based on historical cloud sky coverage data from Cerro-Tololo
 \epsscale{0.5}
 \plotone{plots/hours_pernight}
 \epsscale{1}
-\caption{The average amount of time available per night over the course of a year after removing weather downtime.}
+\caption{The total amout of possible time per night and the average amount of time after removing weather downtime. Shaded regions show scheduled downtime. Our modeled uncheduled downtime is not included in the plot.}
 \end{figure}
 
 The SOAR telescope reports losing 15.3-33.4\% (mean=22.9\%) of science time to weather from 2014-2018\footnote{\url{http://www.ctio.noao.edu/soar/content/soar-observing-statistics}}. This is consistent with the weather downtime reported by Gemini South (private communication). 
@@ -78,7 +78,7 @@ With so many independent components, the sky brightness is potentially the most 
 \caption{The simulated scheduled and unscheduled downtimes over 10 years.}\label{fig:downtime}
 \end{figure}
 
-The observatory model includes both scheduled and unscheduled downtime. Figure~\ref{fig:downtime} shows we simulate approximately 10\% of time lost to maintenance. The scheduled downtime allowance is currently about 22 weeks over the full 10 year survey. This is taken in either two one week periods twice a year, or a single two week period in alternating years. The unscheduled downtime allowance is approximately 28 weeks, in variable amounts of time, often as short as a single night. The scheduled downtime is planned during the same periods that are most likely to be bad weather, when possible. 
+The observatory model includes both scheduled and unscheduled downtime. Figure~\ref{fig:downtime} shows we simulate approximately 10\% of time lost to maintenance. The scheduled downtime allowance is currently about 22 weeks over the full 10 year survey. This is taken in either two one week periods twice a year, or a single two week period in alternating years. The unscheduled downtime allowance is approximately 28 weeks, in variable amounts of time, often as short as a single night. The scheduled downtime is planned during the same periods that are most likely to be bad weather, when possible. In the future, scheduled downtime may be shifted within a month to better align with the full moon.
 
 \subsection{The Scheduler}
 

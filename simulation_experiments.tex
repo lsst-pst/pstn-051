@@ -419,12 +419,13 @@ We find that running the twilight survey every available night causes the main s
 \end{figure}
 
 %############ Short Exposures ############
-\subsection{Short Exposures}
+\subsection{FBS 1.5 {\tt short\_exp}: Short Exposures}\label{ss:shortexp}
 
 \begin{figure}
 \plottwo{plots/short_exp_plots/opsim_Count_filter_visitexposuretime_gt_10_and_note_not_like_DD_HEAL_SkyMap.pdf}{plots/short_exp_plots/opsim_Count_filter_visitexposuretime_lt_10_HEAL_SkyMap.pdf}
 \caption{Results from including 5s exposures (up to 5 per year). The left shows the number of regular 30s visits (excluding DDF observations) and the right shows the number of 5s visits.}
 \end{figure}
+
 
 We try taking additional short exposures (1s or 5s) twice or five times per year. Taking shorter exposures is a less efficient observing mode, but it seems to have little impact on the overall open shutter fraction. Similar to taking exposures in good seeing conditions, including short exposures each year has only a few percent impact on our science metrics.
 
@@ -536,19 +537,6 @@ This simulation prohibits the twilight greedy algorithm from observing near the 
 \caption{Science impact of not permitting greedy observations near the ecliptic. }
 \end{figure}
 
-%############ Aliasing ############
-\subsection{Aliasing}
-
-There was concern that if observations were too uniformly placed on the meridian, periodic sources would be aliased. Figure~\ref{fig:alias} shows the FFT of observations at a sample WFD point in the baseline simulation. There is some aliasing at $\sim1$\ day which is inevitable for any ground-based telescope.  The aliasing is much lower than the minion\_1016 simulation that was analyzed in the Bell et al. cadence white paper. 
-
-\begin{figure}
-\label{fig:alias}
-\epsscale{0.65}
-\plotone{plots/alias_plots/aliasing.pdf}
-\epsscale{1}
-\caption{Aliasing at a sample position in a baseline simulation. There are peaks at harmonics of 24 hours, but this is inevitable with a ground-based telescope. The aliasing seems much lower than earlier version of OpSim where harmonic peaks could be seen past 200 $\mu$Hz.}
-\end{figure}
-
 
 %############ Spiders ############
 \subsection{Spiders}
@@ -561,4 +549,19 @@ We look at keeping diffraction spikes aligned along CCD rows and columns. This m
 \epsscale{1}
 \caption{Science impact of keeping diffraction spikes aligned along rows and columns. }
 \end{figure}
+
+
+%############ Aliasing ############
+\subsection{FBS 1.5: Aliasing}
+
+One of the concerns for the survey, especially if observations were placed uniformly on the meridian, was about aliasing for periodic sources. We did not specifically work to remove aliasing from the simulations, however we did look for the presence of aliasing in the visit cadence in these newer simulations.  Figure~\ref{fig:alias} shows the FFT of observations at a sample WFD point in the baseline simulation. There is some aliasing at $\sim1$\ day which is inevitable for any ground-based telescope.  The aliasing is much lower than the {\tt minion\_1016} simulation that was analyzed in the Bell et al. cadence white paper. Attempting to plan the timing of visits to reduce aliasing is more complicated and expensive than what is currently contained in the scheduler; we therefore don't plan to add anti-aliasing features into the scheduler at this time, but to check for aliasing effects in the outputs.
+
+\begin{figure}
+\label{fig:alias}
+\epsscale{0.65}
+\plotone{plots/alias_plots/aliasing.pdf}
+\epsscale{1}
+\caption{Aliasing at a sample position in a baseline simulation. There are peaks at harmonics of 24 hours, but this is inevitable with a ground-based telescope. The aliasing seems much lower than earlier version of OpSim where harmonic peaks could be seen past 200 $\mu$Hz.}
+\end{figure}
+
 

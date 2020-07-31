@@ -107,7 +107,7 @@ def unit_poly_verts(theta):
 
 
 def radar(df, legend_col='runName', rgrids=[0.7, 1.0, 1.3, 1.6],
-          alpha=0.1, legend=True, figsize=(8.5, 5), fill=True,
+          alpha=0.1, legend=True, figsize=(8.5, 5), fill=False,
           bbox_to_anchor=(1.6, 0.5)):
     """
     make a radar plot!
@@ -120,7 +120,8 @@ def radar(df, legend_col='runName', rgrids=[0.7, 1.0, 1.3, 1.6],
         data = df.loc[:, df.columns != legend_col].iloc[i]
         if np.size(data) > 0:
             axes.plot(theta, data.values, 'o-', label=df[legend_col].iloc[i])
-            axes.fill(theta, data.values, alpha=alpha)
+            if fill:
+                axes.fill(theta, data.values, alpha=alpha)
 
     varlables = [col for col in df.columns if col != legend_col]
 
@@ -133,7 +134,7 @@ def radar(df, legend_col='runName', rgrids=[0.7, 1.0, 1.3, 1.6],
 
 
 def radar2(df, legend_col='runName', rgrids=[[0.7, 1.0, 1.3, 1.6], [0.9, 1.0, 1.1]],
-           alpha=0.1, legend=True, figsize=(13, 5), fill=True,
+           alpha=0.1, legend=True, figsize=(13, 5), fill=False,
            bbox_to_anchor=(1.7, 0.5)):
     """
     make a radar plot!
@@ -146,7 +147,8 @@ def radar2(df, legend_col='runName', rgrids=[[0.7, 1.0, 1.3, 1.6], [0.9, 1.0, 1.
             data = df.loc[:, df.columns != legend_col].iloc[i]
             if np.size(data) > 0:
                 axes.plot(theta, data.values, 'o-', label=df[legend_col].iloc[i])
-                axes.fill(theta, data.values, alpha=alpha)
+                if fill:
+                    axes.fill(theta, data.values, alpha=alpha)
 
         varlables = [col for col in df.columns if col != legend_col]
 

@@ -1,4 +1,4 @@
-\section{Survey Requirements and Metrics}
+\section{Metrics}
 
 There are many, many options for evaluating the output of the survey strategy experiments. One of the primary goals for the LSST Metrics Analysis Framework (MAF) package was to make it easier for both the project and community members to write metrics to evaluate these outputs. This effort has had some significant successes; SRD-level metrics have been written that cover the primary requirements for the SRD, the DESC working groups have made good progress in writing metrics for their evaluation of the simulations, and the Solar System collaboration has contributed substantial metrics. In other areas, it has been more difficult for the community to engage and contribute directly to MAF; for some of these areas, we have been able to help get metrics running, but clearly there are areas which are lacking definitive metrics. Many of the areas which are lacking relate directly to time domain studies, a critical area for the LSST. We acknowledge this problem and encourage further work by the community, particularly over the next year. 
 
@@ -14,23 +14,40 @@ The radar plots use fONv MedianNvisits, the Median Parallax Error at XXX, and th
 
 \subsection{Solar System Science Metrics}
 
-Solar System science metrics include discovery metrics (with various discovery criteria, such as detections in 3 nights with pairs of visits within a 15 night window) and characterization metrics (ie. how many colors for objects can we measure, and can we determine a light curve or even shape measurement from the lightcurve), contributed by both project and science collaboration. The most important metric for solar system objects is discovery; finding the objects is the first priority. Characterization metrics are secondary metrics. For each of these metrics, we generate input observations using an appropriate solar system population: Potentially Hazardous Asteroids (PHAs) and Near Earth Objects (NEOs) based on a model by \citet{2018Icar..312..181G}, Main Belt Asteroids (MBAs) and Jovian Trojans based on the S3M model from \citet{2011PASP..123..423G}, and TransNeptunian Objects (TNOs) based on the L7 model from the Canda France Ecliptic Plane Survey (CFEPS) \citep{2009AJ....137.4917K, 2011AJ....142..131P}. These populations move at varying rates and cover varying amounts of the sky. NEOs move over much of the sky during the lifetime of the survey, so are less sensitive to footprint variations, but tend to have much more strongly varying brightnesses, thus are sensitive to the number and timing of visits (must be observed when they are bright). TNOs move very slowly, not more than a few fields of view over the lifetime of the survey, so are quite sensitive to footprint, however they are relatively consistent in their brightness; thus they are less sensitive to the overall number of visits at a particular point in the sky, once a threshold has been met. 
+Solar System science metrics include \href{https://github.com/lsst/sims_maf/blob/master/python/lsst/sims/maf/metrics/moMetrics.py#L215}{discovery metrics} (with various discovery criteria, such as detections in 3 nights with pairs of visits within a 15 night window) and characterization metrics (ie. how many colors for objects can we measure, and can we determine a light curve or even shape measurement from the lightcurve), contributed by both project and science collaboration. The most important metric for solar system objects is discovery; finding the objects is the first priority. Characterization metrics are secondary metrics. For each of these metrics, we generate input observations using an appropriate solar system population: Potentially Hazardous Asteroids (PHAs) and Near Earth Objects (NEOs) based on a model by \citet{2018Icar..312..181G}, Main Belt Asteroids (MBAs) and Jovian Trojans based on the S3M model from \citet{2011PASP..123..423G}, and TransNeptunian Objects (TNOs) based on the L7 model from the Canda France Ecliptic Plane Survey (CFEPS) \citep{2009AJ....137.4917K, 2011AJ....142..131P}. These populations move at varying rates and cover varying amounts of the sky. NEOs move over much of the sky during the lifetime of the survey, so are less sensitive to footprint variations, but tend to have much more strongly varying brightnesses, thus are sensitive to the number and timing of visits (must be observed when they are bright). TNOs move very slowly, not more than a few fields of view over the lifetime of the survey, so are quite sensitive to footprint, however they are relatively consistent in their brightness; thus they are less sensitive to the overall number of visits at a particular point in the sky, once a threshold has been met. 
 
 For each of these populations, we calculate the population completeness due to discovery with the LSST at the end of 10 years (not including previous surveys) with the currently Moving Object Pipeline baseline criteria; 3 nights with pairs of visits within 15 nights at a range of absolute magnitude $H$ (approximately the size of the object) and then take the completeness at an $H$ value near peak completeness and an $H$ value that is relatively close to 50\% completeness in the baseline; these completeness values are the summary metrics we track across various runs to compare them here. 
 
 The radar plots use the completeness for bright NEOs, faint NEOs, and XXX TNOs. 
 
-\subsection{Number of Galaxies}
-
-The estimated expected number of galaxies, across the entire survey footprint, is calculated using \href{https://github.com/LSST-nonproject/sims_maf_contrib/blob/master/mafContrib/LSSObsStrategy/galaxyCountsMetric_extended.py#L26}{GalaxyCountsMetric\_extended}, from \href{https://github.com/LSST-nonproject/sims_maf_contrib}{sims\_maf\_contrib}. The number of galaxies is estimated based on the coadded depth using redshift-bin-specific powerlaws, based on mock catalogs from \citet{2003MNRAS.343..796P}. 
-
-The radar plots use the total number of galaxies down to the coadded limiting magnitude over the entire survey footprint.
-
 \subsection{Number of Stars}
 
-XXX
+XXX  where does the Nstars metric come from and how does it calculate things? (why is there any difference with rolling cadences??)
+The number of stars is primarily sensitive to the footprint definition, and decreases dramatically (by about half) when there is no coverage of the galactic plane. An extended survey footprint (such as increased coverage toward the north) also increases the number of stars.
 
 The radar plots use the total number of stars over the entire footprint down to the coadded limiting magnitude. (crowding?)
+
+\subsection{Tidal Disruption Events (TDE)}
+
+XXX timescale of TDE? criteria for different metrics? distribution on sky?
+
+When requiring both a color in any filter and $u$ band measurements during the TDE event, this metric is exceedingly sensitive to the number and cadence of $u$ band visits, with the number of detected TDEs scaling linearly with the number of $u$ band visits and preferring visits spread more uniformly over time. In other configurations, when requiring observations pre-peak or just a color in any filters, it is primarily sensitive to the frequency of observations and whether pairs are obtained in the same or mixed filters.
+
+The radar plot uses the TDE some color plus $u$ band metric output.
+
+\subsection{Fast Microlensing}
+
+Light curves contributed from the community.
+
+We calculate both a Fast and Slow microlensing metric, using different (?) lightcurves with timescales of XXXX. They are distributed on the sky XXX  Due to this spatial distribution, both the Slow and Fast microlensing metrics are primarily sensitive to survey footprint. Footprints without galactic plane coverage cut the number of detected microlenses by approximately 75\% while footprints with heavy galactic plane coverage can increase the number of microlenses by a factor of 2 or more. The Fast microlensing metric is also sensitive to the number and cadence of $u$ band visits, preferring $u$ band visits spread more uniformly over time. 
+
+The radar plot uses the Fast microlensing metric. 
+
+\subsection{Number of Galaxies}
+
+The estimated expected number of galaxies, across the entire survey footprint, is calculated using \href{https://github.com/LSST-nonproject/sims_maf_contrib/blob/master/mafContrib/LSSObsStrategy/galaxyCountsMetric_extended.py#L26}{GalaxyCountsMetric\_extended}, from \href{https://github.com/LSST-nonproject/sims_maf_contrib}{sims\_maf\_contrib}. The number of galaxies is estimated based on the coadded depth using redshift-bin-specific powerlaws, based on mock catalogs from \citet{2003MNRAS.343..796P}. The overall number of galaxies tends to increase with increased depth, and more so when more of the survey footprint is distributed in lower dust extinction areas. The number of galaxies also increases when the survey filter distribution is redder, rather than bluer.
+
+The radar plots use the total number of galaxies down to the coadded limiting magnitude over the entire survey footprint.
 
 \subsection{DESC WFD Metrics}
 
@@ -42,12 +59,13 @@ Over this extragalactic footprint the following metrics are calculated for gener
 \item Median coadded depth in $i$ band
 \item Standard deviation of the coadded depth in $i$ band
 \item The area of the selected footprint
-\item A 3x2 point Figure of Merit emulator
+\item A \href{https://github.com/lsst/sims_maf/blob/master/python/lsst/sims/maf/metrics/summaryMetrics.py#L231}{3x2 point Figure of Merit} emulator
 \end{itemize}. 
+These metrics are very sensitive to footprint coverage and depth, as well as desiring evenness in the coadded depth to minimize corrections during later analysis.
 The radar plot uses the 3x2point FoM. 
 
 \subsubsection{Weak Lensing}
-The same footprint is used to calculate the number of visits per point in the footprint (WeakLensingNvisits); this is used as an approximate metric evaluating weak lensing systematics.
+The same footprint is used to calculate the number of visits per point in the footprint (WeakLensingNvisits); this is used as an approximate metric evaluating weak lensing systematics.This metric is sensitive to footprint coverage and depth. 
 The radar plot uses the mean number of visits across the extragalactic footprint. 
 
 \subsubsection{Large Scale Structure}
@@ -55,23 +73,14 @@ The number of galaxies within this same footprint is used to as a metric to appr
 
 \subsubsection{SNe Ia}
 
-XXX
+XXX timescale? criteria for different version of metric? distribution on sky?
 
-\subsection{Tidal Disruption Events (TDE)}
+There are several versions of this metric, using different criteria for observations. Detected, Pre-peak and Well-sampled are XXX
+The simple Detected metric is sensitive to a combination of survey footprint and number of visits, preferring more area as long as a minimum number of visits spaced uniformly over time are available. The Pre-peak metric, which may be more useful for detections before follow-up, is most sensitive to requiring visits to be obtained with mixed filter pairs, with a lesser preference for visits being spaced more evenly over time (such as in non-rolling cadences). The Well-sampled metric is primarily sensitive to the cadence of visits, preferring visits to be spaced evenly over time. 
 
-XXX
-
-\subsection{Fast Microlensing}
-
-Light curves contributed from the community.
-
-While we also have a slow microlensing metric, we find very little variation over different siumulations.
-
-Because the baseline footprint has sparse coverage of the Galactic bulge, the baseline value of this metric is relatively small, making the normalized values more volitile than the other metrics here.
+The radar plot uses the XXX. 
 
 
 \subsection{Radar Plots}
 
 Explain that the radar plots have values normalized (typically to a relevant baseline run). For the parallax and proper motion metrics, the inverse of the errors are compared. For magnitudes, we plot magnitude difference (with larger values indicating deeper depths).
-
-XXX--Maybe put in a table of the raw values for the 1.5 and 1.6 baseline runs. (appendix??)

@@ -414,7 +414,7 @@ We find that running the twilight survey every available night causes the main s
 
 \begin{figure}
 \plotone{plots/sso_twilight_neo}
-\caption{More detailed solar system metric results for large (solid lines) and smaller (dashed lines) members of the moving object populations. Large PHAs and NEOs benefit from twilight neo survey, and more time spent on the twilight survey boosts their completeness higher. Smaller objects, which are also fainter, have lowered completeness. This is likely because the smaller objects are not visible in the short, 1s exposures, yet the larger number of those short exposures lowers the total number of visits in the standard survey making these smaller objects hard to find.}
+\caption{More detailed solar system metric results for large (solid lines) and smaller (dashed lines) members of the moving object populations. Large PHAs and NEOs benefit from twilight neo survey, and more time spent on the twilight survey boosts their completeness higher. Smaller objects, which are also fainter, have lowered completeness. This is likely because the smaller objects are not visible in the short, 1s exposures, yet the larger number of those short exposures lowers the total number of visits in the standard survey. The smaller objects are always more sensitive to the total number of visits, due to having fewer opportunities for discovery while they happen to be bright enough to make it beyond the limiting magnitude cuts.}
 \label{fig:sscompleteness_twilight}
 \end{figure}
 
@@ -426,48 +426,63 @@ We find that running the twilight survey every available night causes the main s
 \caption{Results from including 5s exposures (up to 5 per year). The left shows the number of regular 30s visits (excluding DDF observations) and the right shows the number of 5s visits.}
 \end{figure}
 
-
-We try taking additional short exposures (1s or 5s) twice or five times per year. Taking shorter exposures is a less efficient observing mode, but it seems to have little impact on the overall open shutter fraction. Similar to taking exposures in good seeing conditions, including short exposures each year has only a few percent impact on our science metrics.
+In this family of simulations, we added a minisurvey to obtain short exposures (either 1s or 5s) twice per year or five time per year, in all filters. Short exposures allow enable direct comparisons for photometry and astrometry to brighter catalogs and enable some science with bright objects which saturate in the standard visits. Taking shorter exposures is a less efficient observing mode, but it has little impact on the overall open shutter fraction; this makes sense given that the overall amount of time used for these short-exposure minisurveys is relatively small. The short exposure surveys do have a small but noticeable impact on the rest of the survey, just due to their time requirement - the number of long (visit exposure time $>15$ seconds) visits drops in relation to the amount of time taken by the minisurvey (see Figure~\ref{fig:shortexp_nvisits}). This is reflected in small drops in most science metrics, Figure~\ref{fig:shortexp_radar}. The TDE metric, which can be very sensitive to small changes in $u$ band visits and cadence, shows a larger drop; some of this is related to statistical noise in the metric. 
 
 \begin{figure}
-\epsscale{0.65}
+\epsscale{0.7}
+\plotone{plots/short_exp_nvisits_long}
+\epsscale{1}
+\caption{As the number of short exposure visits increases and the exposure time of the short exposure visits increases, the total number of long exposure visits in the rest of the survey drops by about 1 to 6\%. }\label{fig:shortexp_nvisits}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
 \plotone{plots/radar_plots/shortexp_radar}
 \epsscale{1}
-\caption{Science impact of covering the sky in short exposures. }
+\caption{Science impact of covering the sky in short exposures. }\label{fig:shortexp_radar}
 \end{figure}
 
 
 %############ Longer u ############
-\subsection{Longer $u$\ Exposure Time}\label{ss:u60}
+\subsection{FBS 1.5 {\tt u60}: Longer $u$\ Exposure Time}\label{ss:u60}
 
-The u-band observations are often expected be readnoise limited. We test doubling the u-band exposure time and cutting the number of exposures in half. This results in the u-band final coadded depth reaching $\sim$0.20 mags deeper. The $g$-band is also 0.10 mags deeper, with the rest of the filters essentially unchanged in final depth. The $g$\ depth increases because 60s $u$\ exposures decrease the overhead time, freeing up more dark time for $g$\ observations.
+Due to the low sky background levels and measured levels of read-noise in the amplifiers, $u$ band observations within the survey are often expected to be read-noise limited for either 15s or 30s exposures. Doubling the $u$ band exposure time to 60 seconds moves these back into the sky-noise limited regime. This simulation sets the $u$ band visit exposure time to 60s (1x60s visits) and cuts the total number of $u$ band visits in half. This increases the final $u$ band final coadded depth by $\sim$0.20 magnitudes. An interesting side effect is that the $g$ band coadded depth also increases by about 0.10 magnitudes; the $g$\ depth increases because 60s $u$\ visits decreases the overhead time (and consolidates $u$ band into a shorter period of real time), which frees up more dark time for $g$\ visits. Other filters are essentially unchanged in final coadded depth. 
 
-Note, we assume that 1x60s visit counts as 2 30s visits for the purpose of meeting the SRD value of 825 visits in the WFD area. Adopting longer exposures in u seems like a good idea, but the SRD will probably need to be modified to ensure it is not ambiguous.
+Consolidating $u$ band exposure time into fewer visits is likely to be problematic for classification of many transient objects, as they will be less likely to have a $u$ band visit which is often a feature used for distinguishing various kinds of objects. Note, we assume that 1x60s visit may count as 2 30s visits for the purpose of meeting the SRD value of 825 visits in the WFD area (the {\tt u60} run will meet this requirement without this assumption, but depending on other survey requirements this may be an important assumption to adopt). See Figure~\ref{fig:u60_radar}. 
 
 \begin{figure}
 \plottwo{plots/radar_plots/u60_radar.pdf}{plots/radar_plots/u60_mags_radar.pdf}
-\caption{Increasing the $u$\ exposure time to 60s.  As expected, this results in a substantial gain in $u$\ coadded depth.}
+\caption{Science impact of ncreasing the $u$\ exposure time to 60s (left).  As expected, this results in a substantial gain in $u$\ coadded depth (right).}
+\label{fig:u60_radar}
 \end{figure}
 
 %############ Variable Exposure Times ############
-\subsection{Variable Exposure Times}
+\subsection{FBS 1.5 {\tt var\_expt}: Variable Exposure Times}\label{ss:varexp}
 
 \begin{figure}
-\plottwo{plots/variable_expt_plots/baseline_spot.pdf}{plots/variable_expt_plots/varexpt_spot.pdf}
-\caption{Comparison of a sample WFD point in the baseline and when we vary the exposure time. The individual observations depths become more uniform, especially in the redder filters that can be observed in bright time and twilight.}\label{fig:varexptime}
+\plottwo{plots/variable_expt_plots/baseline_spot.pdf}{plots/variable_expt_plots/varexpt_spot}
+\caption{Comparison of a five sigma depths (for point sources) at an example location in the WFD, between the baseline (left) and the variable exposure time simulation (right). With variable exposure times, the individual observations five sigma limiting magnitudes become more uniform, especially in the redder filters that can be observed in bright time and twilight.}\label{fig:varexptime}
 \end{figure}
 
-We vary the exposure time based on the current conditions so individual exposures have similar depths. There is an argument that taking a full 30s visit in ideal dark time conditions results in ``wasted depth", as more objects and transients will be detected, but then it will be impossible to identify them as later visits are unlikely to be as deep. Similarly, taking a 30s visit in poor conditions will result in a shallow image which will be of limited use. In good conditions, the expsoure time is allowed to shrink to 20s, and in poor conditions it can extend to 100s.
+In order to maintain more uniform limiting magnitudes in individual visits, it may be beneficial to vary the visit exposure times. This would mean that transients and variables detected in images during good conditions (dark sky, good seeing, near zenith, etc.) would be more likely to also be able to be detected in images taken in poorer conditions. It would also mean that during poor conditions, longer exposures would mean more useful information than if the consistent 30s visit time was maintained. 
 
-As with doing 60s u band exposures, this may require modifying the detailed specifics of the SRD as longer exposures may need to count as multiple visits.
+This simulation tests the effect of variable exposure times. In good conditions, the exposure time is allowed to shrink to 20 seconds, while in poor conditions it can extend to 100 seconds. This maintains an ideal depth which is somewhat shallower than the typical image depth in the baseline simulation, but is more consistent across visits. Figure~\ref{fig:varexpt_exptime} shows the distribution of visit exposure times achieved in the simulation. 
 
-Having variable exposure time introduces at least 8 new free parameters to the scheduler (the target individual depth for each filter), as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times, although the predicted sky brightness may be accurate enough.
+Having variable exposure time introduces at least 8 new free parameters to the scheduler: the target individual depth for each filter, as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times, although the predicted sky brightness may be accurate enough.
 
-Figure~\ref{fig:var_radar} shows the science impact of varying the exposure time is fairly minimal. 
+As with doing 60s $u$ band exposures, having longer visits will reduce the overall number of visits; longer visits may need to be allowed to count as multiple visits for the purpose of meeting the SRD requirement of a median of 825 visits per pointing over 18k square degrees (fONv MedVisits).  Figure~\ref{fig:var_radar} shows the science impact of varying the exposure time is fairly minimal. 
+
+\begin{figure}
+\epsscale{0.7}
+\plotone{plots/varexpt_exptime}
+\epsscale{1}
+\caption{Distribution of visit exposure times in the variable exposure time simulation. In the baseline, there would be simply 30 second exposures. Variable exposure times results in more uniform individual visit limiting magnitudes; consistent exposure times introduces more variability in the limiting magnitudes, but this means the distribution can include images with better than typical limiting magnitudes.}
+\label{fig:varexpt_exptime}
+\end{figure}
 
 \begin{figure}
 \epsscale{0.65}
-\plotone{plots/radar_plots/var_exp_radar.pdf}
+\plotone{plots/radar_plots/var_exp_radar}
 \epsscale{1}
 \caption{Science impact of using variable exposure times.}\label{fig:var_radar}
 \end{figure}

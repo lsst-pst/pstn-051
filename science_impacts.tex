@@ -1,0 +1,207 @@
+\section{Further Science impacts}
+
+The broad categories of experiments covered in the FBS 1.4, 1.5 and 1.6 releases address different aspects of survey strategy. While each family of simulations maintained the approach of varying a single kind of parameter (such as the amount of time devoted to triplets of visits in the `third\_visit' runs or the footprint coverage in the `footprint' runs), the underlying science optimization questions can cover multiple families. In addition, when looking at individual science cases, there can be effects that cover multiple families but have the same underlying cause -- preferring more visits in the WFD or needing more visits in $u$ band, for example .. which can be the result of variations in survey strategy in multiple different families (i.e. we get to the same place via different means).
+
+\subsection{Individual Visit Length}
+What to do - 1x30s vs. 2x15s? 1x30s much more efficient (show rough calculation of overhead) than 2x15s, but may have drawbacks due to cosmic ray rejection and potential to miss very rapid transients (or WD detection .. ref white paper). Subtle drawback that 2x15s gives the same "midpoint exposure time" across FOV, 1x30s does not. 
+
+Show difference in 1x30s vs. 2x15s in whatever is our 'standard baseline' at this point. 
+
+There has been thought of using a variety of exposure times if we use two snaps (e.g., 5s + 25s). Because there are not plans to release catalogs from individual snaps, it's not clear if this would enable much new science.
+
+Show effect of 7\% loss in efficiency when attempting to combine minisurveys in various configurations (assume we will find some combinations possible with single exposure visits that are impossible with two snaps). 
+
+Also possible to use variable exposure time depending on seeing and sky brightness conditions. Shorter exposures in good conditions keeps us from observing ``wasted" depth, letting us take longer exposures in poor conditions. This does introduce a host of new free parameters (an ideal target depth for each filter and minimum and maximum exposure times).  This would might require rewording the SRD to ensure, e.g., that 20s visits in good conditions count for the number of visit requirement.
+
+
+Other questions related to exposure time
+\begin{itemize}
+    \item{Should we change the u-band to default to 60 second exposures to ensure they are not readnoise dominated? This might require decreasing the SRD 825 visit value. This choice would also severely limit $u$\ band time domain science (e.g., TDE early detection)}
+    \item{Should we include some very short exposure time exposures. That would let us have better tie-in with other surveys (e.g., Gaia).  It is relatively little exposure time, but the readout time means it is a low-efficiency way to operate the telescope.}
+    \item{Should we decrease the exposure time in twilight to keep the saturation level reasonable?}
+    \item{Should we use variable exposure times so individual exposures have more uniform depth? In poor observing conditions, we would have fewer exposures that were londer and in good conditions we would have more observations that are shorter.}
+\end{itemize}
+
+\subsection{Intra-night Cadence}\label{sec:intranight}
+
+What to do for visit sequence within a night? White paper support for multiple filters within a night (except TNOs maybe?). Potential drawbacks - less efficient (show effect on efficiency). This applies to WFD primarily, but we've applied to any survey that did not have their own specifications (so, everywhere). 
+
+Extension of pairs to $u$ band and $y$ band (show effect). 
+
+Relevant metrics: inter-night visit gaps and SN discovery, SSO discovery/characterization, transient and variable discovery (??), number of visits
+
+\subsection{Survey Footprint}\label{sec:bigfootprints}
+What to do for WFD footprint? SRD not specific, DESC want low-extinction sky (and depth), but WFD is generally the area of sky that receives the most visits, so generally other science will also benefit from more visits to their relevant areas (particularly galactic plane .. for time-domain studies primarily, not depth)
+
+Relevant metrics: area of sky with 825 visits (under particular restrictions, like total coadded depth and individual image seeing and dust extinction), number of galaxies, number of resolved galaxies, SSO discovery, transient and variable star discovery, astrometry in the galactic plane (?)
+
+\begin{itemize}
+    \item{How should we cover the Galactic plane?}
+    \item{How should we observe the Galactic bulge?}
+    \item{Should we avoid areas of high dust extinction for the WFD area?}
+    \item{What is the ideal filter distribution to use? It would be nice to have a photo-z metric to help make this decision.}
+    \item{What is the ideal filter distribution in the GP and SCP?}
+    \item{Should we cover the LMC and SMC as part of the WFD survey? As their own DDF-like survey? We have few metrics that touch on LMC/SMC science directly.}
+    \item{Should we add area in the north to overlap with Euclid, WFIRST, and/or DESI?}
+\end{itemize}
+
+
+\subsubsection{Northern minisurveys}
+Add extension to cover Euclid/DESI with various numbers of visits
+
+Observing NES 
+
+Effect of adding or removing these minisurveys
+
+Relevant metrics: SSO discovery and characterization (particularly active asteroids), depth and number of visits through remainder of North
+
+\subsubsection{Southern minisurveys}
+Add extension over south celestial pole, LMC/SMC with various numbers of visits
+
+Effect of adding or removing these minisurveys
+
+Relevant metrics: number of visits and coadded depth over SCP, discovery of variables in LMC/SMC (see Olsen white paper for metrics?)
+
+\subsubsection{Low Galactic Latitudes}
+Discussion of definitions from SAC and recommendations for visits
+
+Effect of adding or removing these minisurveys
+
+Relevant metrics: number of visits, astrometry in bulge, discovery of variables/transients/microlensing in bulge (?)
+
+
+\subsection{Rolling cadence}
+Motivation for a rolling cadence (more frequent visits in some years)
+
+Different options for rolling and explanation of how implemented
+
+Should really include discussion of recovery from bad weather years and simulation of same
+
+Relevant metrics: Maintain astrometry requirements, SN discovery, SSO discovery and characterization,  Transient and variable discovery, uniformity of coadded depth / number of visits, 
+
+
+
+\subsection{Twilight Observing}
+Discuss need for twilight observing to meet SRD goals (weather, total amount of time available)
+
+Add NEO twilight survey, add DCR white paper (season extension visits?)
+
+Effect of adding or removing these minisurveys
+
+Our baseline simulation uses twilight time to fill in WFD observations in redder filters ($rizy$). We can use some of the time to conduct a NEO survey. We can also vary which filters get used in twilight time. The baseline greedy algorithm used in twilight is known to be rather unstable, so we could also try running more contiguous blocks in twilight. We could also emphasize targeting areas that have already been observed 4 or more times in the night, potentially gathering important color information for a small number of transients.
+
+
+
+Relevant metrics: NEO discovery, number of visits and coadded depth (and uniformity) in WFD, measurement of DCR, season length
+
+\subsection{Deep Drilling Fields}
+Discuss purpose and how these are scheduled (very different from other fields)
+
+Discuss potential cadences (AGN/ DESC) and how these differ, and our combination of the two
+
+Discuss timing issues with oversubscription (and how much of a problem this could be, what if worse weather?) -- include location of fifth DD field
+
+Effect of adding or removing these minisurveys
+
+We have run a variety of Deep Drilling strategies. The DDF strategy is largely separable from the rest of the survey design, and we have a number of proposals for DDFs that we have yet to explore (e.g., rolling DDFs where a single DDF is completed in one observing season).  We have started experimenting with pre-scheduling DDF observations. 
+
+\begin{itemize}
+    \item{What fraction of the survey should be dedicated to the DDFs?}
+    \item{Should DDFs be preferentially executed in dark time, or is it more important to maintain cadence?}
+    \item{Where should the DDFs be placed (can we finalize the 5th DDF as a Euclid double-pointing)?}
+    \item{What is the preferred dithering strategy (spatially and rotationally) for the DDFs? There is tension in that DM generally prefers larger dithers for calibration and co-addition purposes, while science cases prefer smaller dithers to preserve the area that reaches the deepest levels.}
+    \item{Should we try ``rolling" the DDFs, completing DDF observations in a field in only a few years?}
+\end{itemize}
+
+Relevant metrics: number of visits and coadded depth for DD, SN detection in DDFs, AGN detection in DDFs
+*[solar system minisurvey DDF?]
+
+
+\subsection{Rotational Dithering}
+
+By default, we select a random camera rotation angle (wrt the telescope) nightly. This creates minimal additional slewtime, and seems to provide adequate angular randomization.  We currently have no science metrics that depend on the angular distribution, and this should be something very important to weak lensing science (although we do not have a metric to measure this).
+
+We have also experimented with setting the camera rotation angle to ensure stellar diffraction spikes fall preferentially along rows and columns. 
+
+\begin{itemize}
+    \item{How should we rotationally dither visits?}
+\end{itemize}
+
+\subsection{Spatial Dithering}
+
+For the wide area regions we have had excellent results randomizing the tessellation orientation nightly. This does result in a small percent of time being spent observing outside the desired survey footprint. The alternative would be to limit the amount one dithers out of the footprint, but then one risks imprinting systematics on objects near the footprint border (e.g., an object is never observed in the center of the focal plane, only by outer rafts).
+
+
+\subsection{ToO modes}
+Discuss impact of ToO, and how we could implement ToOs in scheduler (various modes: straight to queue by hand or set up known program and supply trigger, etc. -- that we're evaluating the second?)
+
+Any ToO survey should also take into account that chip and raft gaps mean full sky coverage will require multiple images with spatial dithering.
+
+Discuss how we can have a low coverage region to the north to maintain templates for all possible ToOs, or we could decide ot only search for ToOs that are likely to be in the WFD area.
+
+Currently, the only expected ToO use of Rubin observatory is follow up of gravitational wave detections.
+
+\begin{itemize}
+    \item{When should Rubin interrupt observations to look for GW optical counterparts?}
+    \item{Do we look for GW events in the WFD area, or anywhere on the sky?}
+    \item{Should we expand the survey footprint so we have image differencing templates over the entire accessible sky, in at least a few filters?}
+    \item{Should Rubin plan on observing the entire light curve of ToO events, or make observations primarily for detection/classification and leave detailed follow up to other observatories?}
+    \item{What filter combination and dither strategy (filling chip and raft gaps) should be used for observing ToO triggers? } 
+\end{itemize}
+
+Relevant metrics: frequency of achieving ToO observations, number of visits and coadded depth in other surveys (WFD or other minisurveys that may be in particular contention)
+
+
+\subsection{Image Differencing Templates, DCR}
+
+Do we need to do anything special to ensure we have adequate image templates? A certain number of observations per year? A certain fraction of images taken in good seeing conditions? 
+
+If we need to start considering image quality, that makes it more difficult to simulate a night ahead of time and maintain the list of upcoming observations.
+
+Should we intentionally extend to high airmass to facilitate DCR modeling? Note that in the baseline, we only image a location in the WFD region $\sim$9 times per year in $g$ and $\sim$6 times in $u$. Also, we have chip and raft gaps, so if we want to build a DCR model for the entire sky in $g$, we might be dedicating 1/3 of the $g$ observations in a year to DCR. If we switch to 60s $u$ band exposures, there would be no observations beyond building the DCR model. 
+
+There have been claims that measuring DCR can be used for science.  We do not have any metrics that demonstrate any gains, and the loss of depth is noticeable. In theory, we could combine the DCR measurements to extend the season length of observations as well (e.g., only take DCR template images near twilight in the direction of the sun).
+
+\subsection{Number of visits in WFD}
+Overall survey number of visits vs. number of visits in WFD (see twilight survey, DCRham surveys, variable exposure, shortexp surveys)
+
+\subsection{Survey Contingency}
+
+How much contingency should we aim for when designing the survey strategy?  Currently, with what we believe is a conservative weather closure policy, we can meet SRD requirements with 2x15s visits, but can cover a larger footprint and do more science cases with 1x30s snaps.  
+
+
+\subsection{Satellite Megaconstellations}
+
+Starlink is poised to launch thousands of LEO satellites. Observations so far imply that final-orbit Starlink satellites should not saturate Rubin exposures, and thus can be masked fairly easily in the image reduction pipeline. 
+
+Do we need any further satellite mitigations? Will NEO twilight surveys still be viable in the presence of megaconstellations, or should we use twilight strategies that avoid the horizon?
+
+Figure~\ref{fig:megasat} shows how illuminated megaconstellations in LEO would leave numerous streaks on Rubin images.
+
+% from https://github.com/yoachim/satellite_collisions
+\begin{figure}
+\label{fig:megasat}
+\plottwo{plots/sat_plots/ten_min_12k.pdf}{plots/sat_plots/tenmin_example.pdf}
+\caption{Alt/az projection of simulated satellite megaconstellations as seen from the Rubin Observatory site after twilight has ended. } 
+\end{figure}
+
+\subsection{Aliasing}
+
+\begin{itemize}
+    \item{Are we taking observations at a large enough hour angle range that we do not need to implement further efforts to prevent aliasing of periodic sources?}
+\end{itemize}
+
+
+\section{Conclusions}
+Hopefully here we pare down the evaluation of 100s of runs (like promised) to a set of between 10 to 20 (if this is possible, after combining along different axes). 
+The results should come with some basic comments about what's particularly good or bad in each of these areas and how we arrived at these general options. 
+
+Metrics we know we need to get from the community:
+\begin{itemize}
+    \item{Photometric redshift performance, especially as it relates to filter distribution}
+    \item{Weak Lensing systematics, especially as related to camera rotator angle}
+    \item{Deep Drilling Field metrics beyond coadded depth (e.g., AGN performance)}
+    \item{Deep Drilling metrics that are sensitive to the spatial dither strategy}
+    \item{Transient early classification metric}
+    \item{More populations in the Galactic plane beyond the simple number of stars.}
+\end{itemize}

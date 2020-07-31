@@ -10,7 +10,7 @@ The SRD metrics are designed to cover the primary science requirements laid out 
 
 The fO metric calculates the total number of visits per point on the sky, then calculates how much area is covered with how many visits. This can be summarized across a two axes; the amount of area that receives at least 825 visits per pointing (`fO Area') or the median (or minimum) number of visits that the most frequently visits 18,000 square degrees receives (`fONv MedianNvisits' or `fONv MinNvisits'). The first version, fO Area, tends to be somewhat unstable; the survey hardly ever observes more than18k sq deg to at least 825 visits, because we don't program in larger WFD areas, but if the number of visits across the WFD area falls below 825, the resulting fO Area value will fall rapidly (because we cover the sky uniformly). While fO Area is useful to check, a more useful number is fONv MedianNvisits or MinNvisits. The value of fONv MedianNvisits tells us how many visits the typical field in the top 18k sq degrees receives; fONv MinimumNvisits tells us the fewest number of visits any of those top 18k sq deg received. Typically we see fONv MedianNvisits scales more smoothly with the fraction of visits devoted to WFD and likely represents science metrics that depend on having a reasonably large amount of visits over the entire WFD well. 
 
-The radar plots use fONv MedianNvisits, the Median Parallax Error at XXX, and the Median Proper Motion Error at XXX.
+The radar plots use fONv MedianNvisits, the Median Parallax Error, and the Median Proper Motion Error. The astrometry metrics both assume an $r$=20 magnitude star with a flat SED. When plotted in radar plots, we compare the reciprical of the astrometry uncertainties so that larger values on the radar plot can always be interpreted as ``better".
 
 \subsection{Solar System Science Metrics}
 
@@ -18,18 +18,31 @@ Solar System science metrics include \href{https://github.com/lsst/sims_maf/blob
 
 For each of these populations, we calculate the population completeness due to discovery with the LSST at the end of 10 years (not including previous surveys) with the currently Moving Object Pipeline baseline criteria; 3 nights with pairs of visits within 15 nights at a range of absolute magnitude $H$ (approximately the size of the object) and then take the completeness at an $H$ value near peak completeness and an $H$ value that is relatively close to 50\% completeness in the baseline; these completeness values are the summary metrics we track across various runs to compare them here. 
 
-The radar plots use the completeness for bright NEOs, faint NEOs, and XXX TNOs. 
+The radar plots use the completeness for bright (H=16) NEOs, faint (H=22) NEOs, and bright (H=4) TNOs. 
 
 \subsection{Number of Stars}
 
-XXX  where does the Nstars metric come from and how does it calculate things? (why is there any difference with rolling cadences??)
-The number of stars is primarily sensitive to the footprint definition, and decreases dramatically (by about half) when there is no coverage of the galactic plane. An extended survey footprint (such as increased coverage toward the north) also increases the number of stars.
+We use a simulated MW stellar catalog from galfast along with the survey coadded depth to estimate the number of stars that would be detected at the 5$\sigma$\ level in $i$. Comparison with the TRILEGAL galaxy model gives similar results.
 
-The radar plots use the total number of stars over the entire footprint down to the coadded limiting magnitude. (crowding?)
+The number of stars is primarily sensitive to the footprint definition, and decreases dramatically (by about half) when there is no coverage of the galactic plane. An extended survey footprint (such as increased coverage toward the north) also increases the number of stars. Because we are only computing the metric in the $i$\ filter, the metric is also sensitive to the depth in $i$, and thus we can see some variation if, e.g., a simulation pushes more $i$\ observations to twilight time.
+
+The radar plots use the total number of stars over the entire footprint down to the coadded limiting magnitude. We do not include a crowding correction.
 
 \subsection{Tidal Disruption Events (TDE)}
 
-XXX timescale of TDE? criteria for different metrics? distribution on sky?
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/tde_lc}
+\epsscale{1}
+\caption{Simulated TDE lightcurve shapes.}\label{fig:tdelc}
+\end{figure}
+
+We use TDE lightcurves from the community to generate a sample of TDE events distributed uniformly on the sky and uniformly over the 10 year survey.  Figure~\ref{fig:tdelc} shows the lightcurve shapes. When analyzing a detected light curve, we test three crtiera
+\begin{itemize}
+    \item{If it is detected twice pre-peak in any filters}
+    \item{If there is one detection pre-peak and at least 3 filters within 10 days of peak}
+    \item{If there is one detection pre-peak, one detection in u and any other band near peak, and u plus any other filter post-peak.}
+\end{itemize}
 
 When requiring both a color in any filter and $u$ band measurements during the TDE event, this metric is exceedingly sensitive to the number and cadence of $u$ band visits, with the number of detected TDEs scaling linearly with the number of $u$ band visits and preferring visits spread more uniformly over time. In other configurations, when requiring observations pre-peak or just a color in any filters, it is primarily sensitive to the frequency of observations and whether pairs are obtained in the same or mixed filters.
 
@@ -37,11 +50,11 @@ The radar plot uses the TDE some color plus $u$ band metric output.
 
 \subsection{Fast Microlensing}
 
-Light curves contributed from the community.
+We use microlensing light curves contributed from the community. For all the events, we assume an $r$=22 magnitude star with a flat SED is being magnified. 
 
-We calculate both a Fast and Slow microlensing metric, using different (?) lightcurves with timescales of XXXX. They are distributed on the sky XXX  Due to this spatial distribution, both the Slow and Fast microlensing metrics are primarily sensitive to survey footprint. Footprints without galactic plane coverage cut the number of detected microlenses by approximately 75\% while footprints with heavy galactic plane coverage can increase the number of microlenses by a factor of 2 or more. The Fast microlensing metric is also sensitive to the number and cadence of $u$ band visits, preferring $u$ band visits spread more uniformly over time. 
+We calculate both a Fast (crossing times of 1-10 days) and Slow (crossing times 100-1,500 days) microlensing metric. They are distributed on the sky proportionally to stellar density squared as measured from TRILEGAL galaxy model.  Due to this spatial distribution, both the Slow and Fast microlensing metrics are primarily sensitive to survey footprint. Footprints without galactic plane coverage cut the number of detected microlenses by approximately 75\% while footprints with heavy galactic plane coverage can increase the number of microlenses by a factor of 2 or more. The Fast microlensing metric is also sensitive to the number and cadence of $u$ band visits, preferring $u$ band visits spread more uniformly over time. 
 
-The radar plot uses the Fast microlensing metric. 
+The radar plot uses the Fast microlensing metric. We find the slow microlensing events are so slow they are detected at a very high rate regardless of survey strategy. 
 
 \subsection{Number of Galaxies}
 
@@ -73,14 +86,27 @@ The number of galaxies within this same footprint is used to as a metric to appr
 
 \subsubsection{SNe Ia}
 
-XXX timescale? criteria for different version of metric? distribution on sky?
+We use SNe Ia light curves from the PLAsTiCC challenge. SNe are distributed uniformly on the sky. 
 
-There are several versions of this metric, using different criteria for observations. Detected, Pre-peak and Well-sampled are XXX
+For each SNe, we check:
+\begin{enumerate}
+    \item{Is the SNe detected in any filter?}
+    \item{Is there a color detected (detected in 2 filters within 0.5 days)?}
+    \item{Is it possible to measure the rise slope (detect an increase of 0.3 mags in a filter pre-peak)?}
+    \item{Is the light curve "well sampled" (if the light curve duration is divided into tenths, are there detections in 5 unique bins)?}
+\end{enumerate}
+
+There are several versions of this metric, using different criteria for observations. We call the SNe ``Detected" if it meets criteria 1, it is ``Pre-peak" if it meets criteria 2 and 3, and is ``Well-sampled" if it meets criteria 4.
 The simple Detected metric is sensitive to a combination of survey footprint and number of visits, preferring more area as long as a minimum number of visits spaced uniformly over time are available. The Pre-peak metric, which may be more useful for detections before follow-up, is most sensitive to requiring visits to be obtained with mixed filter pairs, with a lesser preference for visits being spaced more evenly over time (such as in non-rolling cadences). The Well-sampled metric is primarily sensitive to the cadence of visits, preferring visits to be spaced evenly over time. 
 
-The radar plot uses the XXX. 
+The radar plot uses the metric which demands criteria 2 and 3 from above. Thus, we are mostly measuring how well we are producing SNe alerts that can act as triggers for others to follow up. The DESC group has developed metrics for measuring how well SNe are observed by Rubin alone, and we will be incorporating these into MAF soon.
 
 
 \subsection{Radar Plots}
 
-Explain that the radar plots have values normalized (typically to a relevant baseline run). For the parallax and proper motion metrics, the inverse of the errors are compared. For magnitudes, we plot magnitude difference (with larger values indicating deeper depths).
+To help compare multiple science and SRD metrics across runs, we make use of radar plots. In each radar plot, we typically normalize values to a baseline run and plot the fractional change in metric values in the radial direction. For metrics that are measured over the entire sky (e.g., Parallax, Proper Motion, Weak Lensing), we use the median. For the parallax and proper motion metrics, the inverse of the errors are compared. When there are particularly large changes in metrics, we will generate a pair of radar plots with different radial ranges to make comparisons easier.
+
+In some cases we make radar plots of the median coadded depth in each filter. For coadded depth, we plot magnitude difference in the radial direction, with larger values indicating deeper depths. 
+
+Not all changes shown in the radar plot are necessarily statistically significant. Our baseline runs tend to detect $\sim$200 TDE events (out of the 10,000 simulated), while also detecting 12 million galaxies in $i$. Thus we should expect $\sim7$\% run-to-run variation with the TDE metric, even if the runs are statistically identical.
+

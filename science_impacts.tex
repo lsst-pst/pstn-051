@@ -1,28 +1,27 @@
-\section{Further Science impacts}
+\section{Broad Survey Strategy Choices}
 
-The broad categories of experiments covered in the FBS 1.4, 1.5 and 1.6 releases address different aspects of survey strategy. While each family of simulations maintained the approach of varying a single kind of parameter (such as the amount of time devoted to triplets of visits in the `third\_visit' runs or the footprint coverage in the `footprint' runs), the underlying science optimization questions can cover multiple families. In addition, when looking at individual science cases, there can be effects that cover multiple families but have the same underlying cause -- preferring more visits in the WFD or needing more visits in $u$ band, for example .. which can be the result of variations in survey strategy in multiple different families (i.e. we get to the same place via different means).
+The families of simulations described in the previous sections (FBS 1.5 and 1.6 releases) maintained the approach of varying a single kind of parameter (such as the amount of time devoted to triplets of visits in the {\tt third\_visit} runs), but the underlying survey strategy choices can cover multiple families (such as the runs including pairs in mixed or the same filters and the triplet visits runs). In this section, we will consolidate and summarize some of the results from the previous sections, identifying tensions and trades as possible. 
 
-\subsection{Individual Visit Length}
-What to do - 1x30s vs. 2x15s? 1x30s much more efficient (show rough calculation of overhead) than 2x15s, but may have drawbacks due to cosmic ray rejection and potential to miss very rapid transients (or WD detection .. ref white paper). Subtle drawback that 2x15s gives the same "midpoint exposure time" across FOV, 1x30s does not. 
+\subsection{Visit Exposure Time}\label{sec:visitexposuretime}
 
-Show difference in 1x30s vs. 2x15s in whatever is our 'standard baseline' at this point. 
-Some comments about how much WFD contingency exists in the current simulations (table of survey number of visits vs. number of visits with long exposures in WFD).
-(some of these runs will not have 7\% to spare).
+There are several choices related to the individual visit exposure time:
+ \begin{itemize}
+ \item Should visits be made of a single exposure (1x30s) or two (2x15s)? 
+ \item Should $u$ band visits be longer exposures (60s)?
+ \item Should the visit exposure time be variable?
+ \end{itemize}
+ 
+For the first of these questions -- 1x30s visits or 2x15s visits -- is perhaps the most important, yet the final decision cannot be made until the camera is on the sky and acquiring data, to verify cosmic ray rejection will work and that the two snaps are not required. In adidition, there are still some rapid transient or variable science cases that may still benefit from 2x15s visits. However, while the decision cannot be finalized yet, the decision does weigh in on other the survey strategy choices so must be considered and survey strategy options which depend on this must be weighed. The decrease in overhead going from 2x15s visits to 1x30s visits allows 8\% more visits to be obtained in the same time, which allows significantly more options for footprint coverage and addition of minisurveys. 
 
-Effects of using variable exposure time, longer u band visits. 
-Also possible to use variable exposure time depending on seeing and sky brightness conditions. Shorter exposures in good conditions keeps us from observing ``wasted" depth, letting us take longer exposures in poor conditions. This does introduce a host of new free parameters (an ideal target depth for each filter and minimum and maximum exposure times). 
+The second question -- increasing the $u$ band exposure time -- was addressed in Section~\ref{ss:u60}. The tension comes between increasing coadded depth in $u$ versus a dramatically decreased number of $u$ band visits making it more difficult to obtain $u$ photometry for transients. Extending the visit exposure time while also maintaining the number of $u$ band visits would require adding about 3\% more visits to WFD by removing them from other minisurveys. 
 
-Other questions related to exposure time
-\begin{itemize}
-    \item{Should we change the u-band to default to 60 second exposures to ensure they are not readnoise dominated? This might require decreasing the SRD 825 visit value. This choice would also severely limit $u$\ band time domain science (e.g., TDE early detection)}
-    \item{Should we include some very short exposure time exposures. That would let us have better tie-in with other surveys (e.g., Gaia).  It is relatively little exposure time, but the readout time means it is a low-efficiency way to operate the telescope.}
-    \item{Should we decrease the exposure time in twilight to keep the saturation level reasonable?}
-    \item{Should we use variable exposure times so individual exposures have more uniform depth? In poor observing conditions, we would have fewer exposures that were londer and in good conditions we would have more observations that are shorter.}
-\end{itemize}
+The third question -- variable exposure time -- was addressed in Section~\ref{ss:var_expt}. This decreases the scatter in the individual image five sigma limiting magnitudes, but results in fewer overall visits. It had mixed effects on the typical limiting magnitudes per visit, and the coadded $u$ band depth became shallower by 0.3 magnitudes. In general, this seems to add complication to practical aspects of the scheduler when using real-world telemetry (due to the difficulty in predicting the proper exposure time when scheduling blocks of blobs) and may not have clear advantages to science. 
+
+\subsection{Intra-night Cadence}\label{sec:intranight}
 
 Top science metrics response across these runs 
 
-\subsection{Intra-night Cadence}\label{sec:intranight}
+\subsubsection{Visit sequences}
 
 Mixed filters vs. same filters. Triplets.
 
@@ -112,26 +111,6 @@ For the wide area regions we have had excellent results randomizing the tessella
 Primary metric is survey uniformity?
 
 
-\subsection{ToO modes}
-Discuss impact of ToO, and how we could implement ToOs in scheduler (various modes: straight to queue by hand or set up known program and supply trigger, etc. -- that we're evaluating the second?)
-
-Any ToO survey should also take into account that chip and raft gaps mean full sky coverage will require multiple images with spatial dithering.
-
-Discuss how we can have a low coverage region to the north to maintain templates for all possible ToOs, or we could decide ot only search for ToOs that are likely to be in the WFD area.
-
-Currently, the only expected ToO use of Rubin observatory is follow up of gravitational wave detections.
-
-\begin{itemize}
-    \item{When should Rubin interrupt observations to look for GW optical counterparts?}
-    \item{Do we look for GW events in the WFD area, or anywhere on the sky?}
-    \item{Should we expand the survey footprint so we have image differencing templates over the entire accessible sky, in at least a few filters?}
-    \item{Should Rubin plan on observing the entire light curve of ToO events, or make observations primarily for detection/classification and leave detailed follow up to other observatories?}
-    \item{What filter combination and dither strategy (filling chip and raft gaps) should be used for observing ToO triggers? } 
-\end{itemize}
-
-Relevant metrics: frequency of achieving ToO observations, number of visits and coadded depth in other surveys (WFD or other minisurveys that may be in particular contention)
-
-
 \subsection{Image Differencing Templates, DCR}
 
 Do we need to do anything special to ensure we have adequate image templates? A certain number of observations per year? A certain fraction of images taken in good seeing conditions? 
@@ -145,7 +124,7 @@ There have been claims that measuring DCR can be used for science.  We do not ha
 
 \subsection{Satellite Megaconstellations}
 
-Starlink is poised to launch thousands of LEO satellites. Observations so far imply that final-orbit Starlink satellites should not saturate Rubin exposures, and thus can be masked fairly easily in the image reduction pipeline. 
+Starlink (followed by Amazon) is poised to launch thousands of LEO satellites. Observations so far imply that final-orbit Starlink satellites should not saturate Rubin exposures, and thus can be masked fairly easily in the image reduction pipeline. 
 
 Do we need any further satellite mitigations? Will NEO twilight surveys still be viable in the presence of megaconstellations, or should we use twilight strategies that avoid the horizon?
 

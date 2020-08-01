@@ -580,7 +580,6 @@ There are some simplifications in artifact identification as a result of differe
 One of the concerns for the survey, especially if observations were placed uniformly on the meridian, was about aliasing for periodic sources. We did not specifically work to remove aliasing from the simulations, however we did look for the presence of aliasing in the visit cadence in these newer simulations.  Figure~\ref{fig:alias} shows the FFT of observations at a sample WFD point in the baseline simulation. There is some aliasing at $\sim1$\ day which is inevitable for any ground-based telescope.  The aliasing is much lower than the {\tt minion\_1016} simulation that was analyzed in the Bell et al. cadence white paper. Attempting to plan the timing of visits to reduce aliasing is more complicated and expensive than what is currently contained in the scheduler; we therefore don't plan to add anti-aliasing features into the scheduler at this time, but to check for aliasing effects in the outputs.
 
 \begin{figure}
-\label{fig:alias}
 \epsscale{0.65}
 \plotone{plots/alias_plots/aliasing.pdf}
 \epsscale{1}

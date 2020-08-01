@@ -11,7 +11,7 @@ There are several choices related to the individual visit exposure time:
  \item Should the visit exposure time be variable?
  \end{itemize}
  
-For the first of these questions -- 1x30s visits or 2x15s visits -- is perhaps the most important, yet the final decision cannot be made until the camera is on the sky and acquiring data, to verify cosmic ray rejection will work and that the two snaps are not required. In adidition, there are still some rapid transient or variable science cases that may still benefit from 2x15s visits. However, while the decision cannot be finalized yet, the decision does weigh in on other the survey strategy choices so must be considered and survey strategy options which depend on this must be weighed. The decrease in overhead going from 2x15s visits to 1x30s visits allows 8\% more visits to be obtained in the same time, which allows significantly more options for footprint coverage and addition of minisurveys. 
+For the first of these questions -- 1x30s visits or 2x15s visits -- is perhaps the most important, yet the final decision cannot be made until the camera is on the sky and acquiring data, to verify cosmic ray rejection will work and that the two snaps are not required. In adidition, there are still some rapid transient or variable science cases that may still benefit from 2x15s visits. However, while the decision cannot be finalized yet, the decision does weigh in on other the survey strategy choices, so it must be considered already. The decrease in overhead going from 2x15s visits to 1x30s visits allows 8\% more visits to be obtained in the same time, which allows significantly more options for footprint coverage and addition of minisurveys. 
 
 The second question -- increasing the $u$ band exposure time -- was addressed in Section~\ref{ss:u60}. The tension comes between increasing coadded depth in $u$ versus a dramatically decreased number of $u$ band visits making it more difficult to obtain $u$ photometry for transients. Extending the visit exposure time while also maintaining the number of $u$ band visits would require adding about 3\% more visits to WFD by removing them from other minisurveys. 
 
@@ -19,16 +19,30 @@ The third question -- variable exposure time -- was addressed in Section~\ref{ss
 
 \subsection{Intra-night Cadence}\label{sec:intranight}
 
-Top science metrics response across these runs 
+Within each night, there are some choices about how to acquire visits during the non-twilight, good weather time:
+\begin{itemize}
+\item Should pairs of visits be taken in the same filter or different filters?
+\item Should additional visits (triplets) be acquired for some portion of the fields during the night?
+\end{itemize}
 
-\subsubsection{Visit sequences}
+Whether or not pairs should be taken in the same filter or different filters pre-supposes that visits should be taken in pairs at all. With the current baseline software and criteria for linking moving objects, the need for pairs of visits is clear. Even without the requirement of linking moving objects, there will be many unknown solar system objects in every image; taking pairs of visits is a reasonable way to quickly filter these detections out of the alert stream. 
 
-Mixed filters vs. same filters. Triplets.
+Then the question is whether pairs should be taken in the same filter or in different filters. The simulations in Section~\ref{ss:baseline} show that same-filter pairs achieve about 4\% more visits over the survey than split-pairs, due to fewer filter changes. Same-filter pairs have a slight benefit to discovery for all solar system objects (2-3\%), but same-filter pairs have a big negative impact on transients (10-50\% depending on the population and metric requirements). Figure~\ref{fig:intranight} illustrates the response of these metrics across these simulations.
 
-Top science metrics response across these runs.
-Also inter-night visit gaps per filter (?)
+The final question is if some fraction of visits should be acquired in triplets. Section~\ref{ss:thirdobs} explores adding a third observation per night for some fraction of the available time. By adding a third visit, less sky is covered per night. This has a small negative impact on most solar system object discovery, with NEO completeness at $H\le22$ dropping by about 4\% for the simulation with 120 minutes per night spent on triplets. Surprisingly, the transient metrics did not show much improvement with the addition of triplets; detection of TDEs dropped by 8\% with 120 minutes of triplets. This is likely due to the timescales over which the objects change, the smaller amount of area covered per night, and the specific detection requirements in the metrics.  
 
-What metrics are obviously missing for making this decision? 
+It seems likely that we are also missing metrics; metrics which reflect classification confusion and detection requirements for transients which were the target of the Bianco et al white paper (`Presto-Color') may change this evaluation. 
+
+\begin{figure}
+\epsscale{0.75}
+\plotone{plots/srd_intranight}
+\plotone{plots/sso_intranight}
+\plotone{plots/desc_intranight}
+\plotone{plots/tvs_intranight}
+\caption{SRD metrics, Solar System discovery metrics, DESC metrics (which are calculated over an extragalactic footprint), and a subset of metrics relating to transients and variables. The runs included here are those which together relate to the intra-night cadence.}
+\label{fig:intranight}
+\end{figure}
+
 
 \subsection{Survey Footprint}\label{sec:bigfootprints}
 

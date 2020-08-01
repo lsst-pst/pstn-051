@@ -574,7 +574,7 @@ There are some simplifications in artifact identification as a result of differe
 
 
 %############ Aliasing ############
-\subsection{FBS 1.5: Aliasing}
+\subsection{FBS 1.5: Aliasing}\label{ss:aliasing}
 
 One of the concerns for the survey, especially if observations were placed uniformly on the meridian, was about aliasing for periodic sources. We did not specifically work to remove aliasing from the simulations, however we did look for the presence of aliasing in the visit cadence in these newer simulations.  Figure~\ref{fig:alias} shows the FFT of observations at a sample WFD point in the baseline simulation. There is some aliasing at $\sim1$\ day which is inevitable for any ground-based telescope.  The aliasing is much lower than the {\tt minion\_1016} simulation that was analyzed in the Bell et al. cadence white paper. Attempting to plan the timing of visits to reduce aliasing is more complicated and expensive than what is currently contained in the scheduler; we therefore don't plan to add anti-aliasing features into the scheduler at this time, but to check for aliasing effects in the outputs.
 
@@ -588,6 +588,6 @@ One of the concerns for the survey, especially if observations were placed unifo
 
 
 %############ ToO ############
-\subsection{Target of Opportunity}
+\subsection{FBS 1.2: Target of Opportunity}\label{ss:too}
 
-We performed simulations with earlier versions of the scheduler to look at the potential for following up ToO events, namely looking for the optical counterpart to gravitational wave detections.  We could detect $\sim$55\% of the simulated events, however, that often required pushing observations to high airmass or observing regions outside the WFD area. Our ToO simulations used the simple followup strategy of trying to observe a target area three times in $g$, $r$, and $i$. As part of the final observing strategy, we should define when Rubin will attempt to observe ToOs (airmass limits, footprint limits), and what the ideal ToO discovery strategy involves regarding filter distribution and dither strategy.
+We performed simulations with earlier versions of the scheduler to look at the potential for following up ToO events, namely looking for the optical counterpart to gravitational wave detections.  We could detect $\sim$55\% of the simulated events, however, that often required pushing observations to high airmass or observing regions outside the WFD area. Our ToO simulations used the simple followup strategy of trying to observe a target area three times in $g$, $r$, and $i$. As part of the final observing strategy, we should define when Rubin will attempt to observe ToOs (airmass limits, footprint limits), and what the ideal ToO discovery strategy involves regarding filter distribution and dither strategy. The short summary here is that ToOs tend to count as a separate minisurvey and do not easily just incorporate themselves within desired visits as part of the existing survey strategy (e.g., WFD). We did not repeat these experiments with later versions of the scheduler; more information is required on how ToO targets would be chosen and triggered. 

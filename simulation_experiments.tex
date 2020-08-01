@@ -489,7 +489,7 @@ As with doing 60s $u$ band exposures, having longer visits will reduce the overa
 
 
 %############ DCR ############
-\subsection{DCR}
+\subsection{FBS 1.5 {\tt dcr}: DCR visits}
 
 \begin{figure}
 \epsscale{0.5}
@@ -500,12 +500,9 @@ As with doing 60s $u$ band exposures, having longer visits will reduce the overa
 \caption{Intentionally taking observations at higher airmass to measure DCR.}
 \end{figure}
 
+A consistent problem in difference imaging are dipoles resulting from differential chromatic refraction (DCR); this is potentially a larger problem for the LSST as the telescope does not have an atmospheric chromatic corrector. However, if images are obtained to measure the effects of DCR, then this effect can be corrected for when building and applying the template images used in difference imaging. It is also possible to use the measured chromatic shift in objects with sharp features in their SEDs (e.g., AGN with large emission lines) to measure properties of those SEDs, providing potential science opportunities. 
 
-The LSST will not have an atmospheric chromatic corrector, thus difference imaging can be complicated by differential chromatic refraction (DCR). There is also potential science opportunities by being able to measure the chromatic shift in objects with sharp features in their SEDs (e.g., AGN with large emission lines).
-
-These experiments look at how we could intentionally schedule a subset of images to be at high airmass so a DCR model could be built up. We test various combinations of filters to demand DCR observations (u+g, u+g+r, and u+g+r+i), and the number of observations to take at high airmass per year (1 or 2). 
-
-Even with 2 high airmass observations per year, we would still expect some area of the sky to fall in chip and raft gaps.  It is also worth noting that in our baseline simulation, we observe a spot on the sky in u typically 60 times, or 6 times per year. Taking 2 high airmass observations per year in u decreases the final coadded depth by 0.15 mags.
+This family of simulations intentionally schedules a subset of images at high airmasses to enable building a DCR model. We test adding various combinations of filters to these high airmass, DCR visits ($u+g$, $u+g+r$, and $u+g+r+i$) and the number of observations to take at high airmass per year (1 or 2 per year).  Even with 2 high airmass observations per year, we would still expect some area of the sky to fall in chip and raft gaps.  It is also worth noting that in our baseline simulation, we observe a spot on the sky in $u$ typically 60 times, or 6 times per year. Taking 2 high airmass observations per year in $u$ decreases the final coadded depth by 0.15 mags.
 
 Figure~\ref{fig:dcr_radar} shows the science impact is fairly minimal, but we tend to lose $\sim0.1-0.2$\ magnitudes of final coadded depth.
 
@@ -516,53 +513,63 @@ Figure~\ref{fig:dcr_radar} shows the science impact is fairly minimal, but we te
 
 
 %############ Even Filters ############
-\subsection{Even Filters}
+\subsection{FBS 1.5 {\tt even\_filters}: Skybrightness and Filter choice}
 
-The baseline simulation is fairly aggressive in switching to redder filters in bright time. This can create long gaps in light curves with no bluer observations. We have run a simulation where only the $u$, and $g$\ filters avoid bright time, and a simulation where only $u$\ avoids bright time. Figure~\ref{fig:even_filt_hourglass} shows the resulting filter distributions in year one. Unlike the baseline simulations, there are no longer sections of several days where only $y$\ is observed.
+The baseline simulation is fairly aggressive in using redder filters in bright time, in order to maximize the final coadded depths. However, this can create long gaps in light curves with no bluer observations. This family of simulations removes the per-filter consideration of skybrightness (in various combinations of filters) to avoid this effect. There is a simulation where only $u$ avoids bright time, and another with both the $u$ and $g$ filters avoid bright time; the simulations include both the standard baseline footprint and a variation on the `big sky' footprint (the `alt' runs). Figure~\ref{fig:even_filt_hourglass} shows the resulting filter distributions in year one. Unlike the baseline simulations, there are no longer sections of several days where only $y$\ is observed.
 
-While the goal of these simulations was to improve SNe Ia lightcurves, the gains appear to be minimal over the baseline strategy.
+While the goal of these simulations was to improve SNe Ia lightcurves, the gains appear to be minimal compared to the baseline strategy (Figure~\ref{fig:even_filt_radar}). 
 
 
 \begin{figure}
-\label{fig:even_filt_hourglass}
 \plottwo{plots/pulled_plots/even_filters_g_v1_6_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}{plots/pulled_plots/even_filtersv1_6_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}
 \caption{The filter distribution for the even filter simulations. Unlike the baseline simulations, bluer filters are observed in bright time.}
+\label{fig:even_filt_hourglass}
 \end{figure}
-
 
 
 \begin{figure}
 \epsscale{0.65}
 \plotone{plots/radar_plots/even_filt_radar.pdf}
 \epsscale{1}
-\caption{Science performance for the Even Filters runs.  Taking bluer filters in bright time can improve SNe performance and fast transients, but is detrimental to Solar System science.  The loss of depth shows up in most of the other metrics as well.}\label{fig:even_filt_radar}
+\caption{Science performance for the Even Filters runs.  Taking bluer filters in bright time can improve SNe performance and fast transients, but is detrimental to Solar System science.  The loss of depth shows up in most of the other metrics as well.}
+\label{fig:even_filt_radar}
 \end{figure}
 
 
 %############## Greedy 
-\subsection{Ecliptic Pairs}
+\subsection{FBS 1.5 {\tt greedy\_footprint}: Always taking pairs on the ecliptic}
 
-This simulation prohibits the twilight greedy algorithm from observing near the ecliptic, thus ensuring that all observations near the ecliptic are taken in pairs. This results in modest gains for NEO detection. 
+The survey footprint is applied to both greedy (twilight, single visits) and blob (non-twilight, pairs) visits in the scheduler, and since the final number of visits is fixed, this means that visits taken during the greedy period essentially decrease the number of visits taken during the blob period (or vice versa). This is unavoidable for most of the sky; visits taken during periods of rapidly changing conditions are not good candidates for the bigger block scheduling that occurs during blobs. However, there is some motivation for trying to take only pairs along the ecliptic, in order to maximize the number of visits suitable for detecting solar system objects. This simulations prohibits the greedy algorithm from observing near the ecliptic - this ensures that all observations near the ecliptic are taken in pairs. 
 
+The overall science impact is shown in Figure~\ref{fig:greedy_radar}; the impact is fairly modest. The change to solar system discovery is very minimal (around a percent); this is somewhat surprising given the expected improvement with visits in pairs. Looking in depth at the number of visits acquired in pairs with $griz$ filters in this simulation compared with the baseline simulation, there are more pairs along the WFD portion of the ecliptic in the greedy\_footprint simulation, but fewer pairs in the rest of the WFD (see Figure~\ref{fig:greedy_nvisits}). While more pairs on the ecliptic would help TNO discovery, it is also likely that there were `enough' pairs there already to saturate discovery (and what is needed are deeper visits in order to discover more objects). For other populations, their on-sky distribution is wider than the strip along the ecliptic, so it may have a smaller impact on the overall discovery rate (and be partly counter-acted by the fewer visits in pairs away from the ecliptic). 
 
 \begin{figure}
 \epsscale{0.65}
 \plotone{plots/radar_plots/greedy_radar}
 \epsscale{1}
 \caption{Science impact of not permitting greedy observations near the ecliptic. }
+\label{fig:greedy_radar}
 \end{figure}
 
+\begin{figure}
+\epsscale{0.6}
+\plotone{plots/greedy_footprint_nvisitsdiff}
+\epsscale{1}
+\caption{The change in the distribution of $griz$  visits in the blob (pairs) portion of the survey, between the baseline and the greedy\_footprint (pairs on ecliptic) simulation. The baseline distributes pairs of visits in $griz$ (the most sensitive bands for solar system object detection) across the WFD fairly evenly; the greedy\_footprint survey adds a concentration of pairs along the ecliptic within the WFD, but at the expense of pairs in the rest of the WFD.}
+\label{fig:greedy_nvisits}
+\end{figure}
 
 %############ Spiders ############
-\subsection{Spiders}
+\subsection{FBS 1.5 {\tt spiders}: Spider Alignment}
 
-We look at keeping diffraction spikes aligned along CCD rows and columns. This may result in the camera rotator angle being much less randomized than our baseline rotational dithering strategy. There is little impact on our science metrics, but we note we do not currently have a metric the measures weak lensing systematics.
+There are some simplifications in artifact identification as a result of difference imaging if diffraction spikes are aligned along CCD rows and columns. This experiment fixed the camera rotator so that the diffraction spikes (caused by the secondary mirror spiders) would always be aligned with the camera. This may result in the camera rotator angle being much less randomized than our baseline rotational dithering strategy; the rotation angle of the sky itself in the camera will still vary due to the alt-az telescope mount. There is little impact on our science metrics, but we note we do not currently have a metric that directly measures weak lensing systematics. See Figure~\ref{fig:spider_radar}. 
 
 \begin{figure}
 \epsscale{0.65}
 \plotone{plots/radar_plots/spider_radar}
 \epsscale{1}
 \caption{Science impact of keeping diffraction spikes aligned along rows and columns. }
+\label{fig:spider_radar}
 \end{figure}
 
 

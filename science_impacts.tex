@@ -17,6 +17,16 @@ The second question -- increasing the $u$ band exposure time -- was addressed in
 
 The third question -- variable exposure time -- was addressed in Section~\ref{ss:var_expt}. Adding a variable exposure time decreases the scatter in the individual image five sigma limiting magnitudes, but results in fewer overall visits. It had mixed effects on the typical limiting magnitudes per visit, and the coadded $u$ band depth became shallower by 0.3 magnitudes, although there are many parameters which could be tuned to attempt to improve this (making the goal $u$ band visit depth deeper could be one, although it is complicated because of the $u$ band read-noise limitation). In general, this seems to add complication to practical aspects of the scheduler when using real-world telemetry (due to the difficulty in predicting the proper exposure time when scheduling blocks of blobs) and may not have clear advantages to science.
 
+Figure~\ref{fig:visit_exp_time_metrics} shows the metrics included in the radar plots, together with additional metrics, for all of the simulations which relate to the visit exposure time. 
+
+\begin{figure}
+\epsscale{0.9}
+\plotone{plots/visit_exp_time}
+\epsscale{1}
+\caption{Comparing the simulations relevant to the visit exposure time (Section~\ref{sec:visitexposuretime}).}
+\label{fig:visit_exp_time_metrics}
+\end{figure}
+
 \subsection{Intra-night Cadence}\label{sec:intranight}
 
 Within each night, there are some choices about how to acquire visits during the non-twilight, good weather time:
@@ -35,10 +45,10 @@ It seems likely that we are also missing metrics; metrics which reflect classifi
 
 \begin{figure}
 \epsscale{0.75}
-\plotone{plots/srd_intranight}
-\plotone{plots/sso_intranight}
-\plotone{plots/desc_intranight}
-\plotone{plots/tvs_intranight}
+%\plotone{plots/srd_intranight}
+%\plotone{plots/sso_intranight}
+%\plotone{plots/desc_intranight}
+%\plotone{plots/tvs_intranight}
 \caption{SRD metrics, Solar System discovery metrics, DESC metrics (which are calculated over an extragalactic footprint), and a subset of metrics relating to transients and variables. The runs included here are those which together relate to the intra-night cadence.}
 \label{fig:intranight}
 \end{figure}

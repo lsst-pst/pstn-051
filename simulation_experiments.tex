@@ -115,7 +115,7 @@ For early identification of transients, it can be helpful to have more than two 
 
 This family of runs was primarily executed to confirm how the fO SRD metric scales with the footprint emphasis on the WFD. The survey footprint varies the fraction of observing time dedicated to the WFD area from 60\% to 99\%, with and without the standard DDF survey. For simplicity, here we look at the metric outputs run on the versions without the standard DDF fields; the numbers of visits per pointing that result are shown in Figure~\ref{fig:wfd_scale_nvisits}. 
 
-From these runs, we find that varying the fraction of time devoted to the WFD impacts various science metrics (see Figure~\ref{fig:wfd_depth_radar}), but even more importantly, it is likely that the SRD metric evaluating the minimum number of visits per pointing over the best 18k square degrees (fONv Minimum Nvisits) cannot be met unless at least 70\% of the survey time (in the footprint, which translates to more like 73\% of actual visits due to dithering over the edges of the WFD region) is dedicated to the WFD. In these simulations, 73\% of visits is approximately 1.65M visits out of the total 2.22M; in the case of bad weather, this would mean more visits would have to be redirected to the WFD. 
+From these runs, we find that varying the fraction of time devoted to the WFD impacts various science metrics (see Figure~\ref{fig:wfd_depth_radar}), but even more importantly, it is likely that the SRD metric evaluating the minimum number of visits per pointing over the best 18k square degrees (fONv MinimumNvisits) cannot be met unless at least 70\% of the survey time (in the footprint, which translates to more like 73\% of actual visits due to dithering over the edges of the WFD region) is dedicated to the WFD. In these simulations, 73\% of visits is approximately 1.65M visits out of the total 2.22M; in the case of bad weather, this would mean more visits would have to be redirected to the WFD. 
 
 In the remainder of our simulations, the amount of time dedicated to WFD varies, depending on the details of the survey footprint and minisurvey requirements. In general, it ranges from 66\% to 94\%, with most simulations falling around 83\%. 
 
@@ -144,7 +144,7 @@ In the remainder of our simulations, the amount of time dedicated to WFD varies,
 
 \begin{figure}
 \plotone{plots/wfddepth_fO}
-\caption{The minimum number of visits per pointing over the 'best' 18K square degrees (the WFD footprint), fONv MinVisits. When looking at the effect of scaling the WFD number of visits with a consistent footprint, this metric is perhaps more useful here than our standard version, the median number of visits per pointing over the WFD (fONv MedNvisits) as it will also capture `patchiness' of visits.}
+\caption{The minimum number of visits per pointing over the 'best' 18k square degrees (the WFD footprint), fONv MinVisits. When looking at the effect of scaling the WFD number of visits with a consistent footprint, this metric is perhaps more useful here than our standard version, the median number of visits per pointing over the WFD (fONv MedNvisits) as it will also capture `patchiness' of visits. The black line shows the weight on the WFD in the survey footprint input to the scheduler; the red line shows the number of visits assigned to count toward the `WFD area' out of the finished pointing history. The red line differs from the black line because entire visits were assigned as `WFD', even when part of the field of view of the visit was beyond the 18k square degrees of the WFD. A 5\% increase in time allocated to the WFD can result in every field receiving 40-50 more visits.}
 \label{fig:wfddepth_fo}
 \end{figure}
 
@@ -152,7 +152,7 @@ In the remainder of our simulations, the amount of time dedicated to WFD varies,
 %############ Footprints ############
 \subsection{FBS 1.5 {\tt footprint}: WFD Footprints}\label{ss:footprints}
 
-The location of the WFD region (and its filter distribution) are important questions for the LSST; the bulk of science from the LSST is expected to be facilitated by the WFD. The WFD must be at least 18,000 square degrees to meet SRD requirements, however the location of those 18,000 square degrees is not specified. The standard baseline WFD includes regions which have dust extinction with E(B-V)$>$ 0.2. This amount of dust extinction is problematic for extragalactic science for two reasons --  it reduces the effective coadded five sigma depth, and the total amount and wavelength dependence of dust extinction is not necessarily well characterized, so the effect on the background galaxies is hard to calibrate. An alternate `big sky' WFD footprint extending further north and south, but avoiding the galactic plane by a larger amount (either limited by dust extinction or by galactic latitude), can provide an 18,000 square degrees suitable for extragalactic science and moves parts of the NES and SCP into the WFD, but leaves larger amounts of sky to be covered toward the galactic plane in a separate mini-survey. See Figure~\ref{fig:footprints_footprints} for more details. We ran several experiments with various survey footprints, some of which are more practical than others. The footprints in this section which leave no coverage of the galactic plane will be extremely detrimental to science which requires the galactic plane, for example; the newA footprint requires too many visits to cover the entire sky and so fails the requirements of 825 visits per pointing within the WFD. Many science metrics are extremely sensitive to the footprint; other families, such as the filter distribution family (Section~\ref{ss:filter_dist}) and the bulge coverage family (Section~\ref{ss:bulges}) are also important to consider as part of the overall footprint evaluation. A basic summary of the footprints in this section is shown in Figure~\ref{fig:footprint_radar}; a wider discussion of the survey footprint is covered in Section~\ref{sec:bigfootprints}. 
+The location of the WFD region (and its filter distribution) are important questions for the LSST; the bulk of science from the LSST is expected to be facilitated by the WFD. The WFD must be at least 18,000 square degrees to meet SRD requirements, however the location of those 18,000 square degrees is not specified. The standard baseline WFD includes regions which have dust extinction with E(B-V)$>$ 0.2. This amount of dust extinction is problematic for extragalactic science for two reasons --  it reduces the effective coadded five sigma depth, and the total amount and wavelength dependence of dust extinction is not necessarily well characterized, so the effect on the background galaxies is hard to calibrate. An alternate `big sky' WFD footprint extending further north and south, but avoiding the galactic plane by a larger amount (either limited by dust extinction or by galactic latitude), can provide an 18,000 square degrees suitable for extragalactic science and moves parts of the NES and SCP into the WFD, but leaves larger amounts of sky to be covered toward the galactic plane in a separate mini-survey. See Figure~\ref{fig:footprints_footprints} for more details. We ran several experiments with various survey footprints, some of which are more practical than others. The footprints in this section which leave no coverage of the galactic plane will be extremely detrimental to science which requires the galactic plane, for example; the newA footprint requires too many visits to cover the entire sky and so fails the requirements of 825 visits per pointing within the WFD. Many science metrics are extremely sensitive to the footprint; other families, such as the filter distribution family (Section~\ref{ss:filterdist}) and the bulge coverage family (Section~\ref{ss:bulges}) are also important to consider as part of the overall footprint evaluation. A basic summary of the footprints in this section is shown in Figure~\ref{fig:footprint_radar}; a wider discussion of the survey footprint is covered in Section~\ref{sec:bigfootprints}. 
 
 \begin{figure}
 \epsscale{.35}
@@ -162,25 +162,26 @@ The location of the WFD region (and its filter distribution) are important quest
 \plotone{plots/pulled_plots/footprint_gp_smoothv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/footprint_add_mag_cloudsv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/footprint_big_sky_dustv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
-\plotone{plots/pulled_plots/footprint_big_sky_nouiyv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/footprint_big_skyv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_sky_nouiyv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/footprint_big_wfdv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/footprint_newAv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/footprint_newBv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/footprint_stuck_rollingv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \epsscale{1}
-\caption{The total number of visits in each of the different survey footprints simulated. Some of these look similar, but feature a varying filter distribution (which does not show up in a total number of visits plot). From top left to right and then down: the description of these survey footprints is 
-(a) standard (previous) baseline survey footprint ({\tt footprint\_standard\_goals}), 
-(b) the same footprint but with a bluer filter distribution ({\tt footprint\_bluer\_footprint}), 
-(c) the standard footprint but removing the northern tip of the galactic plane minisurvey ({\tt footprint\_no\_gp\_north}),  
-(d) the standard footprint, but continuing the WFD-cadence of visits through the galactic plane ({\tt footprint\_gp\_smooth}),  
-(e) the standard footprint but adding a magellanic clouds extension at WFD-cadence ({\tt footprint\_add\_mag\_clouds}),  
-(f) an extended N/S footprint (going about 10 degrees further north and south) nicknamed `big sky', with the galactic plane boundaries delineated by dust extinction, a small northern extension but no SCP or GP coverage {\tt footprint\_big\_sky\_dust}), 
- (g) the same footprint, but without any coverage in $u$, $i$ or $y$ band ({\tt footprint\_big\_sky\_nouiy}),
- (h) an extended WFD region, going further north in the sky (even further than big sky) although not as far south, includes SCP and GP coverage with a small extension for the NES ({\tt footprint\_bigwfd})
-(i) an extended N/S WFD footprint (in the `big sky' style) but with the galactic plane defined by galactic latitude ($l=20$), with GP covered to just slightly less than WFD depth, and minisurveys for the SCP and NES ({\tt footprint\_newA})
-(j) similar to the newA footprint, however the galactic anti-center is covered with fewer visits, to allow more visits over the WFD region ({\tt footprint\_newB})
-(k) this survey footprint is primarily a test case to find wide area metrics that were not properly sensitive to area; here the WFD is purposefully not covered appropriately but rather the northern half of the standard WFD received almost all of the visits from the WFD while the southern half receives a small fraction ({\tt footprint\_stuck\_rolling}).
+\caption{The total number of visits in each of the different survey footprints simulated. From top left to right and then down, the description of these survey footprints is: \\
+ (1) standard (previous) baseline survey footprint ({\tt footprint\_standard\_goals}), \\
+ (2) the same footprint but with a bluer filter distribution ({\tt footprint\_bluer\_footprint}),\\ 
+ (3) the standard footprint but removing the northern tip of the galactic plane minisurvey ({\tt footprint\_no\_gp\_north}),  \\
+ (4) the standard footprint, but continuing the WFD-cadence of visits through the galactic plane ({\tt footprint\_gp\_smooth}),  \\
+ (5) the standard footprint but adding a magellanic clouds extension at WFD-cadence ({\tt footprint\_add\_mag\_clouds}), \\ 
+ (6) an extended N/S footprint (going about 10 degrees further north and south) nicknamed `big sky', with the galactic plane boundaries delineated by dust extinction, a small northern extension but no SCP or GP coverage {\tt footprint\_big\_sky\_dust}), \\
+ (7) an extended N/S footprint similar to the previous, but with the galactic plane boundaries delineated by galactic latitude ($l=20$) ({\tt footprint\_big\_sky}),\\
+ (8) the same footprint, but without any coverage in $u$, $i$ or $y$ band ({\tt footprint\_big\_sky\_nouiy}),\\
+ (9) an extended WFD region, going further north in the sky (even further than big sky) although not as far south, includes SCP and GP coverage with a small extension for the NES ({\tt footprint\_bigwfd}) \\
+ (10) an extended N/S WFD footprint (in the `big sky' style) but with the galactic plane defined by galactic latitude ($l=20$) -- this adds the GP covered to just slightly less than WFD depth, and minisurveys for the SCP and  NES ({\tt footprint\_newA}) \\
+ (11) similar to the newA footprint, however the galactic anti-center is covered with fewer visits, to allow more visits over the WFD region ({\tt footprint\_newB}) \\
+ (12) this survey footprint is primarily a test case to find wide area metrics that were not properly sensitive to area; here the WFD is purposefully not covered appropriately but rather the northern half of the standard WFD received almost all of the visits from the WFD while the southern half receives a small fraction ({\tt footprint\_stuck\_rolling}).\\
 }
 \label{fig:footprints_footprints}
 \end{figure}
@@ -225,7 +226,7 @@ Covering the bulge understandably increases the overall number of stars expected
 
 
 %############ Filter Distribution ############
-\subsection{FBS 1.5 {\tt filter\_dist}: Filter Distribution}\label{ss:filter_dist}
+\subsection{FBS 1.5 {\tt filter\_dist}: Filter Distribution}\label{ss:filterdist}
 
 The filter distribution for the standard baseline simulation follows the suggested distribution in the SRD, however this family varies the weights between different filters significantly. This family should serve as a useful testbed for photometric redshift evaluations, but we do not currently have a photometric redshift metric available. However, this family does also illustrate other tensions between SNe and solar system science, for example, with SNe benefiting from more visits in bluer filters while solar system discovery (because these objects are red) prefer more visits in redder bands. This family is also useful when evaluating the overall survey footprint, as it is a simple WFD-only survey footprint, with no SCP or (significantly for solar system objects) NES. 
 The filter distributions simulated are listed in Table~\ref{table:filtdist}, and the radar plot of high level metrics is Figure~\ref{fig:filterdist_radar}. 
@@ -340,7 +341,9 @@ Within these bounds, we ran a variety of DDF strategies, based on requested cade
 \end{itemize}
 Figure~\ref{fig:ddfexamples} shows the same observing season of the DDF ELIASS1 with these different strategies. 
 
-Figure~\ref{fig:ddf_differences} shows the different coadded depths (left) and science impact (right) of the variations on the DDF strategies we have tried. If the DDFs are kept to a consistent fraction of time, the overall science impact tends to be consistent.
+Figure~\ref{fig:ddf_differences} shows the different coadded depths (left) and science impact (right) of the variations on the DDF strategies we have tried. If the DDFs are kept to a consistent fraction of time, the overall science impact tends to be consistent. 
+
+The fraction of time required for the DDFs is driven by the cadences required -- the season length, the inter-night cadence (number of nights between sequences), and the number of visits and filters required in each sequence. The sequences for the AGN strategy and the sequences for the DESC strategy are not completely compatible; an attempt to satisfy both cadence requirements will need more than 5\% of the total time, and perhaps as much as 8\% of the total time. We are missing metrics to evaluate the science performance of each of these DDF strategies, so it is unclear how well these simulations meet the desired goals. 
 
 \begin{figure}
 \epsscale{0.6}
@@ -527,7 +530,7 @@ Figure~\ref{fig:dcr_radar} shows the science impact is fairly minimal, but we te
 
 
 %############ Even Filters ############
-\subsection{FBS 1.5 {\tt even\_filters}: Sky brightness and Filter choice}
+\subsection{FBS 1.5 {\tt even\_filters}: Sky brightness and Filter choice}\label{ss:evenfilters}
 
 The baseline simulation is fairly aggressive in using redder filters in bright time, in order to maximize the final coadded depths. However, this can create long gaps in light curves with no bluer observations. This family of simulations removes the per-filter consideration of sky brightness (in various combinations of filters) to avoid this effect. There is a simulation where only $u$ avoids bright time, and another with both the $u$ and $g$ filters avoid bright time; the simulations include both the standard baseline footprint and a variation on the `big sky' footprint (the `alt' runs). Figure~\ref{fig:even_filt_hourglass} shows the resulting filter distributions in year one. Unlike the baseline simulations, there are no longer sections of several days where only $y$\ is observed.
 
@@ -551,7 +554,7 @@ While the goal of these simulations was to improve SNe Ia lightcurves, the gains
 
 
 %############## Greedy 
-\subsection{FBS 1.5 {\tt greedy\_footprint}: Always taking pairs on the ecliptic}
+\subsection{FBS 1.5 {\tt greedy\_footprint}: Always taking pairs on the ecliptic}\label{ss:greedy}
 
 The survey footprint is applied to both greedy (twilight, single visits) and blob (non-twilight, pairs) visits in the scheduler, and since the final number of visits is fixed, this means that visits taken during the greedy period essentially decrease the number of visits taken during the blob period (or vice versa). This is unavoidable for most of the sky; visits taken during periods of rapidly changing conditions are not good candidates for the bigger block scheduling that occurs during blobs. However, there is some motivation for trying to take only pairs along the ecliptic, in order to maximize the number of visits suitable for detecting solar system objects. This simulations prohibits the greedy algorithm from observing near the ecliptic - this ensures that all observations near the ecliptic are taken in pairs. 
 
@@ -574,7 +577,7 @@ The overall science impact is shown in Figure~\ref{fig:greedy_radar}; the impact
 \end{figure}
 
 %############ Spiders ############
-\subsection{FBS 1.5 {\tt spiders}: Spider Alignment}
+\subsection{FBS 1.5 {\tt spiders}: Spider Alignment}\label{ss:spiders}
 
 There are some simplifications in artifact identification as a result of difference imaging if diffraction spikes are aligned along CCD rows and columns. This experiment fixed the camera rotator so that the diffraction spikes (caused by the secondary mirror spiders) would always be aligned with the camera. This may result in the camera rotator angle being much less randomized than our baseline rotational dithering strategy; the rotation angle of the sky itself in the camera will still vary due to the alt-az telescope mount. There is little impact on our science metrics, but we note we do not currently have a metric that directly measures weak lensing systematics. See Figure~\ref{fig:spider_radar}. 
 

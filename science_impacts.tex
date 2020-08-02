@@ -1,6 +1,6 @@
-\section{Broad Survey Strategy Choices}
+\section{Cross-family Survey Strategy Choices}
 
-The families of simulations described in the previous sections (FBS 1.5 and 1.6 releases) maintained the approach of varying a single kind of parameter (such as the amount of time devoted to triplets of visits in the {\tt third\_visit} runs), but the underlying survey strategy choices can cover multiple families (such as the runs including pairs in mixed or the same filters and the triplet visits runs). In this section, we will consolidate and summarize some of the results from the previous sections, identifying tensions and trades as possible. 
+The families of simulations described in the previous sections (FBS 1.5 and 1.6 releases) maintained the approach of varying a single kind of parameter (such as the amount of time devoted to triplets of visits in the {\tt third\_visit} runs), but the underlying survey strategy choices can cover multiple families (such as the runs including pairs in mixed or the same filters and the triplet visits runs). In this section, we will consolidate and summarize some of the results from the previous sections if they cut across families. Strategy questions that are confined to a single family are not repeated in this section.
 
 \subsection{Visit Exposure Time}\label{sec:visitexposuretime}
 
@@ -23,7 +23,7 @@ Figure~\ref{fig:visit_exp_time_metrics} shows the metrics included in the radar 
 \epsscale{0.9}
 \plotone{plots/visit_exp_time}
 \epsscale{1}
-\caption{Comparing the simulations relevant to the visit exposure time (Section~\ref{sec:visitexposuretime}).}
+\caption{Comparing the simulations relevant to the visit exposure time (Section~\ref{sec:visitexposuretime}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv will fail to meet requirements.}
 \label{fig:visit_exp_time_metrics}
 \end{figure}
 
@@ -37,143 +37,81 @@ Within each night, there are some choices about how to acquire visits during the
 
 Whether or not pairs should be taken in the same filter or different filters pre-supposes that visits should be taken in pairs at all. With the current baseline software and criteria for linking moving objects, the need for pairs of visits is clear. Even without the requirement of linking moving objects, there will be many unknown solar system objects in every image; taking pairs of visits is a reasonable way to quickly filter these detections out of the alert stream. 
 
-Then the question is whether pairs should be taken in the same filter or in different filters. The simulations in Section~\ref{ss:baseline} show that same-filter pairs achieve about 4\% more visits over the survey than split-pairs, due to fewer filter changes. Same-filter pairs have a slight benefit to discovery for all solar system objects (2-3\%), but same-filter pairs have a big negative impact on transients (10-50\% depending on the population and metric requirements). Figure~\ref{fig:intranight} illustrates the response of these metrics across these simulations.
+Then the question is whether pairs should be taken in the same filter or in different filters. The simulations in Section~\ref{ss:baseline} show that same-filter pairs achieve about 4\% more visits over the survey than split-pairs, due to fewer filter changes. Same-filter pairs have a slight benefit to discovery for all solar system objects (2-3\%), but same-filter pairs have a big negative impact on transients (10-50\% depending on the population and metric requirements). 
 
 The final question is if some fraction of visits should be acquired in triplets. Section~\ref{ss:thirdobs} explores adding a third observation per night for some fraction of the available time. By adding a third visit, less sky is covered per night. This has a small negative impact on most solar system object discovery, with NEO completeness at $H\le22$ dropping by about 4\% for the simulation with 120 minutes per night spent on triplets. Surprisingly, the transient metrics did not show much improvement with the addition of triplets; detection of TDEs dropped by 8\% with 120 minutes of triplets. This is likely due to the timescales over which the objects change, the smaller amount of area covered per night, and the specific detection requirements in the metrics.  
 
-It seems likely that we are also missing metrics; metrics which reflect classification confusion and detection requirements for transients which were the target of the Bianco et al white paper (`Presto-Color') may change this evaluation. 
+It seems likely that we are also missing metrics; metrics which reflect classification confusion and detection requirements for transients which were the target of the Bianco et al white paper (`Presto-Color') may change this evaluation. Figure~\ref{fig:intranight} shows the response of the radar plot metrics, together with some additional metrics, for these intra-night cadence simulations. Note that the triplets options have not been tested with survey footprints beyond the baseline or with rolling cadence. 
 
 \begin{figure}
-\epsscale{0.75}
-%\plotone{plots/srd_intranight}
-%\plotone{plots/sso_intranight}
-%\plotone{plots/desc_intranight}
-%\plotone{plots/tvs_intranight}
-\caption{SRD metrics, Solar System discovery metrics, DESC metrics (which are calculated over an extragalactic footprint), and a subset of metrics relating to transients and variables. The runs included here are those which together relate to the intra-night cadence.}
+\epsscale{0.9}
+\plotone{plots/intranight}
+\caption{Comparing the simulations relevant to the intra-night cadence (Section~\ref{sec:intranight}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv will fail to meet requirements.}
 \label{fig:intranight}
 \end{figure}
 
 
 \subsection{Survey Footprint}\label{sec:bigfootprints}
 
-What to do for WFD footprint? SRD not specific, DESC want low-extinction sky (and depth), but WFD is generally the area of sky that receives the most visits, so generally other science will also benefit from more visits to their relevant areas (particularly galactic plane .. for time-domain studies primarily, not depth)
+The choice of the survey footprint is extremely significant for science. It is hard to separate the choice of the WFD footprint from other choices about footprint coverage; if the WFD footprint is moved, then the amount of sky required to be covered in the NES, GP and SCP minisurveys changes and their time requirements change accordingly. As a result, it seems reasonable to make a joint consideration of the simulations which vary over all of this coverage. We include the simulations from Sections~\ref{ss:footprints} (4 potential WFD footprints and various minisurveys),  \ref{ss:bulges} (a `big sky' WFD background and variable coverage across the galactic plane), and \ref{ss:filterdist} (where {\tt filterdist\_indx2\_v1.5\_10yrs} has a standard filter distribution with a limited WFD and GP only footprint). 
 
-We see that science effect depends strongly on how the other minisurveys are configured, and how they are configured will vary depending on what the WFD footprint looks like -- these aren't entirely independent questions. 
-
-Top science metrics across footprint (including all kinds of coverage). 
-What metrics are obviously missing?
-
+The desired footprint options include:
 \begin{itemize}
-    \item{How should we cover the Galactic plane?}
-    \item{How should we observe the Galactic bulge?}
-    \item{How should we cover the north?}
-    \item{How should we cover the SCP? (is this more specifically the LMC/SMC?)}
-    \item{Should we avoid areas of high dust extinction for the WFD area?}
-    \item{What is the ideal filter distribution to use? It would be nice to have a photo-z metric to help make this decision.}
-    \item{What is the ideal filter distribution in the GP and SCP?}
-    \item{Should we cover the LMC and SMC as part of the WFD survey? As their own DDF-like survey? We have few metrics that touch on LMC/SMC science directly.}
-    \item{Should we add area in the north to overlap with Euclid, WFIRST, and/or DESI?}
+\item Extragalactic science needs 18,000 square degrees (the WFD) to include only low dust extinction regions, which requires rearranging the traditional footprint. Moving the declination limits of the survey north and south, then adding a dust extinction limit around the (entire) galactic plane will satisfy this requirement. It reduces the area that needs to be observed in the NES and the SCP, but increases the area needed for galactic plane studies. 
+\item Solar system science needs coverage in the north, specifically in the region of the ecliptic plane; adding a survey extension with a moderate number of visits in the NES will satisfy this requirement. 
+\item Transient and variable science, as well as Milky Way science, needs relatively dense coverage through the galactic bulge and moderate coverage through the rest of the galactic plane. Adding a WFD-level extension through the galactic bulge and low density coverage through the rest of the GP would likely satisfy this requirement.
+\item Transient and variable science also desires relatively dense coverage of the Magellanic Clouds and moderate coverage of the SCP. Dense coverage of the LMC/SMC and low density coverage of the rest of the SCP would likely satisfy this requirement.
+\item Overlap with Euclid and other surveys drives a desire to get low density coverage throughout a northern extension of the sky, up to about the top of the NES (in the region at higher ecliptic latitudes than the NES).
 \end{itemize}
 
+As shown in Section~\ref{ss:wfd_depth}, the minimum amount of time needed to meet SRD requirements in the WFD is approximately 70\% of the total available. Near 70\%, every field in the WFD can receive at least 825 visits;  because the WFD is so large, attempts to increase the number of visits per field require significant additions of time. To add about 50 additional pointings (5\% of 825) to each WFD field requires about an additional 5\% more time spent on the WFD. However, this is not exact, as can be seen when comparing the fraction of visits covering the WFD (Figure~\ref{fig:footprint_wfdfraction}) and the SRD metrics at the top of Figure~\ref{fig:footprint}. The DDFs will require at least 5\% of the survey time. 
 
-\subsection{Rolling cadence}
-
-Top science metrics across rolling cadence options. 
-What metrics are obviously missing?
-
-
-\subsection{Other minisurveys}
-
-twilight survey, DCR, short\_exp minisurveys, (toO?)-- very different than main survey and represent additional time
-
-Effect of adding or removing these minisurveys - number of long visits in WFD
-
-
-
-Top metrics across these runs? Is it consistent (i.e. just like removing visits?)
-
-
-\subsection{Deep Drilling Fields}
-
-
-Discuss potential cadences (AGN/ DESC) and how these differ, and that combining the two is more expensive
-
-Effect of adding or removing these minisurveys
-
-We have run a variety of Deep Drilling strategies. The DDF strategy is largely separable from the rest of the survey design, and we have a number of proposals for DDFs that we have yet to explore (e.g., rolling DDFs where a single DDF is completed in one observing season).  We have started experimenting with pre-scheduling DDF observations. 
-
+The survey footprints included in these simulations can be gathered into some broad groups (reflected in the shading in Figure~\ref{fig:footprint_wfdfraction} and \ref{fig:footprint}). These groups are:
 \begin{itemize}
-    \item{What fraction of the survey should be dedicated to the DDFs?}
-    \item{Should DDFs be preferentially executed in dark time, or is it more important to maintain cadence?}
-    \item{Where should the DDFs be placed (can we finalize the 5th DDF as a Euclid double-pointing)?}
-    \item{What is the preferred dithering strategy (spatially and rotationally) for the DDFs? There is tension in that DM generally prefers larger dithers for calibration and co-addition purposes, while science cases prefer smaller dithers to preserve the area that reaches the deepest levels.}
-    \item{Should we try ``rolling" the DDFs, completing DDF observations in a field in only a few years?}
+\item A bare-bones, declination limited stripe across the sky ({\tt filter\_dist}). This footprint loses 30\% of the TNO population, and will have other problems outlined in the Schwamb et al. whitepaper (`A Northern Ecliptic Survey for Solar System Science'). It also does not meet WFD goals for extragalactic science, due to the levels of dust extinction within the footprint.
+\item Variations on the current baseline WFD where the 18,000 square degree WFD includes regions of high dust extinction (`standard plus').
+\item A bare-bones versions of the base big sky WFD where the 18,000 square degree WFD footprint is extended N/S and is entirely low dust extinction. This footprint has no coverage of the GP or SCP, which results in losing almost all fast microlensing events as well as having a dramatic impact on the number of stars detected by the survey.
+\item Variations on the big sky WFD where the NES, GP and SCP are covered as well (`big sky plus'). 
 \end{itemize}
-
-Relevant metrics: number of visits and coadded depth for DD, SN detection in DDFs, AGN detection in DDFs
-*[solar system minisurvey DDF?]
-Missing DDF metrics
-
-\subsection{Dithering}
-
-\subsubsection{Rotational dithering}
-
-By default, we select a random camera rotation angle (wrt the telescope) nightly. This creates minimal additional slewtime, and seems to provide adequate angular randomization.  We currently have no science metrics that depend on the angular distribution, and this should be something very important to weak lensing science (although we do not have a metric to measure this).
-
-We have also experimented with setting the camera rotation angle to ensure stellar diffraction spikes fall preferentially along rows and columns. 
-
-\begin{itemize}
-    \item{How should we rotationally dither visits?}
-\end{itemize}
-
-Need metrics sensitive to the rotation angle of the camera. 
-
-\subsubsection{Spatial Dithering}
-
-For the wide area regions we have had excellent results randomizing the tessellation orientation nightly. This does result in a small percent of time being spent observing outside the desired survey footprint. The alternative would be to limit the amount one dithers out of the footprint, but then one risks imprinting systematics on objects near the footprint border (e.g., an object is never observed in the center of the focal plane, only by outer rafts).
-
-Primary metric is survey uniformity?
+While the bare-bones versions of the footprint which contains only WFD are likely unworkable, the two groups with variations on these footprints adding additional minisurveys are useful to compare further.
+In general, the `standard plus' group puts more visits into the WFD region than the `big sky plus' group, and this is reflected in the SRD metrics. The SRD metrics pass minimum in all runs except the {\tt footprint\_big\_wfd} and {\tt footprint\_newA} runs, but the other `big sky plus' are only about 20-40 visits  (2.5-5\%) per pointing above the threshold. Looking at science metrics beyond the SRD, the `big sky plus' runs perform better than the `standard plus' in almost all categories.
 
 
-\subsection{Image Differencing Templates, DCR}
-
-Do we need to do anything special to ensure we have adequate image templates? A certain number of observations per year? A certain fraction of images taken in good seeing conditions? 
-
-If we need to start considering image quality, that makes it more difficult to simulate a night ahead of time and maintain the list of upcoming observations.
-
-Should we intentionally extend to high airmass to facilitate DCR modeling for templates? Note that in the baseline, we only image a location in the WFD region $\sim$9 times per year in $g$ and $\sim$6 times in $u$. Also, we have chip and raft gaps, so if we want to build a DCR model for the entire sky in $g$, we might be dedicating 1/3 of the $g$ observations in a year to DCR. If we switch to 60s $u$ band exposures, there would be no observations beyond building the DCR model. (We don't know that DM needs this).
-
-There have been claims that measuring DCR can be used for science.  We do not have any metrics that demonstrate any gains, and the loss of depth is noticeable. In theory, we could combine the DCR measurements to extend the season length of observations as well (e.g., only take DCR template images near twilight in the direction of the sun).
-
-
-\subsection{Satellite Megaconstellations}
-
-Starlink (followed by Amazon) is poised to launch thousands of LEO satellites. Observations so far imply that final-orbit Starlink satellites should not saturate Rubin exposures, and thus can be masked fairly easily in the image reduction pipeline. 
-
-Do we need any further satellite mitigations? Will NEO twilight surveys still be viable in the presence of megaconstellations, or should we use twilight strategies that avoid the horizon?
-
-Figure~\ref{fig:megasat} shows how illuminated megaconstellations in LEO would leave numerous streaks on Rubin images.
-
-% from https://github.com/yoachim/satellite_collisions
 \begin{figure}
-\label{fig:megasat}
-\plottwo{plots/sat_plots/ten_min_12k.pdf}{plots/sat_plots/tenmin_example.pdf}
-\caption{Alt/az projection of simulated satellite megaconstellations as seen from the Rubin Observatory site after twilight has ended. } 
+\epsscale{0.7}
+\plotone{plots/footprint_wfdfraction}
+\epsscale{1}
+\caption{Comparing the fraction of visits used to observe the WFD and the total number of visits gives an appropriate fraction of time spent on the WFD. As the survey footprint changes, this fraction changes significantly. Adding galactic plane, NES, and SCP coverage (as in footprint\_newA and further to the right on the plot) to the `big sky' WFD footprint with varying levels of coverage requires a fairly large fraction of time. Similar levels of coverage for the current baseline WFD footprint require less time outside of WFD, as the galactic plane region is smaller and the low-coverage northern stripe in the `big sky' footprints  is not included. The shading groups similar kinds of footprints and matches Figure~\ref{fig:footprint}.}
+\label{fig:footprint_wfdfraction}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.9}
+\plotone{plots/footprints}
+\caption{Comparing the simulations relevant to the footprint (Section~\ref{sec:bigfootprints}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv fails to meet requirements.}
+\label{fig:footprint}
 \end{figure}
 
 
+\subsection{Other minisurveys}\label{sec:minisurveys}
 
-\section{Conclusions}
+None of the survey footprint simulations above included additional minisurveys beyond DDFs, NES, SCP and GP and a small northern declination band. The twilight NEO minisurvey (Section~\ref{ss:twilightneo}, DCR minisurvey (Section~\ref{ss:dcr}, and short exposures minisurvey (Section~\ref{ss:shortexp}. Each of these minisurveys has various science advantages and disadvantages presented in the previous sections, and each requires an additional investment of time. 
 
-Have laid out several questions and lots of families of simulations. Obvious dealbreakers for core science? 
+To properly evaluate the DCR and short exposures minisurveys, we need additional metrics sensitive to these effects. For the twilight NEO survey, we should test an additional population of Vatiras. However, we can clearly see that minisurveys requiring more than XX\% of time have severe impacts on other science areas.  It is worth considering that the time used by these minisurveys could represent time lost to any cause. Figure~\ref{fig:minisurvey_time} provides an estimate of the time requirement for each minisurvey simulation, and Figure~\ref{fig:minisurveys} shows the science impacts. 
 
-Metrics we know we need to get from the community:
-\begin{itemize}
-    \item{Photometric redshift performance, especially as it relates to filter distribution}
-    \item{Weak Lensing systematics, especially as related to camera rotator angle}
-    \item{Deep Drilling Field metrics beyond coadded depth (e.g., AGN performance)}
-    \item{Deep Drilling metrics that are sensitive to the spatial dither strategy}
-    \item{Transient early classification metric}
-    \item{More populations in the Galactic plane beyond the simple number of stars.}
-\end{itemize}
+\begin{figure}
+\epsscale{0.8}
+%\plotone{plots/minisurvey_time}
+\epsscale{1}
+\caption{The amount of time required for each minisurvey is difficult to measure when they have variable exposure times. Because the remaining survey strategy parameters were constant, a useful analog will be the change in the number of visits for the WFD, although this is likely to be inexact. The fractional change in the number of WFD visits (compared to the baseline) when each minisurvey was was running is shown here. Some of the minisurveys require very little time; some require more and are visible in other science metrics as well.}
+\label{fig:minisurvey_time}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.9}
+\plotone{plots/minisurveys}
+\caption{Comparing the simulations relevant to the addition of minisurveys (Section~\ref{sec:minisurveys}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv fails to meet requirements.}
+\label{fig:minisurveys}
+\end{figure}
+
 

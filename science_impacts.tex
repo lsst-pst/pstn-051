@@ -13,7 +13,7 @@ There are several choices related to the individual visit exposure time:
  
 For the first of these questions -- 1x30s visits or 2x15s visits -- is perhaps the most important, yet the final decision cannot be made until the camera is on the sky and acquiring data, to verify cosmic ray rejection will work and that the two snaps are not required. In adidition, there are still some rapid transient or variable science cases that may still benefit from 2x15s visits. However, while the decision cannot be finalized yet, the decision does weigh in on other the survey strategy choices, so it must be considered already. The decrease in overhead going from 2x15s visits to 1x30s visits allows 8\% more visits to be obtained in the same time, which allows significantly more options for footprint coverage and addition of minisurveys. 
 
-The second question -- increasing the $u$ band exposure time -- was addressed in Section~\ref{ss:u60}. The tension comes between increasing coadded depth in $u$ versus a dramatically decreased number of $u$ band visits making it more difficult to obtain $u$ photometry for transients. Extending the visit exposure time while also maintaining the number of $u$ band visits would require adding about 3\% more visits to WFD by removing them from other minisurveys or other filters (note that shifting visits into bluer filters overlaps with some of the options discussed in Section~\ref{sec:bigfootprints}). 
+The second question -- increasing the $u$ band exposure time -- was addressed in Section~\ref{ss:u60}. The tension comes between increasing coadded depth in $u$ versus a dramatically decreased number of $u$ band visits making it more difficult to obtain $u$ photometry for transients. Extending the visit exposure time while also maintaining the number of $u$ band visits would require adding about 3\% more visits to WFD by removing them from other minisurveys or other filters (note that shifting visits into bluer filters overlaps with some of the options discussed in Section~\ref{ss:filterdist}). 
 
 The third question -- variable exposure time -- was addressed in Section~\ref{ss:var_expt}. Adding a variable exposure time decreases the scatter in the individual image five sigma limiting magnitudes, but results in fewer overall visits. It had mixed effects on the typical limiting magnitudes per visit, and the coadded $u$ band depth became shallower by 0.3 magnitudes, although there are many parameters which could be tuned to attempt to improve this (making the goal $u$ band visit depth deeper could be one, although it is complicated because of the $u$ band read-noise limitation). In general, this seems to add complication to practical aspects of the scheduler when using real-world telemetry (due to the difficulty in predicting the proper exposure time when scheduling blocks of blobs) and may not have clear advantages to science.
 
@@ -44,7 +44,7 @@ The final question is if some fraction of visits should be acquired in triplets.
 It seems likely that we are also missing metrics; metrics which reflect classification confusion and detection requirements for transients which were the target of the Bianco et al white paper (`Presto-Color') may change this evaluation. Figure~\ref{fig:intranight} shows the response of the radar plot metrics, together with some additional metrics, for these intra-night cadence simulations. Note that the triplets options have not been tested with survey footprints beyond the baseline or with rolling cadence. 
 
 \begin{figure}
-\epsscale{0.9}
+\epsscale{0.85}
 \plotone{plots/intranight}
 \caption{Comparing the simulations relevant to the intra-night cadence (Section~\ref{sec:intranight}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv will fail to meet requirements.}
 \label{fig:intranight}
@@ -74,7 +74,9 @@ The survey footprints included in these simulations can be gathered into some br
 \item Variations on the big sky WFD where the NES, GP and SCP are covered as well (`big sky plus'). 
 \end{itemize}
 While the bare-bones versions of the footprint which contains only WFD are likely unworkable, the two groups with variations on these footprints adding additional minisurveys are useful to compare further.
-In general, the `standard plus' group puts more visits into the WFD region than the `big sky plus' group, and this is reflected in the SRD metrics. The SRD metrics pass minimum in all runs except the {\tt footprint\_big\_wfd} and {\tt footprint\_newA} runs, but the other `big sky plus' are only about 20-40 visits  (2.5-5\%) per pointing above the threshold. Looking at science metrics beyond the SRD, the `big sky plus' runs perform better than the `standard plus' in almost all categories.
+In general, the `standard plus' group puts more visits into the WFD region than the `big sky plus' group, and this is reflected in the SRD metrics. The SRD metrics pass minimum in all runs except the {\tt footprint\_big\_wfd} and {\tt footprint\_newA} runs, but the other `big sky plus' are only about 20-40 visits  (2.5-5\%) per pointing above the threshold. Looking at science metrics beyond the SRD, the `big sky plus' runs perform better than the `standard plus' in many categories.
+
+Some of the simulations within this group don't significantly vary the area or number of visits within the survey footprint, but vary the filter distribution. To evaluate the effects of the filter distribution more directly, it is better to start with the set of runs in the {\tt filter\_dist} group (Section~\ref{ss:filterdist}. Figure~\ref{fig:filterdist} shows these same metrics scaled across that subset of simulations, using a run with the same footprint but the baseline filter distribution as the comparison point. The metrics from this set show the same general result as mentioned in Section~\ref{ss:filterdist}: solar system science prefers redder filters (but appreciates $g$ band visits), the number of galaxies increases with redder filter distributions, and DESC WFD metrics (as they are based on $i$ band coadded depth) prefer slightly redder filter distributions. Transient detection (for metrics requiring colors pre-peak in particular) prefer bluer filter distributions. The primary levers are the number of visits in $u$ band and $i$ band. 
 
 
 \begin{figure}
@@ -86,32 +88,61 @@ In general, the `standard plus' group puts more visits into the WFD region than 
 \end{figure}
 
 \begin{figure}
-\epsscale{0.9}
+\epsscale{0.85}
 \plotone{plots/footprints}
 \caption{Comparing the simulations relevant to the footprint (Section~\ref{sec:bigfootprints}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv fails to meet requirements.}
 \label{fig:footprint}
 \end{figure}
+
+\begin{figure}
+\epsscale{0.85}
+\plotone{plots/filterchoice}
+\caption{Comparing the simulations relevant to the filter distribution (Section~\ref{sec:bigfootprints}). All metrics are scaled so that bigger is better and all are normalized against the {\tt filterdist\_indx2}  run. The dashed black line on the SRD metrics subplot indicates where fONv fails to meet requirements.}
+\label{fig:filterdist}
+\end{figure}
+
 
 
 \subsection{Other minisurveys}\label{sec:minisurveys}
 
 None of the survey footprint simulations above included additional minisurveys beyond DDFs, NES, SCP and GP and a small northern declination band. The twilight NEO minisurvey (Section~\ref{ss:twilightneo}, DCR minisurvey (Section~\ref{ss:dcr}, and short exposures minisurvey (Section~\ref{ss:shortexp}. Each of these minisurveys has various science advantages and disadvantages presented in the previous sections, and each requires an additional investment of time. 
 
-To properly evaluate the DCR and short exposures minisurveys, we need additional metrics sensitive to these effects. For the twilight NEO survey, we should test an additional population of Vatiras. However, we can clearly see that minisurveys requiring more than XX\% of time have severe impacts on other science areas.  It is worth considering that the time used by these minisurveys could represent time lost to any cause. Figure~\ref{fig:minisurvey_time} provides an estimate of the time requirement for each minisurvey simulation, and Figure~\ref{fig:minisurveys} shows the science impacts. 
+Figure~\ref{fig:minisurvey_time} evaluates the number of WFD visits that are {\it not} part of the minisurvey or in the NES, SCP, GP or other footprint regions. For minisurveys where the visits are not useful for WFD visits (such as the twilight NEO survey and the short exposures minisurvey), the change in the number of WFD visits translates very simply to the amount of time required for the minisurvey. For the other minisurveys, such as the DCR minisurvey, the visits are useful for the WFD and can be counted as part of the WFD, however they are sub-optimal visits. For these kinds of minisurveys, the impact on science will vary depending on exactly how `suboptimal' the visits are. Looking at Figure~\ref{fig:minisurveys} for the science impacts of these minisurveys, it is clear that the impact of the DCR minisurvey is much less than the decrease in standard WFD, non-high-airmass visits would suggest. 
+
+The overall impact -- whether additional minisurveys break SRD metrics or not, for example -- will depend on what the general survey strategy is, as well. The background survey strategy for these experiments was a standard baseline, and we see from Figure~\ref{fig:footprint_wfdfraction} that the WFD in this kind of footprint generally runs above 80\%; it has some `room to spare'. A footprint similar to the big sky footprint, with NES, SCP, and GP coverage (such as the {\tt newB} or {\tt bulges} family) has a much lower fraction of visits in the WFD, about 70\%. A minisurvey running with this background footprint would have a more immediate impact on SRD metrics. With the baseline survey stategy `background', we see the {\tt twilight\_neo\_mod1} minisurvey is the only case where the SRD metrics are broken -- this minisurvey is removing about 7\% of standard visits from the WFD, but has a strong effect on WFD-sensitive metrics, perhaps because it is also consistently redirecting the time distribution of WFD visits out of twilight and into the main portion of the night. The {\tt short\_exp\_5ns\_5} minisurvey drops WFD visits by about 6\% but does not have the same impact, likely because those visits are slightly longer and at least to some level within the goals of visits in the WFD. Note how the minisurvey with 5s visits 2 times per year and the minisurvey with 2s visits 5 times per year have a similar impact on the number of standard WFD visits, but the 5s minisurvey has a smaller impact on metrics. The DCR minisurvey, which redirects standard WFD visits to high airmass visits, modifies even larger fractions of the WFD visits (up to15\%), but has even less impact because these visits are still closer to the usual WFD goals. 
+
+To properly evaluate the DCR and short exposures minisurveys, we need additional metrics sensitive to these effects. For the twilight NEO survey, we should test an additional population of Vatiras. However, we can clearly see that minisurveys requiring more than about 2\% of time (when these visits are not useful for the WFD, such as the {\tt twilight\_neo} family) have severe impacts on other science areas, with a standard baseline background.  It is worth considering that the time used by these minisurveys could represent time lost to any cause and that this impact will be more immediate when running with a different general survey footprint.
 
 \begin{figure}
 \epsscale{0.8}
-%\plotone{plots/minisurvey_time}
+\plotone{plots/minisurvey_time}
 \epsscale{1}
-\caption{The amount of time required for each minisurvey is difficult to measure when they have variable exposure times. Because the remaining survey strategy parameters were constant, a useful analog will be the change in the number of visits for the WFD, although this is likely to be inexact. The fractional change in the number of WFD visits (compared to the baseline) when each minisurvey was was running is shown here. Some of the minisurveys require very little time; some require more and are visible in other science metrics as well.}
+\caption{The amount of time required for each minisurvey is difficult to measure when they have variable exposure times. Because the remaining survey strategy parameters were constant, a useful analog is the change in the number of standard, non-minisurvey, visits for the WFD, although this is likely to be inexact. The fractional change in the number of WFD visits (compared to the baseline) when each minisurvey was was running is shown here. Some of the minisurveys require very little time; some require more and are visible in other science metrics as well; some require significant time but the type of visit overlaps (although is suboptimal for) the WFD.}
 \label{fig:minisurvey_time}
 \end{figure}
 
 \begin{figure}
-\epsscale{0.9}
+\epsscale{0.85}
 \plotone{plots/minisurveys}
 \caption{Comparing the simulations relevant to the addition of minisurveys (Section~\ref{sec:minisurveys}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv fails to meet requirements.}
 \label{fig:minisurveys}
 \end{figure}
 
+\subsection{The FBS 1.6 runs (overview)}\label{sec:runsv16}
 
+The FBS 1.6 runs don't include (generally) include minisurveys, but are configured to spend more time overall on the WFD, even when running on footprints that are extensions of the `big sky' WFD, such as the {\tt combo\_dust} simulations. Figure~\ref{fig:v16_wfdfraction} shows that these runs range from spending 75\% of time on the WFD up to 95\% of time (in the {\tt barebones} simulation). All of the resulting simulations meet SRD requirements when run with 1x30s visits; most of them also meet requirements when running with 2x15s visits, and those that fail are within a percent or so of the requirements. This suggests there is not a large amount of contingency for SRD requirements in these modes nor room to add minisurveys requiring beyond a percent or two of time; on the other hand, our weather model is reasonably conservative and there is room to modify the survey strategy if early years prove problematic.The simulations with 1x30s visits have accordingly larger margins with respect to SRD metrics. Metric results are shown in Figure~\ref{fig:v16}. These runs show similar trends as we saw previously when considering the survey footprints, with the comforting addition that only the {\tt barebones} run seems to really break the science metrics.
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{plots/v16_wfdfraction}
+\epsscale{1}
+\caption{Comparing the fraction of visits used to observe the WFD and the total number of visits gives an appropriate fraction of time spent on the WFD. As the survey focus and footprint changes, this fraction changes significantly.}
+\label{fig:v16_wfdfraction}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.85}
+\plotone{plots/minisurveys}
+\caption{Comparing the v1.6 runs (Section~\ref{sec:runsv16}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv fails to meet requirements.}
+\label{fig:v16}
+\end{figure}

@@ -152,7 +152,7 @@ In the remainder of our simulations, the amount of time dedicated to WFD varies,
 %############ Footprints ############
 \subsection{FBS 1.5 {\tt footprint}: WFD Footprints}\label{ss:footprints}
 
-The location of the WFD region (and its filter distribution) are important questions for the LSST; the bulk of science from the LSST is expected to be facilitated by the WFD. The WFD must be at least 18,000 square degrees to meet SRD requirements, however the location of those 18,000 square degrees is not specified. The standard baseline WFD includes regions which have dust extinction with E(B-V)$>$ 0.2. This amount of dust extinction is problematic for extragalactic science for two reasons --  it reduces the effective coadded five sigma depth, and the total amount and wavelength dependence of dust extinction is not necessarily well characterized, so the effect on the background galaxies is hard to calibrate. An alternate `big sky' WFD footprint extending further north and south, but avoiding the galactic plane by a larger amount (either limited by dust extinction or by galactic latitude), can provide an 18,000 square degrees suitable for extragalactic science and moves parts of the NES and SCP into the WFD, but leaves larger amounts of sky to be covered toward the galactic plane in a separate mini-survey. See Figure~\ref{fig:footprints_footprints} for more details. We ran several experiments with various survey footprints, some of which are more practical than others. The footprints in this section which leave no coverage of the galactic plane will be extremely detrimental to science which requires the galactic plane, for example; the newA footprint requires too many visits to cover the entire sky and so fails the requirements of 825 visits per pointing within the WFD. Many science metrics are extremely sensitive to the footprint; other families, such as the filter distribution family (Section~\ref{ss:filterdist}) and the bulge coverage family (Section~\ref{ss:bulges}) are also important to consider as part of the overall footprint evaluation. A basic summary of the footprints in this section is shown in Figure~\ref{fig:footprint_radar}; a wider discussion of the survey footprint is covered in Section~\ref{sec:bigfootprints}. 
+The location of the WFD region (and its filter distribution) are important questions for the LSST; the bulk of science from the LSST is expected to be facilitated by the WFD. The WFD must be at least 18,000 square degrees to meet SRD requirements, however the location of those 18,000 square degrees is not specified. The standard baseline WFD includes regions which have dust extinction with E(B-V)$>$ 0.2. This amount of dust extinction is problematic for extragalactic science for two reasons --  it reduces the effective coadded five sigma depth, and the total amount and wavelength dependence of dust extinction is not necessarily well characterized, so the effect on the background galaxies is hard to calibrate. An alternate `big sky' WFD footprint extending further north and south, but avoiding the galactic plane by a larger amount (either limited by dust extinction or by galactic latitude), can provide an 18,000 square degrees suitable for extragalactic science and moves parts of the NES and SCP into the WFD, but leaves larger amounts of sky to be covered toward the galactic plane in a separate mini-survey. See Figure~\ref{fig:footprints_footprints} for more details. We ran several experiments with various survey footprints, some of which are more practical than others. The footprints in this section which leave no coverage of the galactic plane will be extremely detrimental to science which requires the galactic plane. Other footprints such as the newA footprint attempt to distribute coverage over too wide an area on the sky and so fail the requirements of 825 visits per pointing within the WFD. Many science metrics are extremely sensitive to the footprint; other families, such as the filter distribution family (Section~\ref{ss:filterdist}) and the bulge coverage family (Section~\ref{ss:bulges}) are also important to consider as part of the overall footprint evaluation. A basic summary of the footprints in this section is shown in Figure~\ref{fig:footprint_radar}; a wider discussion of the survey footprint is covered in Section~\ref{sec:bigfootprints}. 
 
 \begin{figure}
 \epsscale{.35}
@@ -366,7 +366,7 @@ The fraction of time required for the DDFs is driven by the cadences required --
 \plottwo{plots/ddf_plots/ddf_m5_Daily.pdf}{plots/ddf_plots/gap_hist_Daily.pdf}
 %\plottwo{plots/ddf_plots/ddf_m5_DDF_Heavy.pdf}{plots/ddf_plots/gap_hist_DDF_Heavy.pdf}
 \epsscale{1}
-\caption{One observing season of the DDF ELIASS1 under different DDF strategies. }\label{fig:ddfexamples}
+\caption{One observing season of the DDF ELIASS1 under different DDF strategies. See Section~\ref{ss:ddf} for more information. }\label{fig:ddfexamples}
 \end{figure}
 
 
@@ -482,7 +482,7 @@ Consolidating $u$ band exposure time into fewer visits is likely to be problemat
 
 In order to maintain more uniform limiting magnitudes in individual visits, it may be beneficial to vary the visit exposure times. This would mean that transients and variables detected in images during good conditions (dark sky, good seeing, near zenith, etc.) would be more likely to also be able to be detected in images taken in poorer conditions. It would also mean that during poor conditions, longer exposures would mean more useful information than if the consistent 30s visit time was maintained. 
 
-This simulation tests the effect of variable exposure times. In good conditions, the exposure time is allowed to shrink to 20 seconds, while in poor conditions it can extend to 100 seconds. This maintains an ideal depth which is somewhat shallower than the typical image depth in the baseline simulation, but is more consistent across visits. Figure~\ref{fig:varexpt_exptime} shows the distribution of visit exposure times and individual visit limiting magnitudes achieved in the simulation. The median visit time was 24 seconds, shorter than the baseline survey exposure times, but the mean visit time was 32.2 seconds -- there are many visits with 100s exposure times, which drives the survey to 6\% fewer overall number of visits. The scatter in the image depths was reduced by a tenth of a magnitude or so in most bands, although with a variable change in the median and mean five sigma depths ($u$ became shallower while $i$ and $z$ gained some depth). The total on-sky exposure time is very similar to that of the baseline survey, but the coadded depths in $u$ and $g$ bands become shallower by 0.3 and 0.1 magnitudes, respectively.
+This simulation tests the effect of variable exposure times. In good conditions, the exposure time is allowed to shrink to 20 seconds, while in poor conditions it can extend to 100 seconds. This maintains an ideal depth which is somewhat shallower than the typical image depth in the baseline simulation, but is more consistent across visits. Figure~\ref{fig:varexpt_exptime} shows the distribution of visit exposure times and individual visit limiting magnitudes achieved in the simulation. The median visit time was 24 seconds, shorter than the baseline survey exposure times, but the mean visit time was 32.2 seconds -- there are many visits with 100s exposure times, which drives the survey to 6\% fewer overall number of visits. The scatter in the image depths was reduced by a tenth of a magnitude or so in most bands, although with a variable change in the median and mean five sigma depths ($u$ became shallower while $i$ and $z$ gained some depth). The total on-sky exposure time is very similar to that of the baseline survey, but the coadded depths in $u$ and $g$ bands become shallower by 0.3 and 0.1 magnitudes, respectively (see the right panel of Figure~\ref{fig:var_radar}).
 
 Having variable exposure time introduces at least 8 new free parameters to the scheduler: the target individual depth for each filter, as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times, although the predicted sky brightness may be accurate enough.
 
@@ -498,10 +498,8 @@ As with doing 60s $u$ band exposures, having longer visits will reduce the overa
 \end{figure}
 
 \begin{figure}
-\epsscale{0.65}
-\plotone{plots/radar_plots/var_exp_radar}
-\epsscale{1}
-\caption{Science impact of using variable exposure times.}\label{fig:var_radar}
+\plottwo{plots/radar_plots/var_exp_radar}{plots/radar_plots/var_exp_mags_radar}
+\caption{Science impact of using variable exposure times (left). The final coadded depths also shift, with decreases in final depth in the $u$ and $g$ bands and increases in $z$ (right).}\label{fig:var_radar}
 \end{figure}
 
 
@@ -585,7 +583,7 @@ There are some simplifications in artifact identification as a result of differe
 \epsscale{0.65}
 \plotone{plots/radar_plots/spider_radar}
 \epsscale{1}
-\caption{Science impact of keeping diffraction spikes aligned along rows and columns. }
+\caption{Science impact of keeping diffraction spikes aligned along rows and columns (Section~\ref{ss:spiders}. }
 \label{fig:spider_radar}
 \end{figure}
 

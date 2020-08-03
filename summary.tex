@@ -1,15 +1,20 @@
 \section{Summary}
 
-The work of coming to a consensus on the survey strategy is beginning. The investigations presented in this report will help address:
-\begin{itemize}
-\item Choices about the visit exposure time (snaps, variable exposure time and $u$ band visits): Section~\ref{sec:visitexposuretime}.
-\item Choices about the intra-night cadence (pairs and triplets): Section~\ref{sec:intranight}.
-\item Rolling cadence questions (None, 2, 3 or 6 band declination stripes): Section~\ref{ss:rolling}.
-\item Deep Drilling Field cadences: Section~\ref{ss:ddf}.
-\item Minisurvey options: Section~\ref{sec:minisurveys}, as well as Sections~\ref{ss:twilightneo}. \ref{ss:shortexp} and \ref{ss:dcr}.
-\item Choices about the filter distribution: Section~\ref{ss:filterdist}.
-\item And the hard choices about the survey footprint (WFD, NES, SCP, GP): Section~\ref{sec:bigfootprints}.
-\end{itemize}
-Some additional metrics are needed, especially for investigating photometric redshift performance, DCR measurement capabilities, and science return from short images. Metrics to test DDF cadences and to clarify observation requirements for transient classification are also critical. Some questions not addressed here, but that should be considered in the future include dithering strategies, acquiring images for difference image template generation, and the impact of satellite megaconstellations. 
+Summing up the high-level questions addressed by these simulations --
 
-pep talk for scoc here 
+{\bf Visit exposure time:}  We ran simulations with 2x15s visits and 1x30s visits, longer $u$ band visits, and variable exposure time (Section~\ref{sec:visitexposuretime}). We cannot choose between 1x30s and 2x15s visits at this time. Reducing the number of $u$ band visits in order to increase the exposure time is bad for transients; new simulations should be done once further survey strategy choices are made. Variable exposure times result in fewer visits over all, although similar on-sky exposure time; metric results were neutral. 
+
+{\bf Intra-Night cadence:} We ran simulations with pairs in the same filter and mixed filters, as well as adding triplets for some portion of the night (Section~\ref{sec:intranight}. Mixed filters are preferable for most science and not significantly detrimental for any metrics. Adding triplets of visits for a small fraction of the sky (using 15 to 45 minutes at the end of each night) is relatively neutral for our metrics. More metrics sensitive to the presence or absence of a third visit in a night would be useful.
+
+{\bf Rolling cadence:} We tested the rolling cadence using 2, 3 and 6 bands of declination-limited area (Section~\ref{ss:rolling}). Metrics are relatively neutral for the 2 and 3 band declination options. The 6 band option is mildly to strongly negative for Solar system science and some kinds of transient science (due to trades between the time and area coverage); it also is likely to be more vulnerable to weather disruptions. More metrics sensitive to short-timescale transients and variables would be useful. 
+
+{\bf Filter distribution:} We tested the effects of varying the filter distribution (Section~\ref{ss:filterdist} and Section~\ref{sec:bigfootprints}). The SRD lays out a suggested filter distribution based on photometric redshift expectations; a photometric redshift metric to run on the simulations would be extremely useful. There is some tension between shifting to more bluer ($u$) visits vs. adding more redder ($i$) band visits. 
+
+{\bf DDFs:} We ran simulations using various DD cadences (Section~\ref{ss:ddf}). Evaluating the effect of these simulations requires more specific DDF metrics. If the DDFs are capped at a total fraction of survey time, their impact on the remainder of the survey is consistent. If we allow their time requirement to vary depending on the cadence requirements, and attempt to meet both DESC and AGN DDF cadence requirements, more time will be required and their impact will be more significant.
+
+{\bf Minisurveys:} We tested various minisurvey additions -- a DCR minisurvey (Section~\ref{ss:dcr}), a short exposure minisurvey (Section~\ref{ss:shortexp}), and a twilight NEO minisurvey (Section~\ref{ss:twilightneo}), and evaluated the general impact of minisurveys in Section~\ref{sec:minisurveys}. Observations taken for minisurveys tend to be suboptimal for standard surveying, but some minisurveys have a smaller effect than others. Metrics which target the expected science return of these minisurveys are needed to fully evaluate these trades. It is likely that decisions on the minisurveys may have to wait until after further choices about the survey footprint are made.
+
+{\bf Survey footprint:} The choice for the survey footprint has the greatest repercussions for the overall survey strategy (Section~\ref{sec:bigfootprints}. The options can be split into two broad groups that are differentiated based on the WFD footprint -- the current baseline WFD footprint which runs from $-62^\circ$ to $2.5^\circ$ declination with a relatively small cutout around the galactic plane and a `big sky' style WFD footprint which runs from  $-72^\circ$ to $12.5^\circ$ declination with a wider cutout around the galactic plane. Most metrics prefer variations on the big sky WFD where additional coverage is added for the NES, SCP and GP, but these runs result in fewer visits per pointing within the WFD region and have a lower margin to passing SRD metrics. 
+
+Over the next two years, the SCOC will look for further input from the community on metrics and on these survey strategy investigations. This process will necessarily be somewhat iterative; with additional feedback, an updated set of more targeted simulations can be created and evaluated using new metrics, which will feed back to the SCOC. Two community workshops are currently planned, as well as further communication directly between the SCOC and the science collaborations as well as the community at large. We look forward to participating in this process to find the best survey strategy for the LSST.
+

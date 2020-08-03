@@ -1,6 +1,6 @@
 \section{Cross-family Survey Strategy Choices}
 
-The families of simulations described in the previous sections (FBS 1.5 and 1.6 releases) maintained the approach of varying a single kind of parameter (such as the amount of time devoted to triplets of visits in the {\tt third\_visit} runs), but the underlying survey strategy choices can cover multiple families (such as the runs including pairs in mixed or the same filters and the triplet visits runs). In this section, we will consolidate and summarize some of the results from the previous sections if they cut across families. Strategy questions that are confined to a single family are not repeated in this section.
+The families of simulations described in the previous sections (FBS 1.5 and 1.6 releases) maintained the approach of varying a single kind of parameter (such as the amount of time devoted to triplets of visits in the {\tt third\_visit} runs), but the underlying survey strategy choices can cover multiple families (such as the runs including pairs in mixed or the same filters and the triplet visits runs). In this section, we will consolidate and summarize some of the results from the previous sections if they cut across families (presenting some additional metric results in the process). Strategy questions that are confined to a single family are not repeated in this section.
 
 \subsection{Visit Exposure Time}\label{sec:visitexposuretime}
 
@@ -13,7 +13,7 @@ There are several choices related to the individual visit exposure time:
  
 For the first of these questions -- 1x30s visits or 2x15s visits -- is perhaps the most important, yet the final decision cannot be made until the camera is on the sky and acquiring data, to verify cosmic ray rejection will work and that the two snaps are not required. In adidition, there are still some rapid transient or variable science cases that may still benefit from 2x15s visits. However, while the decision cannot be finalized yet, the decision does weigh in on other the survey strategy choices, so it must be considered already. The decrease in overhead going from 2x15s visits to 1x30s visits allows 8\% more visits to be obtained in the same time, which allows significantly more options for footprint coverage and addition of minisurveys. 
 
-The second question -- increasing the $u$ band exposure time -- was addressed in Section~\ref{ss:u60}. The tension comes between increasing coadded depth in $u$ versus a dramatically decreased number of $u$ band visits making it more difficult to obtain $u$ photometry for transients. Extending the visit exposure time while also maintaining the number of $u$ band visits would require adding about 3\% more visits to WFD by removing them from other minisurveys or other filters (note that shifting visits into bluer filters overlaps with some of the options discussed in Section~\ref{ss:filterdist}). 
+The second question -- increasing the $u$ band exposure time -- was addressed in Section~\ref{ss:u60}. The tension comes between increasing coadded depth in $u$ versus a dramatically decreased number of $u$ band visits making it more difficult to obtain $u$ photometry for transients. Extending the visit exposure time while also maintaining the number of $u$ band visits would require adding about 3\% more visits to WFD by removing them from other minisurveys or other filters (note that shifting visits into bluer filters overlaps with some of the options discussed in Section~\ref{ss:filterdist}). We should run additional simulations to evaluate this impact, using an updated survey footprint and choice of rolling cadence. 
 
 The third question -- variable exposure time -- was addressed in Section~\ref{ss:var_expt}. Adding a variable exposure time decreases the scatter in the individual image five sigma limiting magnitudes, but results in fewer overall visits. It had mixed effects on the typical limiting magnitudes per visit, and the coadded $u$ band depth became shallower by 0.3 magnitudes, although there are many parameters which could be tuned to attempt to improve this (making the goal $u$ band visit depth deeper could be one, although it is complicated because of the $u$ band read-noise limitation). In general, this seems to add complication to practical aspects of the scheduler when using real-world telemetry (due to the difficulty in predicting the proper exposure time when scheduling blocks of blobs) and may not have clear advantages to science.
 
@@ -41,7 +41,7 @@ Then the question is whether pairs should be taken in the same filter or in diff
 
 The final question is if some fraction of visits should be acquired in triplets. Section~\ref{ss:thirdobs} explores adding a third observation per night for some fraction of the available time. By adding a third visit, less sky is covered per night. This has a small negative impact on most solar system object discovery, with NEO completeness at $H\le22$ dropping by about 4\% for the simulation with 120 minutes per night spent on triplets. Surprisingly, the transient metrics did not show much improvement with the addition of triplets; detection of TDEs dropped by 8\% with 120 minutes of triplets. This is likely due to the timescales over which the objects change, the smaller amount of area covered per night, and the specific detection requirements in the metrics.  
 
-It seems likely that we are also missing metrics; metrics which reflect classification confusion and detection requirements for transients which were the target of the Bianco et al white paper (`Presto-Color') may change this evaluation. Figure~\ref{fig:intranight} shows the response of the radar plot metrics, together with some additional metrics, for these intra-night cadence simulations. Note that the triplets options have not been tested with survey footprints beyond the baseline or with rolling cadence. 
+It seems likely that we are also missing metrics; metrics which reflect classification confusion and detection requirements for transients which were the target of the Bianco et al white paper (`Presto-Color') may change this evaluation. Figure~\ref{fig:intranight} shows the response of the radar plot metrics, together with some additional metrics, for these intra-night cadence simulations. Note that the triplets options have not been tested with survey footprints beyond the baseline or with a rolling cadence; additional simulations using an updated survey footprint and choice of rolling cadence would be useful. 
 
 \begin{figure}
 \epsscale{0.85}
@@ -136,13 +136,13 @@ The FBS 1.6 runs don't include (generally) include minisurveys, but are configur
 \epsscale{0.8}
 \plotone{plots/v16_wfdfraction}
 \epsscale{1}
-\caption{Comparing the fraction of visits used to observe the WFD and the total number of visits gives an appropriate fraction of time spent on the WFD. As the survey focus and footprint changes, this fraction changes significantly.}
+\caption{Comparing the fraction of visits used to observe the WFD and the total number of visits gives an appropriate fraction of time spent on the WFD. As the survey focus and footprint changes, this fraction changes significantly. Shaded regions indicate 2x15s simulations; unshaded regions indicate 1x30s versions of similar simulations (the 1x30s simulation is to the right of the 2x15s run).}
 \label{fig:v16_wfdfraction}
 \end{figure}
 
 \begin{figure}
 \epsscale{0.85}
-\plotone{plots/minisurveys}
-\caption{Comparing the v1.6 runs (Section~\ref{sec:runsv16}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. The dashed black line on the SRD metrics subplot indicates where fONv fails to meet requirements.}
+\plotone{plots/v16}
+\caption{Comparing the v1.6 runs (Section~\ref{sec:runsv16}). All metrics are scaled so that bigger is better and all are normalized against the baseline run. Shaded columns are 2x15s runs, unshaded are 1x30s runs. The dashed black line on the SRD metrics subplot indicates where fONv fails to meet requirements.}
 \label{fig:v16}
 \end{figure}

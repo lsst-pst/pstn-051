@@ -1,0 +1,607 @@
+\section{Survey Strategy Experiments} 
+
+The SAC report raised a series of questions and identified suggested simulation experiments to run. This can be categorized as follows: 
+\begin{itemize}
+\item Experiments with the WFD footprint (survey footprint variations)
+\item Experiments with the WFD cadence (note that unless specifically required, we use the same general cadence for the entire sky);
+	\begin{itemize}
+	\item Compare individual visits of 2x15s exposure and 1x30s exposure
+	\item Compare pairs in the same filter vs. different filters, and the effect of triplets of visits
+	\item Add short (1 or 5 second) visits; test 60 second $u$ band visits.
+	\item Variable exposure times for uniform depth
+	\end{itemize}
+\item Experiments with rolling cadence, with 2, 3 and 6 declination bands
+\item Experiments with mini-surveys to the North, South and through the Galactic Plane (essentially, survey footprint variations)
+\item Experiments with twilight observing
+\item Experiments with Deep Drilling field cadences 
+\item Tests of Target of Opportunity (ToO) observing
+\end{itemize}
+
+We have explored these areas, along with a few other questions that have arisen over the course of this work, using `families' of simulations. In these families, we vary a particular parameter of the survey strategy to look for the impact on science. Sometimes the experiments requested by the SAC cross multiple families of these simulations  -- the general `WFD cadence' question is addressed with several families investigating different options for cadence variation -- and sometimes the impacts to given science goals come from multiple families -- the most common being a combination of survey footprint and cadence. Often the impacts are minimal; the baseline LSST survey strategy covers most of the requirements, and these variations are relatively small. Occasionally there are impacts that are much larger, and these are important to note. 
+
+The starting point was the existing baseline survey strategy, {\tt baseline2018a}, consisting of the Wide-Fast-Deep (WFD) survey, five Deep Drilling Fields (DDFs,) and Galactic Plane (GP), North Ecliptic Spur (NES) and Southern Celestial Pole (SCP) minisurveys. The existing baseline used 2x15s exposures per visit, and most visits were in the same filter (although this was not enforced). Standard observing started and ended at 12~degree twilight. The general strategy from this simulation was ported to the new scheduler code and (approximately) recreated as the baseline survey strategy.
+
+In the course of working through these simulation experiments, we have issued several releases -- sets of simulations which explored parts of the SAC questions using a particular version of the scheduler and simulator code. With each release, we found some improvements or updates to the scheduler or simulation code and also added new simulations investigating new questions. With each release, we typically re-ran the previous set of experiments, although sometimes families of simulations were dropped or modified due to what we learned from the previous release. Release notes can be found on \href{https://community.lsst.org/c/sci/survey-strategy/}{community.lsst.org}\footnote{The Survey Strategy section of community.lsst.org is available at \href{https://community.lsst.org/c/sci/survey-strategy/}{https://community.lsst.org/c/sci/survey-strategy/}}. 
+
+The families of simulations relevant for this report come primarily from Feature Based Scheduler (FBS) release 1.5, 1.4 and 1.6. The FBS 1.5 families are the primary set; there is one family of experiments in 1.4 that were used as the basis for default values in FBS 1.5 that should be discussed; and FBS 1.6 contains some extensions of simulation families as well as a series of candidate potential baseline survey strategies. The candidate new baselines in FBS 1.6 are generally unlikely to be acceptable as-is, however they can serve as examples of more extreme optimizations. 
+
+As one of the FBS 1.4 families were used to set some of the default parameters about $u$ band visit pairing and $u$ band filter load/un-load times, we describe this first. Then we describe the FBS 1.5 families of runs, which explore most of the other investigation topics. Finally we describe the FBS 1.6 experiment families. In the next section we will discuss the FBS 1.6 candidate baselines. 
+
+
+%############# varying u-band #############
+\subsection{FBS 1.4 {\tt u\_pairs}:  $u$\ Filter Pairing and Filter Load/Unload Time}\label{ss:u_pairs}
+
+One of the early concerns from the SAC was about the $u$ band filter load/un-load time. As the camera can only hold 5 filters at a time, one filter must always be unavailable. We currently swap $u$ band with $y$ band, depending on the phase of the moon. The SAC initially suggested keeping the $u$ band filter in the camera for a very limited time, only a few days around new moon. The driving concern here was to restrict $u$ band usage to the darkest period of the month (increasing the depth in $u$ band) and to allow more consistent sequences of $grizy$ for DDFs, as the previous version of the scheduler code would only trigger these sequences when all of the filters were available (and thus would not trigger when $u$ band was in the camera). 
+
+As an opposing tension, there was some concern that limiting $u$ band availability could cause problems for classification of transient sources; $u$ band brightness is an important distinguishing feature for many of these objects, particularly Tidal Disruption Events (TDEs). Part of the requirement here is obtaining $u$ band photometry in close proximity to $g$ or $r$ band photometry. 
+
+To evaluate all of these issues, we created the {\tt u\_pairs} family of simulations. In this family, we only take $u$ band observations paired ($\sim22$ minutes later) with $g$ or with $r$. We vary the timing of when the $u$ band filter is loaded into the camera from 15\% to 60\% lunar illumination; see Figure~\ref{fig:lunarIllum} for a translation between lunar illumination and days from new moon. We specifically add a variation in the  number of $u$ band visits per pointing (the weight of the $u$ band footprint) over 1, 2 or 4 times the baseline footprint, in order to more fully explore the impact on transients. 
+
+We find that it is necessary to keep the $u$ band in the camera until about 40\% lunar illumination to meet SRD requirements without increasing the $u$ band number of visits. A shorter period of time is long enough to take enough $u$ band visits over the sky {\it if} the time available is distributed as evenly as the footprint over which those $u$ band visits are required; however, there are seasonal night length and weather variations which make the resulting sky coverage patchy if the number of nights available with $u$ band are too few.  See Figure~\ref{fig:nvisits_ubandswap}. 
+
+These simulations also showed that, even if the $u$ band was available outside of full moon, the basis functions which drive scheduling inside the FBS are able to limit visits in $u$ band to only when the sky brightness in $u$ is low (as long as the total number of $u$ band visits can fit within the darkest time periods). Thus, expanding the period of time the filter is available does not result in lower five sigma limiting depths. See Figure~\ref{fig:u_band_fiveSigmaDepth}. 
+
+And finally, we addressed the issue of the $grizy$ sequences by adding code that let the DD sequences be more flexible, using whichever filters were available. In all newer simulations, $u$ band is part of the DD sequences instead of separate, and the sequences range over whatever $ugrizy$ filters are available at any given time; this has the positive effect of reducing the large gaps between sequential visits in the same filter that were previously a function of lunar phase. 
+
+The resulting science trades can be visualized in the radar plots; see Figure~\ref{fig:radar_ubandswap}. The largest change is in the TDE metric, which represents some portion of transient science; more $u$ band visits and longer availability results in an increase in the TDE metric results, at a slight cost to the other science cases that don't benefit from additional $u$ band coverage.  A closer look at the full TDE metric results show some simple scaling with the total number of $u$ band visits (see Figure~\ref{fig:upairs_TDE}). One notable point is that the metric results were improved even with a fairly simple change in how the $u$ band visits were acquired; instead of requesting $u$ band visits in singletons, these runs requested $u$ paired with $g$ or $r$. This improves transient science, although it does increase the amount of time that $u$ band must be available in the camera. 
+
+Based on the minor costs to other science, especially after the adjustments made to the scheduler code regarding the DD fields, this family of simulations led us to adjust the baseline survey strategy defaults for all FBS 1.5 runs. For all further runs, we load and unload the $u$ band filter at 40\% lunar illumination and pair $u$ band visits with $g$ or $r$ band. We maintain the survey footprint filter ratios at standard. 
+
+\begin{figure}
+\plotone{plots/MoonPhaseDays}
+\caption{Relationship between lunar illumination (used as the constraint for when to change the available filters) and days from new moon.}
+\label{fig:lunarIllum}
+\end{figure}
+
+\begin{figure}
+\plotone{plots/u_band_fiveSigmaDepth}
+\caption{The five sigma depth in $u$ band visits in each simulation in this family. Regardless of the time of the $u$ band filter swap (15, 30, 45 or 60\% lunar illumination), when the number of visits fits into the dark time available, the five sigma depths remain comparable.}
+\label{fig:u_band_fiveSigmaDepth}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.35}
+\plotone{plots/Moon_30_u_X_1_Count_observationStartMJD_u_band_HEAL_SkyMap}
+\plotone{plots/Moon_40_u_X_1_Count_observationStartMJD_u_band_HEAL_SkyMap}
+\plotone{plots/Moon_60_u_X_1_Count_observationStartMJD_u_band_HEAL_SkyMap}
+\epsscale{1}
+\caption{The number of visits in $u$ band, with the filter load/unload at 30, 40 and 60\% lunar illumination. This is with the $u$ band survey footprint set to the standard weight; ideally the number of visits per pointing would be about 56. With a shorter period of time available for $u$ band visits, the sky coverage is patchier. A filter swap at 40\% lunar illumination does a reasonable job of achieving the required number of visits fairly uniformly across the sky.}
+\label{fig:nvisits_ubandswap}
+\end{figure}
+
+\begin{figure}
+\plotone{plots/radar_plots/upairs30_radar}
+\plotone{plots/radar_plots/upairs60_radar}
+\caption{Varying the $u$ filter load/unload time as well as the weight in the $u$ band of the survey footprint. The right-most panels are zoomed in (around the baseline) versions of the panels on the left. l }
+\label{fig:radar_ubandswap}
+\end{figure}
+
+\begin{figure}
+\plotone{plots/upairs_TDE}
+\caption{The relative change in TDE metric results across the family of $u\_pairs$ runs, compared to the baseline for FBS 1.4 (the FBS 1.4 baseline did not have $u$ band paired with $g$ or $r$; in {\tt baseline\_v1.4\_10yrs} the $u$ band was taken in single visits). There are multiple versions of this metric, corresponding to simple detection pre-peak, detection in any color, and detection in a color that includes $u$ band; the final criteria is the most variable and the hardest to meet. Increased availability of the $u$ band helps (up to 4x), and increasing the $u$ band number of visits boosts the metric result as well (roughly linearly with the number of $u$ band visits).}
+\label{fig:upairs_TDE}
+\end{figure}
+
+
+%############  Baseline(s) ############
+
+\subsection{FBS 1.5 {\tt baseline}: Baseline simulations (snaps and pairs)}\label{ss:baseline}
+
+We use the baseline simulation as the touchpoint for the other simulations; the baseline serves as the reference for metrics and also sets a variety of default parameters carried into the other simulations. 
+
+This baseline survey is configured with 1x30s exposures per visit, with most visits (`blob visits') obtained in pairs separated by about 22 minutes (combinations of $u+g$, $u+r$, $g+r$, $r+i$, $i+z$, $z+y$, $y+y$ in any order for the pair). The footprint for the survey is the standard WFD plus minisurveys in the GP, NES and SCP, with five DD fields (located at the positions in Table~\ref{table:ddfs}). The ratios in the survey footprint between the various filters closely matches the desired distribution of visits over filters given in the SRD ($u$=6\%, $g$=9\%, $r$=22\%, $i$=22\%, $z$=20\%, $y$=21\% compared to an example SRD distribution of $u$=7\%, $g$=10\%, $r$=22\%, $i$=22\%, $z$=19\%, $y$=19\%). The $u$ band filter was loaded in and out of the camera at 40\% lunar illumination. 
+
+We also ran a comparison baseline simulation using 2x15s exposures per visit, instead of 1x30s. The overheads of taking 1x30s exposure per visit instead of 2x15s exposures per visit represent about a 9\% decrease: 31 seconds per visit compared to 34 seconds per visit (with a single 1s shutter open/close, instead of 2s readout and 2x1s of shutter time, assuming the final readout occurs during the slew to the next field). This is reflected in the total number of visits acquired in each of these runs; there are about 8\% more visits in {\tt baseline\_v1.5\_10yrs} compared to {\tt baseline\_2snaps\_v1.5\_10yrs} It is worth noting that not all metrics scale directly with the number of visits; however, many do. Unfortunately, we {\it cannot assume} that 2x15s visits will not be necessary until the camera is on the telescope and the impact of cosmic rays and other artifacts are evaluated. Therefore, the correction between 2x15s visits and 1x30s visits should be kept in mind throughout the remainder of this work, even though all other simulations use 1x30s visits to evaluate the `most likely' scenario. 
+
+The baseline simulation uses filters in mixed pairs; we did run a similar baseline-style simulation with 1x30s visits where the pairs were in the same filter ({\tt baseline\_samefilt\_v1.5\_10yrs}. This provides an efficiency boost due to fewer filter changes during the night, allowing on the order of 4\% more visits over the lifetime of the survey. Observing in the same filter is beneficial for detecting solar system objects (since the limiting magnitudes of the pair of visits improves the likelihood of having detections for moving object linking), but is generally detrimental for measuring colors for transients and variables; for transients and variables, however, obtaining a third visit in the same night can be even more beneficial. A wider discussion of the intra-night cadence is covered in Section~\ref{sec:intranight}.
+
+%############ Third Observation ############
+\subsection{FBS 1.5 {\tt third\_obs}: Third Observation}\label{ss:thirdobs}
+
+For early identification of transients, it can be helpful to have more than two observations in a night. Having two visits in the same filter, with a third in another filter, provides both a measurement of brightness variation over a short period of time and a color; this aids in classification. In this family of simulations, we dedicate between 15 minutes (simulation with the shortest time spent on triplets) and 120 minutes  (simulation with the most time spent on triplets) at the end of each night to attempting to revisit areas of sky that already have been observed with a pair, in order to obtain a third visit. The greater the amount of time dedicated to this third observation, the less area of sky is covered in a given night. In general, the science impact of adding third observations seems to be fairly minimal or negative, see Figure~\ref{fig:third_radar}. This is likely because the metrics we're currently tracking aren't that sensitive to the presence of a third visit in a night (the TDE and SNIa metrics have negative impacts due to the lesser area covered per night, as they do not require three visits in a night), and highlights a need for a metric sensitive to this effect and appropriately tuned to highlight transient and variable classification and characterization requirements. A wider discussion of the intra-night cadence is covered in Section~\ref{sec:intranight}.
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/third_radar}
+\epsscale{1}
+\caption{The science impact of dedicating the end of the night to gathering observations of areas that already have pairs. Note the scale - this radar plot covers 10\% changes. }
+\label{fig:third_radar}
+\end{figure}
+
+
+%############ WFD Depth ############
+
+\subsection{FBS 1.5 {\tt wfd\_depth}: WFD Weight}\label{ss:wfd_depth}
+
+This family of runs was primarily executed to confirm how the fO SRD metric scales with the footprint emphasis on the WFD. The survey footprint varies the fraction of observing time dedicated to the WFD area from 60\% to 99\%, with and without the standard DDF survey. For simplicity, here we look at the metric outputs run on the versions without the standard DDF fields; the numbers of visits per pointing that result are shown in Figure~\ref{fig:wfd_scale_nvisits}. 
+
+From these runs, we find that varying the fraction of time devoted to the WFD impacts various science metrics (see Figure~\ref{fig:wfd_depth_radar}), but even more importantly, it is likely that the SRD metric evaluating the minimum number of visits per pointing over the best 18k square degrees (fONv MinimumNvisits) cannot be met unless at least 70\% of the survey time (in the footprint, which translates to more like 73\% of actual visits due to dithering over the edges of the WFD region) is dedicated to the WFD. In these simulations, 73\% of visits is approximately 1.65M visits out of the total 2.22M; in the case of bad weather, this would mean more visits would have to be redirected to the WFD. 
+
+In the remainder of our simulations, the amount of time dedicated to WFD varies, depending on the details of the survey footprint and minisurvey requirements. In general, it ranges from 66\% to 94\%, with most simulations falling around 83\%. 
+
+\begin{figure}
+\epsscale{0.35}
+\plotone{plots/pulled_plots/wfd_depth_scale0_65_noddf_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/wfd_depth_scale0_70_noddf_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/wfd_depth_scale0_75_noddf_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/wfd_depth_scale0_80_noddf_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/wfd_depth_scale0_85_noddf_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/wfd_depth_scale0_90_noddf_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/wfd_depth_scale0_95_noddf_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/wfd_depth_scale0_99_noddf_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\epsscale{1}
+\caption{Varying the amount of time dedicated to the WFD region between 65\% and 99\% of the visits.}
+\label{fig:wfd_scale_nvisits}
+\end{figure}
+
+
+\begin{figure}
+\epsscale{0.85}
+\plotone{plots/radar_plots/wfd_depth_radar.pdf}
+\epsscale{1}
+\caption{The science impact of varying the WFD depth. The right panel is a zoom-in on the left panel.}\label{fig:wfd_depth_radar}
+\end{figure}
+
+\begin{figure}
+\plotone{plots/wfddepth_fO}
+\caption{The minimum number of visits per pointing over the 'best' 18k square degrees (the WFD footprint), fONv MinVisits. When looking at the effect of scaling the WFD number of visits with a consistent footprint, this metric is perhaps more useful here than our standard version, the median number of visits per pointing over the WFD (fONv MedNvisits) as it will also capture `patchiness' of visits. The black line shows the weight on the WFD in the survey footprint input to the scheduler; the red line shows the number of visits assigned to count toward the `WFD area' out of the finished pointing history. The red line differs from the black line because entire visits were assigned as `WFD', even when part of the field of view of the visit was beyond the 18k square degrees of the WFD. A 5\% increase in time allocated to the WFD can result in every field receiving 40-50 more visits.}
+\label{fig:wfddepth_fo}
+\end{figure}
+
+
+%############ Footprints ############
+\subsection{FBS 1.5 {\tt footprint}: WFD Footprints}\label{ss:footprints}
+
+The location of the WFD region (and its filter distribution) are important questions for the LSST; the bulk of science from the LSST is expected to be facilitated by the WFD. The WFD must be at least 18,000 square degrees to meet SRD requirements, however the location of those 18,000 square degrees is not specified. The standard baseline WFD includes regions which have dust extinction with E(B-V)$>$ 0.2. This amount of dust extinction is problematic for extragalactic science for two reasons --  it reduces the effective coadded five sigma depth, and the total amount and wavelength dependence of dust extinction is not necessarily well characterized, so the effect on the background galaxies is hard to calibrate. An alternate `big sky' WFD footprint extending further north and south, but avoiding the galactic plane by a larger amount (either limited by dust extinction or by galactic latitude), can provide an 18,000 square degrees suitable for extragalactic science and moves parts of the NES and SCP into the WFD, but leaves larger amounts of sky to be covered toward the galactic plane in a separate mini-survey. See Figure~\ref{fig:footprints_footprints} for more details. We ran several experiments with various survey footprints, some of which are more practical than others. The footprints in this section which leave no coverage of the galactic plane will be extremely detrimental to science which requires the galactic plane. Other footprints such as the newA footprint attempt to distribute coverage over too wide an area on the sky and so fail the requirements of 825 visits per pointing within the WFD. Many science metrics are extremely sensitive to the footprint; other families, such as the filter distribution family (Section~\ref{ss:filterdist}) and the bulge coverage family (Section~\ref{ss:bulges}) are also important to consider as part of the overall footprint evaluation. A basic summary of the footprints in this section is shown in Figure~\ref{fig:footprint_radar}; a wider discussion of the survey footprint is covered in Section~\ref{sec:bigfootprints}. 
+
+\begin{figure}
+\epsscale{.35}
+\plotone{plots/pulled_plots/footprint_standard_goalsv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_bluer_footprintv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_no_gp_northv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_gp_smoothv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_add_mag_cloudsv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_sky_dustv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_skyv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_sky_nouiyv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_big_wfdv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_newAv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_newBv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/footprint_stuck_rollingv1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\epsscale{1}
+\caption{The total number of visits in each of the different survey footprints simulated. From top left to right and then down, the description of these survey footprints is: \\
+ (1) standard (previous) baseline survey footprint ({\tt footprint\_standard\_goals}), \\
+ (2) the same footprint but with a bluer filter distribution ({\tt footprint\_bluer\_footprint}),\\ 
+ (3) the standard footprint but removing the northern tip of the galactic plane minisurvey ({\tt footprint\_no\_gp\_north}),  \\
+ (4) the standard footprint, but continuing the WFD-cadence of visits through the galactic plane ({\tt footprint\_gp\_smooth}),  \\
+ (5) the standard footprint but adding a magellanic clouds extension at WFD-cadence ({\tt footprint\_add\_mag\_clouds}), \\ 
+ (6) an extended N/S footprint (going about 10 degrees further north and south) nicknamed `big sky', with the galactic plane boundaries delineated by dust extinction, a small northern extension but no SCP or GP coverage {\tt footprint\_big\_sky\_dust}), \\
+ (7) an extended N/S footprint similar to the previous, but with the galactic plane boundaries delineated by galactic latitude ($l=20$) ({\tt footprint\_big\_sky}),\\
+ (8) the same footprint, but without any coverage in $u$, $i$ or $y$ band ({\tt footprint\_big\_sky\_nouiy}),\\
+ (9) an extended WFD region, going further north in the sky (even further than big sky) although not as far south, includes SCP and GP coverage with a small extension for the NES ({\tt footprint\_bigwfd}) \\
+ (10) an extended N/S WFD footprint (in the `big sky' style) but with the galactic plane defined by galactic latitude ($l=20$) -- this adds the GP covered to just slightly less than WFD depth, and minisurveys for the SCP and  NES ({\tt footprint\_newA}) \\
+ (11) similar to the newA footprint, however the galactic anti-center is covered with fewer visits, to allow more visits over the WFD region ({\tt footprint\_newB}) \\
+ (12) this survey footprint is primarily a test case to find wide area metrics that were not properly sensitive to area; here the WFD is purposefully not covered appropriately but rather the northern half of the standard WFD received almost all of the visits from the WFD while the southern half receives a small fraction ({\tt footprint\_stuck\_rolling}).\\
+}
+\label{fig:footprints_footprints}
+\end{figure}
+
+\begin{figure}
+\plotone{plots/radar_plots/footprints_radar}
+\caption{Science impact of varying the WFD survey footprint. The number of stars and galaxies is obviously very sensitive to the footprint, as are the number of discovered TNOs (as these objects move very slowly). The Fast Microlensing also varies strongly, as this metric depends on galactic plane coverage. The right panel is a zoom-in of the left panel.}
+\label{fig:footprint_radar}
+\end{figure}
+
+%############ Bulge ############
+\subsection{FBS 1.5 {\tt bulges}: Galactic plane coverage}\label{ss:bulges}
+
+The survey strategy for the galactic plane is an important question for science dealing with populations within the Milky Way, especially transients and variables that are most populous in the plane and toward the Magellanic Clouds. The SAC made a series of recommendations for survey strategy in the galactic plane, which were implemented in this family of simulations. The background WFD footprint for this family is the `big sky' style footprint introduced in the previous section. 
+
+We use three footprints for bulge coverage: 
+\begin{itemize}
+\item light coverage of the bulge and entire galactic plane ({\tt bulges\_bs}),
+\item the galactic bulge as deep as WFD ({\tt bulges\_bulge\_wfd}), 
+\item the galactic bulge covered similarly to WFD, but with more observations in $i$ ({\tt bulges\_i\_heavy}.  
+\end{itemize}
+See Figure~\ref{fig:bulge} for more details on the location of the increased plane coverage. 
+For each of these strategies, we run a version with natural cadence and one where we boost the priority of the bulge if it has not been observed in 2.5 days (to ensure a more rapid cadence). 
+
+Covering the bulge understandably increases the overall number of stars expected from the simulation, as well as the fast microlensing events (which are primarily concentrated toward the bulge). Because this requires more visits away from the larger `big sky' region of WFD, there is a slight decrease in the SRD metrics. See Figure~\ref{fig:bulge_radar}. 
+
+\begin{figure}
+\epsscale{0.35}
+\plotone{plots/pulled_plots/bulges_bs_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/bulges_bulge_wfd_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/bulges_i_heavy_v1_5_10yrs_Count_observationStartMJD_i_HEAL_SkyMap.pdf}
+\epsscale{1}
+\caption{Series of simulations trying different bulge observing strategies; these vary from simple light coverage of the galactic bulge and plane to heavier coverage of the bulge (while maintaining light coverage of the rest of the galactic plane).}\label{fig:bulge}
+\end{figure}
+
+\begin{figure}
+%\epsscale{0.65}
+\plotone{plots/radar_plots/bulge_radar}
+%\epsscale{1}
+\caption{Science impact of the different bulge strategy simulations. The right panel is a zoom in of the left.}\label{fig:bulge_radar}
+\end{figure}
+
+
+%############ Filter Distribution ############
+\subsection{FBS 1.5 {\tt filter\_dist}: Filter Distribution}\label{ss:filterdist}
+
+The filter distribution for the standard baseline simulation follows the suggested distribution in the SRD, however this family varies the weights between different filters significantly. This family should serve as a useful testbed for photometric redshift evaluations, but we do not currently have a photometric redshift metric available. However, this family does also illustrate other tensions between SNe and solar system science, for example, with SNe benefiting from more visits in bluer filters while solar system discovery (because these objects are red) prefer more visits in redder bands. This family is also useful when evaluating the overall survey footprint, as it is a simple WFD-only survey footprint, with no SCP or (significantly for solar system objects) NES. 
+The filter distributions simulated are listed in Table~\ref{table:filtdist}, and the radar plot of high level metrics is Figure~\ref{fig:filterdist_radar}. 
+
+\begin{table}
+\begin{centering}
+\begin{tabular}{lrrrrrr}
+              Name &     $u$ &     $g$ &  $r$ &     $i$ &     $z$ &     $y$ \\
+\hline
+           Uniform & 1.00 & 1.00 &  1 & 1.00 & 1.00 & 1.00 \\
+          Baseline & 0.31 & 0.44 &  1 & 1.00 & 0.90 & 0.90 \\
+         $g$ heavy & 0.31 & 1.00 &  1 & 1.00 & 0.90 & 0.90 \\
+         $u$ heavy & 0.90 & 0.44 &  1 & 1.00 & 0.90 & 0.90 \\
+        $z$ and $y$ heavy & 0.31 & 0.44 &  1 & 1.00 & 1.50 & 1.50 \\
+         $i$ heavy & 0.31 & 0.44 &  1 & 1.50 & 0.90 & 0.90 \\
+             Bluer & 0.50 & 0.60 &  1 & 1.00 & 0.90 & 0.90 \\
+            Redder & 0.31 & 0.44 &  1 & 1.10 & 1.10 & 1.10 \\
+\hline
+\end{tabular}
+\caption{Variations of the filter distribution simulated.}\label{table:filtdist}
+\end{centering}
+\end{table}
+
+\begin{figure}
+%\epsscale{0.85}
+\plotone{plots/radar_plots/filter_dist_radar}
+%\epsscale{1}
+\caption{Science impact of varying the filter distribution}\label{fig:filterdist_radar}
+\end{figure}
+
+
+%############ Dust With Alternating ############
+\subsection{FBS 1.5  {\tt alt\_roll\_dust}: Nighty N/S alternating observing}
+
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/pulled_plots/alt_roll_mod2_dust_sdf_0_20_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap}
+\plotone{plots/pulled_plots/alt_roll_mod2_dust_sdf_0_20_v1_5_10yrs_Nvisits_as_function_of_Alt_Az_HEAL_SkyMap}
+\plotone{plots/pulled_plots/alt_roll_mod2_dust_sdf_0_20_v1_5_10yrs_Hourglass_year_0-1_HOUR_Hourglass}
+\epsscale{1}
+\caption{The {\tt alt\_roll\_dust} simulation uses a footprint to avoid high dust extinction and tries to drive an every-other-day cadence.}\label{fig:altdust}
+\end{figure}
+
+This family of simulations pulls in a feature from the altSched simulations \citep{Rothchild19}, where visits alternate between northern fields and southern fields on a nightly basis. It uses the big sky dust-extinction limited footprint, and adds a basis function to encourage the scheduler to alternate between the north and south nightly. This can help keep light curve sampling optimally spaced, but does induce (at least) a night-long gap between revisits to a field (See Figure~\ref{fig:alt_internight}). As this basis function is not as strict as the scheduling in the altSched simulations, the telescope avoids pointing too close to the moon. One of these simulations simply alternates N/S on alternate nights; the other adds a modified 2-dec-band rolling cadence, where the alternating N/S visits are maintained within the rolling declination bands. 
+
+There is no additional NES, however there is a strip in the north observed in $g$, $r$, $i$, and $z$. The survey footprint focuses on low dust extinction regions and includes the galactic bulge; it covers more area than the standard baseline, so observes more stars and galaxies. The coverage of the LMC and bulge increases the number of fast microlensing events. 
+
+The science impact of this strategy is fairly minimal. By avoiding extinction regions, we have more stars and galaxies. The coverage of the LMC also increases the number of fast microlensing events. The SRD metrics are are lower than baseline, due to a lower fraction of visits being focused in the WFD, but these still meet requirements. See Figure~\ref{fig:alt_radar}. 
+
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/alt_roll_mod2_dust_sdf_0_20_v1_5_10yrs_DeltaNight_Histogram_all_bands_HEAL_SummaryHistogram}
+\plotone{plots/baseline_v1_5_10yrs_DeltaNight_Histogram_all_bands_HEAL_SummaryHistogram}
+\epsscale{1}
+\caption{Histograms of the inter-night revisit intervals for the {\tt alt\_roll\_mod2\_dust} simulation (left), with alternating N/S visits on alternating nights, compared to the same histogram for the {\tt baseline\_v1.5} simulation (right).}
+\label{fig:alt_internight}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/alt_dust_radar}
+\epsscale{1}
+\caption{The science impact for alt\_roll\_dust.}\label{fig:alt_radar}
+\end{figure}
+
+%############ Rolling Cadences ############
+\subsection{FBS 1.6 {\tt rolling\_fpo}: Rolling Cadences}\label{ss:rolling}
+
+Rolling cadence is the term we have given to executing the survey in a non-uniform manner, emphasizing some region of sky one year, then deemphasizing it the next.  Because the SRD includes requirements on stellar proper motion measurements, we are constrained to cover the sky uniformly in at least year 1 and year 10.  We experiment with using rolling cadences where the WFD region is divided in 2, 3, and 6 declination bands (see Figure~\ref{fig:rollingstripes}). We also scale the rolling weight to be 80, 90, and 99\%; a larger weight results in more visits in the emphasized declination band and fewer outside the band. It may be reasonable to expect some visits over the entire sky in each year, if templates for image subtraction require these visits (and if ToO programs require updated templates), and there may be additional benefits for other science requiring long-term photometric monitoring. 
+
+These simulations were created using the FBS 1.6 code; this version of the scheduler uses an improved method for determining the length of time a field may have been available for observation when calculating the reward for the footprint map. The result of this upgrade is smoother, more even rolling cadences. The survey footprint, aside from rolling, was the standard baseline footprint.
+
+\begin{figure}
+\epsscale{.35}
+\plotone{plots/rolling16/rolling_2_0_8_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/rolling16/rolling_2_0_9_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/rolling16/rolling_2_1_0_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/rolling16/rolling_3_0_8_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/rolling16/rolling_3_0_9_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/rolling16/rolling_3_1_0_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/rolling16/rolling_6_0_8_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/rolling16/rolling_6_0_9_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/rolling16/rolling_6_1_0_Count_filter_night_gt_1278_375000_and_night_lt_1643_625000_and_note_not_like_DD_HEAL_SkyMap.pdf}
+\epsscale{1}
+\caption{Rolling cadence simulations with 2 (top), 3 (middle), and 6 (bottom) rolling stripes. Here we show the observations taken from 3.5-4.5 years in the survey, excluding the DDF observations.} \label{fig:rollingstripes}
+\end{figure}
+
+Figure~\ref{fig:rolling_radar} shows the science impact of the different rolling cadence simulations. In general, the rolling cadence is fairly neutral for these metrics, at the 2 or 3 declination band level. The 6-declination-band rolling cadence can have negative effects on several of the science metrics, which seems likely to be linked to the limited amount of area covered within each band -- the increased cadence is more frequent than required, but the amount of sky covered has dropped, so most metrics sensitive to both area and cadence will have a negative response.
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{plots/radar_plots/rolling_radar.pdf}
+\epsscale{1}
+\caption{Science impact of different rolling simulations. The 6-band rolling cadence has some negative science impacts, while the 2 or 3 band cases tend to be fairly neutral. It seems likely that more metrics focusing on transients and variables will be useful here.}\label{fig:rolling_radar}
+\end{figure}
+
+
+%############ Deep Drilling Fields ############
+\subsection{FBS 1.5 {\tt ddf}: Deep Drilling Fields}\label{ss:ddf}
+
+The locations for four of the Deep Drilling Fields has been determined for some time; the location of the fifth field is now planned to overlap with the Euclid South field (two LSST pointings are required to actually match the full Euclid South field; we are currently simply alternating between two field centers in this location). The locations of the DDFs used in these simulations are listed in Table~\ref{table:ddfs}. and can be easily seen in the overall survey footprint map in Figure~\ref{fig:ddf_locs}. The cadence of visits, as well as coadded depths of these DDFs, still needs to be finalized; the cadence has implications for the overall amount of time required for the DDFs. 
+
+The DDF families of simulations test different cadences for the DDFs, with a standard baseline survey footprint and strategy for the rest of the sky. The DDFs are somewhat decoupled from much of the remainder of the survey strategy; once given a fixed fraction of total observing time, the scheduler will keep DDF visits within the allocated fraction at all times, and the start or end of DDF visits don't interfere with other observations (the scheduler waits until a blob is finished before starting a DDF sequence). 
+
+Within these bounds, we ran a variety of DDF strategies, based on requested cadences in the white papers and some test extensions:
+\begin{itemize}
+    \item{AGN: This strategy takes shorter DDF sequences more often. Only $\sim$2.5\% of visits are spent on DDFs, making the final coadded depths much shallower than other strategies.}
+    \item{DESC: a strategy that split the blue and red filters to different days, emphasizing a 3-day cadence. The overall time request is about 5\%.}
+     \item{Baseline:  Our baseline strategy where 5\% of observations are allocated to DDF observations. Sequences include whichever filters are available out of $ugrizy$ and then take $u$x8, $g$x20, $r$x10, $i$x20, $z$x26, and/or $y$x20 visits per band, all with 30s exposures}
+    \item{Daily: Similar to the baseline, but includes shorter DDF sequences that can execute daily so there are no long gaps between observations. Total DDF fraction is 5\%.}
+%    \item{DDF Heavy:  Similar to the baseline, but 13.4\% of visits are allocated to DDF observations (this simulation is actually one of the candidate runs in FBS 1.6)}
+\end{itemize}
+Figure~\ref{fig:ddfexamples} shows the same observing season of the DDF ELIASS1 with these different strategies. 
+
+Figure~\ref{fig:ddf_differences} shows the different coadded depths (left) and science impact (right) of the variations on the DDF strategies we have tried. If the DDFs are kept to a consistent fraction of time, the overall science impact tends to be consistent. 
+
+The fraction of time required for the DDFs is driven by the cadences required -- the season length, the inter-night cadence (number of nights between sequences), and the number of visits and filters required in each sequence. The sequences for the AGN strategy and the sequences for the DESC strategy are not completely compatible; an attempt to satisfy both cadence requirements will need more than 5\% of the total time, and perhaps as much as 8\% of the total time. We are missing metrics to evaluate the science performance of each of these DDF strategies, so it is unclear how well these simulations meet the desired goals. 
+
+\begin{figure}
+\epsscale{0.6}
+\plotone{plots/baseline_v1_5_10yrs_NVisits_all_bands_HEAL_SkyMap}
+\epsscale{1}
+\caption{Number of visits per pointing on the sky, in all filters, for {\tt baseline\_v1.5\_10yrs}; the locations of the five DDFs (with the double-pointing for Euclid South) are easy to pick out. The locations of these DDFs remains the same in all simulations.} \label{fig:ddf_locs}
+\end{figure}
+
+\begin{figure}
+\plottwo{plots/radar_plots/ddf1_radar.pdf}{plots/radar_plots/ddf2_radar.pdf}
+\caption{On the left, we show the coadded depth in each filter for a representative Deep Drilling Field. Larger values mean deeper coadded depth. On the right we show the standard science metrics.}\label{fig:ddf_differences}
+\end{figure}
+
+\begin{figure}
+\epsscale{.9}
+\plottwo{plots/ddf_plots/ddf_m5_AGN.pdf}{plots/ddf_plots/gap_hist_AGN.pdf}
+\plottwo{plots/ddf_plots/ddf_m5_DESC.pdf}{plots/ddf_plots/gap_hist_DESC.pdf}
+\plottwo{plots/ddf_plots/ddf_m5_Baseline_v1_5.pdf}{plots/ddf_plots/gap_hist_Baseline_v1_5.pdf}
+%\plottwo{plots/ddf_plots/ddf_m5_Baseline_v1_6.pdf}{plots/ddf_plots/gap_hist_Baseline_v1_6.pdf}
+\plottwo{plots/ddf_plots/ddf_m5_Daily.pdf}{plots/ddf_plots/gap_hist_Daily.pdf}
+%\plottwo{plots/ddf_plots/ddf_m5_DDF_Heavy.pdf}{plots/ddf_plots/gap_hist_DDF_Heavy.pdf}
+\epsscale{1}
+\caption{One observing season of the DDF ELIASS1 under different DDF strategies. See Section~\ref{ss:ddf} for more information. }\label{fig:ddfexamples}
+\end{figure}
+
+
+
+%############ Good Seeing ############
+
+\subsection{FBS 1.5 {\tt good\_seeing}: Good Seeing Images}\label{ss:goodseeing}
+
+In order to obtain good IQ images for difference imaging templates and to improve a host of other image processing issues such as deblending, it may be desirable to ensure that the entire WFD area is imaged in `good seeing' conditions every year. We defined `good seeing' as FWHM of 0.7 arcseconds or better, then set up simulations where we required one good seeing image in various bandpasses each year.
+
+The science impact of adding this relatively simple constraint to the observing strategy seem minimal and generally positive (see Figure~\ref{fig:goodseeing_radar}). We do not currently have a metric tied directly to seeing, although of course image depth is important to many metrics and this depends on seeing. 
+
+There is no obvious additional overhead to observing, although this may be slightly more challenging to implement in operations in terms of generating and passing a queue from the FBS to the telescope. While the FBS can simulate an entire night and then pass this to the observing queue, if seeing conditions are highly variable the queue may need to be regenerated more frequently. This is likely an issue to address with additional telemetry from the site.
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/goodseeing_radar}
+\epsscale{1}
+\caption{The science impact of making sure the sky has template images in good seeing conditions.} \label{fig:goodseeing_radar}
+\end{figure}
+
+
+%############ Twilight NEO Survey ############
+\subsection{FBS 1.5 {\tt twilight\_neo}: Twilight NEO Survey}\label{ss:twilightneo}
+
+At the time of the call for white papers, we were using a more optimistic weather cutoff and so had more time available for observing; using twilight time for non-WFD purposes seemed an ideal option. With the more conservative weather cut we are currently using, and the number of minisurveys and DDFs running concurrent with the WFD, we need to use at least some of the twilight time for WFD visits. Twilight observing starts at 12 degree twilight. 
+
+The Seaman et al. white paper suggested a twilight survey for PHAs and NEOs, looking at low elevations (high airmass) near the sun. These can be highly productive options for many surveys, covering the NEO `sweet spots' and are the only kinds of visits that have the capability to detect Vatiras, asteroids with orbits interior to Venus (Note: the solar system metrics do NOT include a population of Vatiras currently). 
+
+The twilight survey, as implemented, adds a set of visits consisting of 1 second exposures in $r$, $i$ or $z$ bands (depending on the filter previously in the camera, so tied loosely to lunar phase). Observations are attempted in morning and evening twilight on the nights where the twilight survey is active, typically about 440 1s visits per night. Visits are acquired in triplets, to identify fast moving objects within a single night. The fields chosen for the NEO survey are within 40 degrees of the ecliptic, at high airmasses toward the Sun. In this family of simulations, the twilight survey is activated for varying fractions of time: either every night, every other night, every third night or every fourth night (roughly .. weather or downtime can interfere). The final sky coverage for the twilight\_neo survey, if activated every available night, is shown in Figure~\ref{fig:sky_twilightneo}. 
+
+We find that running the twilight survey every available night causes the main survey to fail to meet SRD requirements in the baseline survey configuration. The twilight time is needed for WFD and other minisurveys; with an every-night twilight neo survey, there are $\sim10$\% fewer long exposure visits in the rest of the survey; with an every-other night twilight survey there are $\sim5$\% fewer long exposure visits over the rest of the sky. Running the twilight neo survey less often has less of a negative impact, but it also has less of a positive impact on the completeness of the large PHAs and NEOs. The smaller PHAs and NEOs have a lower overall population completeness when the twilight neo survey uses more time; these objects are likely too faint to be discovered in the short exposures of the twilight survey, thus need to be discovered in the standard survey. Discovery for fainter solar system objects is dependent on the number of visits available (for a given footprint), so it is consistent that the final completeness for the smaller objects drops. See Figure~\ref{fig:sscompleteness_twilight}. 
+
+An obvious missing metric for this survey is sensitivity to Vatira discovery (which means a new input population more than than a new metric, per se); we can check very approximately the sensitivity of this implementation of twilight observing for objects close to the Sun by looking at the distribution of solar elongation angles for the twilight visits (see Figure~\ref{fig:twilight_solarelong}). The distribution of solar elongations is not as strongly concentrated toward the Sun as would be ideal for this purpose. It would be useful to extend this simulation family with twilight moving object surveys using slightly different strategies; instead of a fixed cadence throughout the month, the cadence should likely pause depending on the location of the moon (the high solar elongation visits in the current simulation are likely avoiding the moon), and slightly longer visits may be useful. 
+
+\begin{figure}
+\epsscale{0.7}
+\plotone{plots/twilight_neo_mod1_v1_5_10yrs_Nvisits_note_like_twilight_n_HEAL_SkyMap}
+\epsscale{1}
+\caption{Sky coverage of the NEO twilight survey, at the end of 10 years. These visits are in $r$, $i$ and $z$ band, with 1 second duration.}
+\label{fig:sky_twilightneo}
+\end{figure}
+
+
+\begin{figure}
+\epsscale{0.85}
+\plotone{plots/radar_plots/twineo_radar}
+\epsscale{1}
+\caption{The science impact of using some or all of twilight time for a NEO survey.}\label{fig:neoradar}
+\end{figure}
+
+\begin{figure}
+\plotone{plots/sso_twilight}
+\caption{More detailed solar system metric results for large (solid lines) and smaller (dashed lines) members of the moving object populations. Large PHAs and NEOs benefit from twilight neo survey, and more time spent on the twilight survey boosts their completeness higher. Smaller objects, which are also fainter, have lowered completeness. This is likely because the smaller objects are not visible in the short, 1s exposures, yet the larger number of those short exposures lowers the total number of visits in the standard survey. The smaller objects are always more sensitive to the total number of visits, due to having fewer opportunities for discovery while they happen to be bright enough to make it beyond the limiting magnitude cuts.}
+\label{fig:sscompleteness_twilight}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.6}
+\plotone{plots/solarElong_twilight_neo_mod2_v15_10yrs.png}
+\epsscale{1}
+\caption{The distribution of solar elongations for the twilight NEO survey fields in {\tt twilight\_neo\_mod2} simulation; the distributions are similar for the other versions of the twilight NEO simulations. The maximum solar elongation of Venus is 45 degrees; we could potentially detect objects interior to Venus's orbit with these visits.}
+\label{fig:twilight_solarelong}
+\end{figure}
+
+%############ Short Exposures ############
+\subsection{FBS 1.5 {\tt short\_exp}: Short Exposures}\label{ss:shortexp}
+
+\begin{figure}
+\plottwo{plots/short_exp_plots/opsim_Count_filter_visitexposuretime_gt_10_and_note_not_like_DD_HEAL_SkyMap.pdf}{plots/short_exp_plots/opsim_Count_filter_visitexposuretime_lt_10_HEAL_SkyMap.pdf}
+\caption{Results from including 5s exposures (up to 5 per year). The left shows the number of regular 30s visits (excluding DDF observations) and the right shows the number of 5s visits.}
+\end{figure}
+
+In this family of simulations, we added a minisurvey to obtain short exposures (either 1s or 5s) twice per year or five time per year, in all filters. Short exposures allow enable direct comparisons for photometry and astrometry to brighter catalogs and enable some science with bright objects which saturate in the standard visits. Taking shorter exposures is a less efficient observing mode, but it has little impact on the overall open shutter fraction; this makes sense given that the overall amount of time used for these short-exposure minisurveys is relatively small. The short exposure surveys do have a small but noticeable impact on the rest of the survey, just due to their time requirement - the total number of long (visit exposure time $>15$ seconds) visits drops in relation to the amount of time taken by the minisurvey, up to 7\% for the 5s visits 5 times per year simulation (see Figure~\ref{fig:shortexp_nvisits}). This is reflected in small drops in most science metrics, Figure~\ref{fig:shortexp_radar}. The TDE metric, which can be very sensitive to small changes in $u$ band visits and cadence, shows a larger drop; some of this is related to statistical noise in the metric. 
+
+In order to properly evaluate the benefit of these short exposure surveys, we need metrics which would be sensitive to the science enabled by bright objects measurable in the 1s or 5s visits.
+
+\begin{figure}
+\epsscale{0.7}
+\plotone{plots/short_exp_nvisits_long}
+\epsscale{1}
+\caption{As the number of short exposure visits increases and the exposure time of the short exposure visits increases, the total number of long exposure visits in the rest of the survey drops by about 1 to 7\%. }\label{fig:shortexp_nvisits}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.8}
+\plotone{plots/radar_plots/shortexp_radar}
+\epsscale{1}
+\caption{Science impact of covering the sky in short exposures. }\label{fig:shortexp_radar}
+\end{figure}
+
+
+%############ Longer u ############
+\subsection{FBS 1.5 {\tt u60}: Longer $u$\ Exposure Time}\label{ss:u60}
+
+Due to the low sky background levels and measured levels of read-noise in the amplifiers, $u$ band observations within the survey are often expected to be read-noise limited for either 15s or 30s exposures. Doubling the $u$ band exposure time to 60 seconds moves these back into the sky-noise limited regime. This simulation sets the $u$ band visit exposure time to 60s (1x60s visits) and cuts the total number of $u$ band visits in half. This increases the final $u$ band final coadded depth by $\sim$0.20 magnitudes. An interesting side effect is that the $g$ band coadded depth also increases by about 0.10 magnitudes; the $g$\ depth increases because 60s $u$\ visits decreases the overhead time (and consolidates $u$ band into a shorter period of real time), which frees up more dark time for $g$\ visits. Other filters are essentially unchanged in final coadded depth. The total number of visits in the simulation drops by 6\%; this could have been closer to 3\% (halving the $u$ band visits), but visits in $g$ and $r$ band which were paired with $u$ band also were extended to 60s to maintain the time spacing between pairs of visits during each blob.
+
+Consolidating $u$ band exposure time into fewer visits is likely to be problematic for classification of many transient objects, as they will be less likely to have a $u$ band visit which is often a feature used for distinguishing various kinds of objects. Note, we assume that 1x60s visit may count as 2 30s visits for the purpose of meeting the SRD value of 825 visits in the WFD area (the {\tt u60} run will meet this requirement without this assumption, but depending on other survey requirements this may be an important assumption to adopt). See Figure~\ref{fig:u60_radar}. 
+
+\begin{figure}
+\plottwo{plots/radar_plots/u60_radar.pdf}{plots/radar_plots/u60_mags_radar.pdf}
+\caption{Science impact of ncreasing the $u$\ exposure time to 60s (left).  As expected, this results in a substantial gain in $u$\ coadded depth (right).}
+\label{fig:u60_radar}
+\end{figure}
+
+%############ Variable Exposure Times ############
+\subsection{FBS 1.5 {\tt var\_expt}: Variable Exposure Times}\label{ss:var_expt}
+
+\begin{figure}
+\plottwo{plots/variable_expt_plots/baseline_spot.pdf}{plots/variable_expt_plots/varexpt_spot}
+\caption{Comparison of a five sigma depths (for point sources) at an example location in the WFD, between the baseline (left) and the variable exposure time simulation (right). With variable exposure times, the individual observations five sigma limiting magnitudes become more uniform, especially in the redder filters that can be observed in bright time and twilight.}\label{fig:varexptime}
+\end{figure}
+
+In order to maintain more uniform limiting magnitudes in individual visits, it may be beneficial to vary the visit exposure times. This would mean that transients and variables detected in images during good conditions (dark sky, good seeing, near zenith, etc.) would be more likely to also be able to be detected in images taken in poorer conditions. It would also mean that during poor conditions, longer exposures would mean more useful information than if the consistent 30s visit time was maintained. 
+
+This simulation tests the effect of variable exposure times. In good conditions, the exposure time is allowed to shrink to 20 seconds, while in poor conditions it can extend to 100 seconds. This maintains an ideal depth which is somewhat shallower than the typical image depth in the baseline simulation, but is more consistent across visits. Figure~\ref{fig:varexpt_exptime} shows the distribution of visit exposure times and individual visit limiting magnitudes achieved in the simulation. The median visit time was 24 seconds, shorter than the baseline survey exposure times, but the mean visit time was 32.2 seconds -- there are many visits with 100s exposure times, which drives the survey to 6\% fewer overall number of visits. The scatter in the image depths was reduced by a tenth of a magnitude or so in most bands, although with a variable change in the median and mean five sigma depths ($u$ became shallower while $i$ and $z$ gained some depth). The total on-sky exposure time is very similar to that of the baseline survey, but the coadded depths in $u$ and $g$ bands become shallower by 0.3 and 0.1 magnitudes, respectively (see the right panel of Figure~\ref{fig:var_radar}).
+
+Having variable exposure time introduces at least 8 new free parameters to the scheduler: the target individual depth for each filter, as well as the shortest and longest acceptable exposure times.  As with \ref{ss:goodseeing}, this would be more complicated to run in operations as the scheduler would need current conditions to calculate the modified exposure times, although the predicted sky brightness may be accurate enough.
+
+As with doing 60s $u$ band exposures, having longer visits will reduce the overall number of visits; longer visits may need to be allowed to count as multiple visits for the purpose of meeting the SRD requirement of a median of 825 visits per pointing over 18k square degrees (fONv MedVisits). Figure~\ref{fig:var_radar} shows the science impact of varying the exposure time is fairly minimal. 
+
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/varexpt_exptime}
+\plotone{plots/varexpt_depths}
+\epsscale{1}
+\caption{Distribution of visit exposure times in the variable exposure time simulation (left) and comparison of the individual image five sigma limiting magnitudes, including the baseline (right).  In the baseline, there would be simply 30 second exposures; in the variable exposure simulation the mean visit exposure time is 32.2 seconds, but visits range from 20s to 100s. The variable exposure times cut down on the widths of the five sigma depth distribution, and tends to slightly increase the mean image depth (in most but not all bands). The variable exposure simulation contains 6\% fewer visits than the baseline survey.}
+\label{fig:varexpt_exptime}
+\end{figure}
+
+\begin{figure}
+\plottwo{plots/radar_plots/var_exp_radar}{plots/radar_plots/var_exp_mags_radar}
+\caption{Science impact of using variable exposure times (left). The final coadded depths also shift, with decreases in final depth in the $u$ and $g$ bands and increases in $z$ (right).}\label{fig:var_radar}
+\end{figure}
+
+
+%############ DCR ############
+\subsection{FBS 1.5 {\tt dcr}: DCR visits}\label{ss:dcr}
+
+\begin{figure}
+\epsscale{0.5}
+\plotone{plots/pulled_plots/dcr_nham2_ugri_v1_5_10yrs_Nvisits_as_function_of_Alt_Az_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/dcr_nham2_ugri_v1_5_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
+\plotone{plots/pulled_plots/dcr_nham2_ugri_v1_5_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}
+\epsscale{1}
+\caption{Intentionally taking observations at higher airmass to measure DCR.}
+\end{figure}
+
+A consistent problem in difference imaging are dipoles resulting from differential chromatic refraction (DCR); this is potentially a larger problem for the LSST as the telescope does not have an atmospheric dispersion corrector and will have occasion to take images at high airmasses. However, if images are obtained to measure the effects of DCR, then this effect can be corrected for when building and applying the template images used in difference imaging. It is also possible to use the measured chromatic shift in objects with sharp features in their SEDs (e.g., quasars with strong emission lines) to measure properties of those SEDs, providing potential science opportunities. 
+
+This family of simulations intentionally schedules a subset of images at high airmass to enable building a DCR model. We test adding various combinations of filters to these high airmass, DCR visits ($u+g$, $u+g+r$, and $u+g+r+i$) and the number of observations to take at high airmass per year (1 or 2 per year).  Even with 2 high airmass observations per year, we would still expect some area of the sky to fall in chip and raft gaps.  It is also worth noting that in our baseline simulation, we observe a spot on the sky in $u$ typically 60 times, or 6 times per year. Taking 2 high airmass observations per year in $u$ decreases the final coadded depth by 0.15 mags.
+
+Figure~\ref{fig:dcr_radar} shows the science impact is fairly minimal, but we tend to lose $\sim0.1-0.2$\ magnitudes of final coadded depth.
+
+\begin{figure}
+\plottwo{plots/radar_plots/dcr_radar}{plots/radar_plots/dcr_mags_radar}
+\caption{Science impact of including observations at high airmass for DCR. As expected, pushing observations to high airmass lowers the coadded depths (right) and has as slight negative impact on most science metrics (left).}\label{fig:dcr_radar}
+\end{figure}
+
+
+%############ Even Filters ############
+\subsection{FBS 1.5 {\tt even\_filters}: Sky brightness and Filter choice}\label{ss:evenfilters}
+
+The baseline simulation is fairly aggressive in using redder filters in bright time, in order to maximize the final coadded depths. However, this can create long gaps in light curves with no bluer observations. This family of simulations removes the per-filter consideration of sky brightness (in various combinations of filters) to avoid this effect. There is a simulation where only $u$ avoids bright time, and another with both the $u$ and $g$ filters avoid bright time; the simulations include both the standard baseline footprint and a variation on the `big sky' footprint (the `alt' runs). Figure~\ref{fig:even_filt_hourglass} shows the resulting filter distributions in year one. Unlike the baseline simulations, there are no longer sections of several days where only $y$\ is observed.
+
+While the goal of these simulations was to improve SNe Ia lightcurves, the gains appear to be minimal compared to the baseline strategy (Figure~\ref{fig:even_filt_radar}). 
+
+
+\begin{figure}
+\plottwo{plots/pulled_plots/even_filters_g_v1_6_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}{plots/pulled_plots/even_filtersv1_6_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}
+\caption{The filter distribution for the even filter simulations. Unlike the baseline simulations, bluer filters are observed in bright time.}
+\label{fig:even_filt_hourglass}
+\end{figure}
+
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/even_filt_radar.pdf}
+\epsscale{1}
+\caption{Science performance for the Even Filters runs.  Taking bluer filters in bright time can improve SNe performance and fast transients, but is detrimental to Solar System science.  The loss of depth shows up in most of the other metrics as well.}
+\label{fig:even_filt_radar}
+\end{figure}
+
+
+%############## Greedy 
+\subsection{FBS 1.5 {\tt greedy\_footprint}: Always taking pairs on the ecliptic}\label{ss:greedy}
+
+The survey footprint is applied to both greedy (twilight, single visits) and blob (non-twilight, pairs) visits in the scheduler, and since the final number of visits is fixed, this means that visits taken during the greedy period essentially decrease the number of visits taken during the blob period (or vice versa). This is unavoidable for most of the sky; visits taken during periods of rapidly changing conditions are not good candidates for the bigger block scheduling that occurs during blobs. However, there is some motivation for trying to take only pairs along the ecliptic, in order to maximize the number of visits suitable for detecting solar system objects. This simulations prohibits the greedy algorithm from observing near the ecliptic - this ensures that all observations near the ecliptic are taken in pairs. 
+
+The overall science impact is shown in Figure~\ref{fig:greedy_radar}; the impact is fairly modest. The change to solar system discovery is very minimal (around a percent); this is somewhat surprising given the expected improvement with visits in pairs. Looking in depth at the number of visits acquired in pairs with $griz$ filters in this simulation compared with the baseline simulation, there are more pairs along the WFD portion of the ecliptic in the greedy\_footprint simulation, but fewer pairs in the rest of the WFD (see Figure~\ref{fig:greedy_nvisits}). While more pairs on the ecliptic would help TNO discovery, it is also likely that there were `enough' pairs there already to saturate discovery (and what is needed are deeper visits in order to discover more objects). For other populations, their on-sky distribution is wider than the strip along the ecliptic, so it may have a smaller impact on the overall discovery rate (and be partly counter-acted by the fewer visits in pairs away from the ecliptic). The better solution here is likely simply finding a good method to add pairs into the twilight observing period. 
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/greedy_radar}
+\epsscale{1}
+\caption{Science impact of not permitting greedy observations near the ecliptic. }
+\label{fig:greedy_radar}
+\end{figure}
+
+\begin{figure}
+\epsscale{0.6}
+\plotone{plots/greedy_footprint_nvisitsdiff}
+\epsscale{1}
+\caption{The change in the distribution of $griz$  visits in the blob (pairs) portion of the survey, between the baseline and the greedy\_footprint (pairs on ecliptic) simulation. The baseline distributes pairs of visits in $griz$ (the most sensitive bands for solar system object detection) across the WFD fairly evenly; the greedy\_footprint survey adds a concentration of pairs along the ecliptic within the WFD, but at the expense of pairs in the rest of the WFD.}
+\label{fig:greedy_nvisits}
+\end{figure}
+
+%############ Spiders ############
+\subsection{FBS 1.5 {\tt spiders}: Spider Alignment}\label{ss:spiders}
+
+There are some simplifications in artifact identification as a result of difference imaging if diffraction spikes are aligned along CCD rows and columns. This experiment fixed the camera rotator so that the diffraction spikes (caused by the secondary mirror spiders) would always be aligned with the camera. This may result in the camera rotator angle being much less randomized than our baseline rotational dithering strategy; the rotation angle of the sky itself in the camera will still vary due to the alt-az telescope mount. There is little impact on our science metrics, but we note we do not currently have a metric that directly measures weak lensing systematics. See Figure~\ref{fig:spider_radar}. 
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/radar_plots/spider_radar}
+\epsscale{1}
+\caption{Science impact of keeping diffraction spikes aligned along rows and columns (Section~\ref{ss:spiders}. }
+\label{fig:spider_radar}
+\end{figure}
+
+
+%############ Aliasing ############
+\subsection{FBS 1.5: Aliasing}\label{ss:aliasing}
+
+One of the concerns for the survey, especially if observations were placed uniformly on the meridian, was about aliasing for periodic sources. We did not specifically work to remove aliasing from the simulations, however we did look for the presence of aliasing in the visit cadence in these newer simulations.  Figure~\ref{fig:alias} shows the FFT of observations at a sample WFD point in the baseline simulation. There is some aliasing at $\sim1$\ day which is inevitable for any ground-based telescope.  The aliasing is much lower than the {\tt minion\_1016} simulation that was analyzed in the Bell et al. cadence white paper. Attempting to plan the timing of visits to reduce aliasing is more complicated and expensive than what is currently contained in the scheduler; we therefore don't plan to add anti-aliasing features into the scheduler at this time, but to check for aliasing effects in the outputs.
+
+\begin{figure}
+\epsscale{0.65}
+\plotone{plots/alias_plots/aliasing.pdf}
+\epsscale{1}
+\caption{Aliasing at a sample position in a baseline simulation. There are peaks at harmonics of 24 hours (11.57 $\mu$Hz), but this is inevitable with a ground-based telescope. The aliasing seems much lower than earlier version of OpSim where harmonic peaks could be seen past 200 $\mu$Hz.}\label{fig:alias}
+\end{figure}
+
+
+%############ ToO ############
+\subsection{FBS 1.2: Target of Opportunity}\label{ss:too}
+
+We performed simulations with earlier versions of the scheduler to look at the potential for following up ToO events, namely looking for the optical counterpart to gravitational wave detections.  We could detect $\sim$55\% of the simulated events, however, that often required pushing observations to high airmass or observing regions outside the WFD area. Our ToO simulations used the simple followup strategy of trying to observe a target area three times in $g$, $r$, and $i$. As part of the final observing strategy, we should define when Rubin will attempt to observe ToOs (airmass limits, footprint limits), and what the ideal ToO discovery strategy involves regarding filter distribution and dither strategy. The short summary here is that ToOs tend to count as a separate minisurvey and do not easily just incorporate themselves within desired visits as part of the existing survey strategy (e.g., WFD). We did not repeat these experiments with later versions of the scheduler; more information is required on how ToO targets would be chosen and triggered. 

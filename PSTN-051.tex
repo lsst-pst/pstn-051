@@ -6,6 +6,7 @@
 % Package imports go here.
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{multirow}
 
 % Local commands go here.
 
@@ -19,31 +20,47 @@
 
 \begin{document}
 \input{authors}
+%\author{Eric~H.~Neilsen~Jr.}
+%\affiliation{Fermi National Accelerator Laboratory, P. O. Box 500, Batavia, IL 60510, USA}
+
 \date{\today}
 \title{Survey Strategy and Cadence Choices For the Vera C. Rubin Observatory Legacy Survey of Space and Time (LSST)}
 \hypersetup{pdftitle={\@title}, pdfauthor={\@author}, pdfkeywords={\@keywords}}
 
 \input{abstract}
 
-
 \tableofcontents
 
 \clearpage
 
-\input{body}
-
+\input{introduction}
+\clearpage
+\input{simulator_overview}
+\clearpage
+\input{metrics}
+\clearpage
+\input{simulation_experiments}
+\clearpage
+\input{runs_v16}
+\clearpage
+\input{science_impacts}
+\clearpage
+\input{summary}
 
 %\appendix
 %\input{appendix}
 
+\clearpage
 % Include all the relevant bib files.
 % https://lsst-texmf.lsst.io/lsstdoc.html#bibliographies
 %\section{References} \label{sec:bib}
 \bibliographystyle{yahapj}
 \bibliography{local,lsst,lsst-dm,refs_ads,refs,books}
 
+\clearpage
 % Make sure lsst-texmf/bin/generateAcronyms.py is in your path
-%\section{Acronyms} \label{sec:acronyms}
-%\input{acronyms.tex}
+\section{Acronyms} \label{sec:acronyms}
+\input{acronyms.tex}
+
 
 \end{document}

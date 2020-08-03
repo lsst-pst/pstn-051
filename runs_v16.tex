@@ -1,40 +1,44 @@
+\section{FBS release v1.6: Candidate release runs}\label{sec:1.6}
 
-\section{FBS release v1.6}
+Here we describe the runs done as part of the `candidate baselines' in the FBS 1.6 release.  This set of simulations is unlike the previous experiments, in that instead of varying a particular survey strategy option across a family, we have attempted to set up a limited number of simulations that attempt to strongly boost particular goals. They are examples of more extreme choices for survey strategies; many of these options have serious drawbacks when considering an overview of science. Calling these `candidate baselines' in no way implies they are better than some of the survey strategies explored in the FBS 1.5 release, nor that all of these would be suitable choices for an initial survey strategy; they are just intended to be exploratory examples. 
 
-Here we describe the runs done as part of the FBS 1.6 release.  Unlike our previous simulation releases, we are trying a limited number of simulations that combine various options from previous experiments.
-
+\begin{figure}
+\plotone{plots/radar_plots/v16_radar}
+\caption{The science impact for the different version 1.6 simulations.}\label{fig:v16radar}
+\end{figure}
 
 %#################### Baseline #############################
-\subsection{Baseline}
+\subsection{FBS 1.6 Baseline}\label{ss:1.6baseline}
 
 \begin{figure}
 \epsscale{.5}
 \plotone{plots/pulled_plots/baseline_nexp1_v1_6_10yrs_Count_observationStartMJD_HEAL_SkyMap.pdf}
 \plotone{plots/pulled_plots/baseline_nexp1_v1_6_10yrs_Nvisits_as_function_of_Alt_Az_HEAL_SkyMap.pdf}
-\plotone{plots/pulled_plots/baseline_nexp1_v1_6_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf}
+\plotone{plots/pulled_plots/baseline_nexp1_v1_6_10yrs_Hourglass_year_0-1_HOUR_Hourglass.pdf} \\
+\plotone{plots/aa_linear/baseline_nexp1_v1_6_N_obs_note_like_DD_HEAL_SkyMap.pdf}
+\plotone{plots/aa_linear/baseline_nexp1_v1_6_N_obs_note_not_like_DD_HEAL_SkyMap.pdf}
 \epsscale{1}
-%XXX ra dec map, alt az, an hourglass
-\caption{The baseline v1.6 simulation. The top panels show the distribution of visits (all filters) in RA/dec and Alt/Az. The bottom panel shows the first year of observations color-coded by what filter was loaded. White regions represent scheduled and unscheduled downtime as well as weather downtime. The black curve on the bottom shows the moon phase.}\label{fig:baseline1.6}
+\caption{The baseline v1.6 simulation. The top panels show the distribution of visits (all filters) in RA/dec and Alt/Az. The middle panel shows the first year of observations color-coded by what filter was loaded. White regions represent scheduled and unscheduled downtime as well as weather downtime. The black curve on the bottom shows the moon phase. The bottom panels show the Alt/Az distribution of pointings for DDF observations (left) and non-DDF (right) on a linear stretch.}\label{fig:baseline1.6}
 \end{figure}
 
 
-For the baseline strategy, we set the footprint to have 18,000 square degrees dedicated the the WFD survey. The WFD has a filter distribution of u:g:r:i:z:y of 0.31:0.44:1.0:1.0:0.9:0.9. 
+For the baseline strategy, we set the footprint to have 18,000 square degrees dedicated the the WFD survey. The WFD has a filter distribution of $u:g:r:i:z:y$ of 0.31:0.44:1.0:1.0:0.9:0.9. 
 % WFD sum = 4.55
-We include coverage of the Galactic Plane (GP) and South Celestial Pole (SCP). These areas are set to have 20\% the number of counts of the WFD (if a spot in the WFD has 900 visits, points in the GP and SCP will have 180 visits). The GP and SCP are set to have equal number of visits in all filters.  The North Ecliptic Spur (NES) is observed with only the g, r, i, and z filters. The NES area is set to have one-third the number of visits of the WFD.  The filter distribution is set to g:r:i:z of 0.2:0.46:0.46:0.4. 
+We include coverage of the Galactic Plane (GP) and South Celestial Pole (SCP). These areas are set to have 20\% the number of counts of the WFD (if a spot in the WFD has 900 visits, points in the GP and SCP will have 180 visits). The GP and SCP are set to have equal number of visits in all filters.  The North Ecliptic Spur (NES) is observed with only the $g$, $r$, $i$, and $z$ filters. The NES area is set to have one-third the number of visits of the WFD.  The filter distribution in the NES is set to $g:r:i:z$ of 0.2:0.46:0.46:0.4. 
 
 The total breakdown of target observing time is 85\% for WFD, 6\% for the NES, 6\% for the GP and NES, and 5\% for DDFs.
 
 
 While the different survey areas are covered to different depths, the baseline scheduler treats them identically and only tries to maintain the proper ratios of area coverage. This means blocks of observations can be scheduled that cover the different regions seamlessly. It also means we have no additional constraints on how the regions are observed. For example, we currently do not reserve ``good seeing" time for the WFD area. 
 
-The baseline survey includes the 4 announced Deep Drilling Fields as well as a pair of fields that overlap the Euclid Deep Field South.  Each individual DDF is set to take a maximum of 1\% of the total visits (the Euclid pair of fields are set to a maximum of 1\% combined). The standard DDF sequence is ux8, gx20, rx10, ix20, zx26, and yx20, all with 30s exposures. For any given sequence, only the five filters loaded in the camera are executed. By default, we remove the u filter when the moon is more than 40\% illuminated at the start of the night. 
+The baseline survey includes the 4 announced Deep Drilling Fields as well as a pair of fields that overlap the Euclid Deep Field South.  Each individual DDF is set to take a maximum of 1\% of the total visits (the Euclid pair of fields are set to a maximum of 1\% combined). The standard DDF sequence is $u$x8, $g$x20, $r$x10, $i$x20, $z$x26, and $y$x20, all with 30s exposures. For any given sequence, only the five filters loaded in the camera are executed. By default, we remove the $u$ filter when the moon is more than 40\% illuminated at the start of the night. 
 
 
-We run 2 baseline simulations, one with 1x30s visits and one with 2x15s visits.  The main difference is the additional readout time in the 2x15 version drops the open shutter fraction from 77\% to 72\%. This puts the 2x15s simulation close to failing the SRD FO metric, with some parts of the WFD region only reaching 824 observations (the median is still 892). 
+We run 2 baseline simulations, one with 1x30s visits and one with 2x15s visits.  The main difference is the additional readout time in the 2x15s version drops the open shutter fraction from 77\% to 72\%. This puts the 2x15s simulation close to failing the SRD FO metric, with some parts of the WFD region only reaching 824 observations (the median is still 892). 
 
 For the rest of the simulations in v1.6 we use 1x30s visits.  If 2x15s visits are required there will be a significant drop in the number of visits, and areas outside of the WFD may need to be scaled back to still meet SRD requirements.
 
-When it is non-twilight time and we are not observing DDFs, we use a Markov Decision Process to dynamically build a queue of observations.  Observations are planned in 44 minute blocks (22 minutes for an initial area, 22 minutes to repeat the area). The size of the blocks can scale slightly to try and fill time before twilight (e.g., it will expand to a pair gap of 25 minutes if there are 50 minutes until morning twilight begins). All observations are taken in pairs, with potential combinations of u+g, u+r, g+r, r+i, i+z, z+y, or y+y. The ordering of the filter pairs can change depending on what filter is currently loaded (e.g., if the scheduler decides to observe a g+r sequence, the r observations will be taken first to eliminate a filter change if possible.)
+When it is non-twilight time and we are not observing DDFs, we use a Markov Decision Process to dynamically build a queue of observations.  Observations are planned in 44 minute blocks (22 minutes for an initial area, 22 minutes to repeat the area). The size of the blocks can scale slightly to try and fill time before twilight (e.g., it will expand to a pair gap of 25 minutes if there are 50 minutes until morning twilight begins). All observations are taken in pairs, with potential combinations of $u+g$, $u+r$, $g+r$, $r+i$, $i+z$, $z+y$, or $y+y$. The ordering of the filter pairs can change depending on what filter is currently loaded (e.g., if the scheduler decides to observe a $g+r$ sequence, the $r$ observations will be taken first to eliminate a filter change if possible.)
 
 The camera rotator angle (relative to the telescope) is randomly set each night between -80 and 80 degrees. The angle is set when the block is scheduled, so there can be a few degrees of drift between when the rotator angle is computed and when the observation is actually taken.
 
@@ -56,11 +60,10 @@ The MDP also includes basis functions that are simple masks
 
 If the sun is higher than -18 degrees altitude, or there is not enough time remaining to take observations in pairs, the scheduler reverts to a greedy algorithm and selects observations one at a time. We use a similar MDP for these greedy twilight observation decisions. 
 
-
-XXX--science summary of the baseline.  Compared to many of the other simulations, the baseline spends a lot of time observing the WFD, with a median of 948 visits. The higher number of visits means a faster cadence and better sampled lightcurves for objects with durations comparable to a season length.
+Compared to many of the other FBS 1.6 candidate baseline simulations, the baseline spends a lot of time observing the WFD, with a median of 948 visits. The higher number of visits means a faster cadence and better sampled lightcurves for objects with durations comparable to a season length. Our baseline simulation also has very light coverage of the Galactic bulge, resulting in fewer fast microlensing events than other potential footprints. 
 
 %#################### DDF Heavy #############################
-\subsection{DDF Heavy}
+\subsection{DDF Heavy}\label{ss:1.6ddfheavy}
 
 \begin{figure}
 \epsscale{0.5}
@@ -74,10 +77,10 @@ XXX--science summary of the baseline.  Compared to many of the other simulations
 
 This run is nearly identical to the baseline, but gives a large fraction of time to the deep drilling fields. Each of the five DDFs takes between 2.4 and 2.9\% of the survey, with 13.4\% of all visits being used for DDF observations. The baseline has 4.6\% of visits used for DDFs.  This is enough time that the WFD area near the DDFs fails to reach 825 visits over 10 years, but the SRD requirement is formally still met because the median WFD point is observed 875 times.
 
-XXX--For each of these 1.6 runs, maybe an include a science impact recap? Maybe a radar plt relative to baseline (and same scale across all of them), and a few lines of explanation of what we think happened, what metrics we still need (e.g., here we could say we need AGN and other DDF relevant metrics).
+As expected, the majority of non-DDF science cases suffer if we dedicate such a large fraction of time to the DDFs. It is worth noting that most metrics within MAF are not tailored for DDF purposes; this is an area that is missing science metrics.
 
 %#################### Barebones #############################
-\subsection{Barebones}
+\subsection{Barebones}\label{ss:1.6barebones}
 
 \begin{figure}
 \epsscale{0.5}
@@ -89,16 +92,16 @@ XXX--For each of these 1.6 runs, maybe an include a science impact recap? Maybe 
 \end{figure}
 
 
-The barebones simulation is an not a viable survey strategy, but provides an extreme example where we focus exclusively on meeting the SRD requirements, with little optimization for science.
+The barebones simulation is not a viable survey strategy, but provides an extreme example where we focus exclusively on meeting the SRD requirements, with little optimization for science.
 
-The survey footprint is restricted to the baseline 18,000 square degree WFD area only. Deep drilling fields are included, but capped at $\sim2.5$\% of the total visits. Visits in u and y are unpaired, while the rest of the filters are paired in the same filter. This results in very few filter changes in a night. 
+The survey footprint is restricted to the baseline 18,000 square degree WFD area only. Deep drilling fields are included, but capped at $\sim2.5$\% of the total visits. Visits in $u$ and $y$ are unpaired, while the rest of the filters are paired in the same filter. This results in very few filter changes in a night. 
 
-There are a wide number of reasons why this would be a terrible survey strategy--detected transients would have no color information, photometric uber-calibration could be difficult with the galactic plane gap, a lack of solar system object because the NES is not included, etc.  The main purpose is to show the scheduler can run very near the theoretical maximum for open shutter fraction, with this run reaching 80\%. Also, we can note the fONv metric reaches 1,148 which is 40\% higher than the SRD requirement of 825. This also implies that we can observe a maximum of $\sim115$\ WFD visits per year in the event we want to adjust the scheduler to attempt to catch up on the WFD progress. 
+There are a wide number of reasons why this would be a terrible survey strategy -- detected transients would have no color information, photometric uber-calibration could be difficult with the galactic plane gap, a lack of solar system object because the NES is not included, etc.  The main purpose is to show the scheduler can run very near the theoretical maximum for open shutter fraction, with this run reaching 80\%. Also, we can note the fONv MedianNvisits metric reaches 1155, which is 40\% higher than the SRD requirement of 825. This also implies that we can observe a maximum of $\sim115$\ WFD visits per year in the event we want to adjust the scheduler to attempt to catch up on the WFD progress. 
 
-XXX--science wise. I bet some SNe love it. Solar System might like some of it, but the missing NES should be a killer.
+The total lack of bulge coverage means the barebones simulation contains virtually no fast microlensing events. Taking pairs in the same filter also radically reduces the number of SNe Ia that are well measured. 
 
 %#################### Data Management Heavy #############################
-\subsection{Data Management Heavy}
+\subsection{Data Management Heavy}\label{ss:1.6dmheavy}
 
 \begin{figure}
 \epsscale{0.5}
@@ -110,19 +113,12 @@ XXX--science wise. I bet some SNe love it. Solar System might like some of it, b
 \end{figure}
 
 
-This is simulations includes various modifications that may be helpful for Data Management purposes. For the WFD region in u, g, and r a few images per year are taken at high airmass so that DCR correction models can be made.
+This simulation is similar to the baseline, but includes various modifications that may be helpful for Data Management purposes. Across the WFD region, $u$, $g$, and $r$ a few images per year are taken at high airmass so that DCR correction models can be made. The camera rotator angle is set so that diffraction spikes fall along CCD rows and columns. This helps with difference imaging so the maximum possible area can be used, but may result in weak lensing systematics.  Each year, the scheduler prioritizes taking $g$, $r$, and $i$ images of the whole sky in good seeing conditions (defined as 0.7\arcsec effective FWHM or better).  The DDF fields use larger dithers, up to 1.5 degrees, compared to the default 0.7 degree maximum.
 
-The camera rotator angle is set so that diffraction spikes fall along CCD rows and columns. This helps with difference imaging so the maximum possible area can be used, but may result in weak lensing systematics.
-
-Each year, the scheduler prioritizes taking g,r,i images of the whole sky in good seeing conditions (defined as 0.7\arcsec effective FWHM or better).
-
-The DDF fields use larger dithers, up to 1.5 degrees, compared to the default 0.7 degree maximum.
-
-
-XXX--science summary. 
+The addition of images taken at high airmass has a small negative impact on most science cases. 
 
 %#################### Rolling Extragalactic #############################
-\subsection{Rolling Extragalactic}
+\subsection{Rolling Extragalactic}\label{ss:1.6extragalactic}
 
 \begin{figure}
 \epsscale{0.5}
@@ -143,13 +139,12 @@ XXX--science summary.
 
 The rolling extragalactic is motivated by cosmological drivers. The footprint is modified so the 18,000 square degrees of the WFD are placed in low-extinction regions. The simulation also executes a half-sky rolling scheme, which should result in better sampled lightcurves for extragalactic transients.
 
-This simulation divides the sky into quarters, and has one northern stripe and one southerns stripe with a rolling emphasis at a time. This could be preferable to a simple two-bad rolling scheme, because with the quarters a region of emphasis will always be available to northern telescopes. If we rolled with an emphasis purely on the southern half of the WFD region, $\sim$80\% of the Rubin alert stream would become unavailable to northern hemisphere observatories for that season.
+This simulation divides the sky into quarters, and has one northern stripe and one southerns stripe with a rolling emphasis at a time. This could be preferable to a simple two-band rolling scheme, because with the quarters a region of emphasis will always be available to northern telescopes. If we rolled with an emphasis purely on the southern half of the WFD region, $\sim$80\% of the Rubin alert stream would become unavailable to northern hemisphere observatories for that season.
 
-XXX--science recap. 
-
+As expected, avoiding high extinction regions increases the number of galaxies. We expect the addition of rolling will show improvements in more sophisticated SNe Ia metrics from the community. The footprint covers some of the Magellanic Clouds, boosting the fast microlensing events.  The science gains come at the expense of some of the SRD metrics. 
 
 %#################### Milky Way Heavy #############################
-\subsection{Milky Way Heavy}
+\subsection{Milky Way Heavy}\label{ss:1.6milkywayheavy}
 \begin{figure}
 \epsscale{0.5}
 \plotone{plots/pulled_plots/mw_heavy_v1_6_10yrs_Count_observationStartMJD_HEAL_SkyMap}
@@ -161,12 +156,13 @@ XXX--science recap.
 
 The Milky Way heavy simulation covers the Galactic bulge, LMC, and SMC as part of the WFD area.  
 
-There is very little change in the median coadded depths compared with the baseline since the extra WFD area is added to a region of the sky that is under-subscribed in the baseline.  In the baseline simulation, there are an excess of observations near the galactic plane, so covering the bulge is ``free", in the sense that it uses these excess pointings to cover the bulge.
+There is very little change in the overall median coadded depths compared with the baseline since the extra WFD area is added to a region of the sky that is under-subscribed in the baseline.  In the baseline simulation, there are an excess of observations in the WFD on either side the galactic plane, so covering the bulge is ``free", in the sense that it uses these excess pointings to cover the bulge. 
 
-XXX--science recap. Should be a huge boost in microlensing events. 
+There is a large boost in microlensing events and number of stars, with little impact on the other metrics. We would benefit from other metrics for bulge-specific science cases to explore using a different filter distribution for the bulge region.
+
 
 %#################### Solar System Heavy #############################
-\subsection{Solar System Heavy}
+\subsection{Solar System Heavy}\label{ss:1.6solarsystemheavy}
 \begin{figure}
 \epsscale{0.5}
 \plotone{plots/pulled_plots/ss_heavy_v1_6_10yrs_Count_observationStartMJD_HEAL_SkyMap}
@@ -176,16 +172,15 @@ XXX--science recap. Should be a huge boost in microlensing events.
 \caption{The Solar System heavy simulation. The high airmass observations are twilight NEO observations.}\label{fig:ssheavy}
 \end{figure}
 
-For the Solar System Heavy simulation, the footprint in modified to include ecliptic plane coverage through the galactic plane.
+For the Solar System Heavy simulation, the baseline survey footprint is modified to include ecliptic plane coverage through the galactic plane.
 
-A fraction of twilight time is used for a NEO survey. The NEO survey uses very short exposures at high airmass. Note, a NEO survey taking short exposures will drastically increase the data throughput of the system. DM needs to check if this mode of observing would be feasible.  We also need to check with the camera team that taking short exposures for an extended time will not be a thermal issue.
+A fraction of twilight time is used for a NEO survey in $r$ band. The NEO survey uses very short (1 second) exposures at high airmass (toward the sun in evening or morning twilight). This simulation only uses $i$, $z$, $y$ in the remainder of the twilight time, making sure we observe more $r$-band in non-twilight and in pairs. It also includes $r+r$ pairs in non-twilight time.  For regular 1x30s visit twilight observations, we avoid observing the ecliptic, thereby ensuring they are always taken in pairs in non-twilight time.
 
-This simulation only uses i,z,y in twilight time, making sure we observe more r-band in non-twilight and in pairs. It also includes r+r pairs in non-twilight time.  For regular 1x30s visit twilight observations, we avoid observing the ecliptic, thereby ensuring they are always taken in pairs in non-twilight time.
+The simulation shows a slight improvement in the discovery of bright NEOs and TNOs, with a slight decrease in discovery of faint objects of all populations, while significantly impacting SNe Ia discovery due to the addition of pairs in the same filter. Solar system metrics, particularly for bright objects, are most sensitive to footprint (they tend to get enough visits to discover objects, so need to explore more area of sky) so a larger footprint (such as the big sky style with galactic plane and extended northern sky coverage) works better. For fainter objects, visits in redder filters and in the same filter are ideal; beyond that, more visits are important as the timing of discovery is more critical. The Solar System Heavy simulation adds enough twilight visits that the overall number of long exposure ($>1$s) visits in the traditional WFD footprint is reduced by about 6\%; this has an impact on the detection of faint objects. Further optimization toward solar system objects would likely produce a slightly different simulation to this, however this is a reasonable example of the trades with other science. 
 
-XXX--science recap. Hopefully this helps SS science!
 
 %#################### Combo Dust #############################
-\subsection{Combo Dust}
+\subsection{Combo Dust}\label{ss:1.6combodust}
 
 \begin{figure}
 \epsscale{0.5}
@@ -197,12 +192,11 @@ XXX--science recap. Hopefully this helps SS science!
 \end{figure}
 
 
-This simulation attempts to improve several science cases compared to the baseline simultaneously. The footprint used here starts with defining the WFD area as 18,000 square degrees with low extinction. Then an additional 2,000 square degrees are added to WFD to cover the bulge, the ecliptic through the galactic plane, the LMC and SMC, and an outer Galactic plane region. Dusty areas of the sky and the South Celestial Pole are covered at about one-quarter the WFD depth. The NES is covered in $g$, $r$, $i$, and $z$. The footprint also includes very light coverage to the northern limit of the telescope in g, r, and i so there can be templates for ToO events on the entire accessible sky. This simulation includes the same half-footprint rolling scheme as Rolling Extragalactic.
+This simulation attempts to improve several science cases compared to the baseline simultaneously. The footprint used here starts with defining the WFD area as 18,000 square degrees with low extinction. Then an additional 2,000 square degrees are added to WFD to cover the bulge, the ecliptic through the galactic plane, the LMC and SMC, and an outer Galactic plane region. Dusty areas of the sky and the South Celestial Pole are covered at about one-quarter the WFD depth. The NES is covered in $g$, $r$, $i$, and $z$. The footprint also includes very light coverage to the northern limit of the telescope in $g$, $r$, and $i$ so there can be templates for ToO events on the entire accessible sky. This simulation includes the same half-footprint rolling scheme as Rolling Extragalactic.
 
-The footprint has 35 free parameters for setting region locations and filter ratios. Many of these have have been set by eye or use historical values of questionable providence. 
+The footprint has 35 free parameters for setting the various region locations and filter ratios. Many of these have have been set by eye or use historical values; it is quite likely these parameters could be improved. 
 
-XXX--science recap:  
-
+This simulation manages to boost nearly all the science metrics at the expense of reducing margin in the SRD metrics. When we run the $combo\_dust$ with 2x15s visits, the fO metric drops below the SRD requirement of 825 visits to 817 visits. The footprint can be adjusted to meet the SRD requirement, but it does imply there will be very little contingency if we use 2-snap visits. The 1x30s visit $combo\_dust$ has a median of 885 visits in the WFD region, meeting SRD requirements.
 
 \begin{table}
 \begin{centering}
@@ -219,7 +213,11 @@ filter &  Baseline &  Baseline &  Barebones &  DDF  &  DM  &  MW  &  Rolling  & 
      z &     25.67 &              0.06 &      -0.12 &       0.08 &     -0.01 &      0.01 &           0.11 &      0.02 &        0.11 \\
      y &     24.90 &              0.06 &      -0.14 &       0.06 &      0.04 &      0.01 &           0.09 &      0.03 &        0.09 \\
 \end{tabular}
-\caption{Difference in median depths compared to Baseline for v1.6 simulations. Negative values indicate deeper depths.}\label{table:depths}
+\caption{Difference in median coadded five sigma depths compared to Baseline for v1.6 simulations. Negative values indicate deeper depths.}\label{table:depths}
 \end{centering}
 \end{table}
 
+%\begin{figure}
+%\plotone{plots/radar_plots/v16_radar.pdf}
+%\caption{Science impact for the v1.6 runs. The barebones survey performs very well on SRD requirements at the expense of almost all other science. The combo\_dust %run is the opposite, with low SRD scores and high science performance.}\label{fig:v16radar}
+%\end{figure}

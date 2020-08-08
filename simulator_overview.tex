@@ -48,7 +48,7 @@ The cloud model is based on historical cloud sky coverage data from Cerro-Tololo
 \epsscale{0.5}
 \plotone{plots/hours_pernight}
 \epsscale{1}
-\caption{The total amount of possible time per night and the average amount of time after removing weather downtime. Shaded regions show scheduled downtime. Our modeled unscheduled downtime is not included in the plot. The year progresses from left to right in the plot starting on October 1st. The variable length June shutdown starts around Night 250.}
+\caption{The total amount of possible time per night and the average amount of time after removing weather downtime. Shaded regions show scheduled downtime. Our modeled unscheduled downtime is not included in the plot. The year progresses from left to right in the plot starting on October 1st. The variable length June shutdown starts around Night 250. This general weather and maintenance schedule is the same for all simulations.}
 \end{figure}
 
 The SOAR telescope reports losing 15.3-33.4\% (mean=22.9\%) of science time to weather from 2014-2018\footnote{\url{http://www.ctio.noao.edu/soar/content/soar-observing-statistics}}. This is consistent with the weather downtime reported by Gemini South (private communication). 
@@ -57,7 +57,7 @@ If we model the observatory as closed when the sky is 30\% cloudy or cloudier, w
 
 \subsubsection{Seeing Model}
 
-Simulations completed starting in 2020 use a revised database for the atmospheric seeing. The revised database, like its predecessor, is based on seeing measurements from the Geminin South DIMM, located at the same site as Rubin Observatory. We derived predicted delivered image FWHM from the reported DIMM measurements using the approximation of the von K\'arm\'an turbulance model given in Tokovinin (2002) and an outer scale of 30 meters, and validated this relationship between DIMM measurements and seeing by comparing these derived values to the image quality measured from the Gemini South GMOS instrument. We also tested the DIMM data by deriving a seeing value and comparing the result to the seeing measured by the DECam imager on the Blanco telescope at CTIO, a few miles away.
+Simulations completed starting in 2020 use a revised database for the atmospheric seeing. The revised database, like its predecessor, is based on seeing measurements from the Geminin South DIMM, located at the same site as Rubin Observatory. We derived predicted delivered image FWHM at 500~nm at zenith from the reported DIMM measurements using the approximation of the von K\'arm\'an turbulance model given in Tokovinin (2002) and an outer scale of 30 meters, and validated this relationship between DIMM measurements and seeing by comparing these derived values to the image quality measured from the Gemini South GMOS instrument. We also tested the DIMM data by deriving a seeing value and comparing the result to the seeing measured by the DECam imager on the Blanco telescope at CTIO, a few miles away.
 
 For most time samples in the simulation database, we generated seeing data by resampling seeing derived from the DIMM into 5 minute intervals, and shifting it ahead 4748 days (13.000 tropical years). For example, the seeing for 2022-01-01 in the simulation database is taken from the DIMM seeing on 2009-01-01. Thus, most of the ten simulated years use seeing values that replay ten historical years.
 
@@ -76,6 +76,7 @@ from the DIMM data to generate artificial seeing values for these times. This mo
 \end{itemize}
 Artificial data generated according to this model therefore maintains the night to night and short term distributions and correlations present in the DIMM data, and follows seasonal variations and longer term trends in the DIMM data surrounding it. 
 
+The FWHM in any particular image of a simulation is calculated from the atmospheric contribution (FWHM at 500~nm at zenith from the database) and the telescope system contribution (based on engineering specifications), correcting for wavelength and airmass. 
 
 \subsubsection{Sky Brightness Model}
 
@@ -95,7 +96,7 @@ With so many independent components, the sky brightness is potentially the most 
 The observatory model includes both scheduled and unscheduled downtime. Figure~\ref{fig:downtime} shows we simulate approximately 10\% of time lost to maintenance. The scheduled downtime allowance is currently about 22 weeks over the full 10 year survey. This is taken in either two one week periods twice a year, or a single two week period in alternating years. The unscheduled downtime allowance is approximately 21 weeks, in variable amounts of time, often as short as a single night. The scheduled downtime is planned during the same periods that are most likely to be bad weather, when possible. In the future, scheduled downtime may be shifted within a month to better align with the full moon.
 
 
-\subsection{The Scheduler}
+\subsection{The Scheduler}\label{sec:scheduler}
 
 Optimally scheduling telescopic observations is a traditionally difficult problem. Most observatories have typically scheduled observations by hand. The  Las Cumbres Observatory (LCO) and Zwicky Transient Factory (ZTF) have implemented Integer Linear Programming techniques to optimize their scheduling \citep{Lampoudi15, Bellm19}. With integer programming, potential observing time is quantized into blocks and an optimization algorithm is used to maximize a user-defined objective function.  Integer programming is difficult to use for Rubin because we have multiple science goals which are intended to be serviced simultaneously. Thus, there is no easily-defined function which can be maximized when scheduling Rubin. \citet{Rothchild19} simulated Rubin observations with a very fast deterministic scheduler, essentially repeating a fixed raster pattern mostly along the meridian. This algorithm showed great promise, but had several downsides (such as occasionally pointing at the moon). For the Rubin scheduler, we follow the example in \citet{Naghib19} and use a Markov Decision Process (MDP) to select most of the observations. With a MDP, observing decisions are made in real-time based on the current conditions and previously completed observations. The MDP relies on the construction of basis functions which encapsulate the different objectives and constraints of the problem.  The advantage of the MDP is that well-constructed basis functions can result in the scheduler having few free parameters which are easily optimized. The disadvantage is that writing good basis functions often require the author have extensive domain-specific knowledge of the problem.  For example, while astronomers say things like ``try to take observations at low airmass", this by itself does not make a good basis function because there can be declinations in a survey footprint which never reach low airmass. 
 
@@ -109,18 +110,18 @@ The first tier of the decision tree is to check if there are any deep drilling f
 
 For a DDF to be eligible to send a sequence to the observing queue, it must
 \begin{itemize}
-\item{Not currently be twilight}
+\item{Not currently be twilight (-18 degrees for DDFs)}
 \item{Have enough time to finish a sequence before twilight begins}
 \item{Be in its target hour angle range}
-\item{The moon must be down}
-\item{The DDF must not have exceeded it's limit of observations (typically $\sim$1\% of the total number of visits)}
+\item{The moon must be down (DDFs typically include visits in multiple filters, including some or all of $u$, $g$, $r$ or $i$). }
+\item{The DDF must not have exceeded its limit of observations (typically $\sim$1\% of the total number of visits)}
 \end{itemize}
 
-If the DDF has not fallen behind, it will space sequences by at least 1.5 days. There is also a check to see if the DDF will be feasible and better observed later in the night, in which case no observations are requested.
+If the DDF has not fallen behind (fallen below its desired fraction of survey visits by some threshold), it will space sequences by at least 1.5 days. There is also a check to see if the DDF will be feasible and better observed later in the night, in which case no observations are requested.
 
 If the above conditions are met, the DDF sends it's sequence of observations to the queue to be executed. There are currently no attempts at recovery if a sequence is interrupted. 
 
-The spatial position of the DDF is dithered nightly up to 0.7 degrees.  The camera rotator is also varied nightly to be between -75 and 75 degrees with respect to the telescope. 
+The spatial position of the DDF is dithered nightly up to 0.7 degrees.  The camera rotator is also varied nightly to be between -75 and 75 degrees with respect to the telescope. The optimal dithering patterns for the DDFs are yet to be determined.
 
 \begin{table}
 \begin{centering}
@@ -145,11 +146,11 @@ The spatial position of the DDF is dithered nightly up to 0.7 degrees.  The came
 
 \subsubsection{Tier 2:  The Blobs}
 
-If there are no DDFs requesting observations, the decision tree moves to the second tier. This tier is the survey workhorse, executing $\sim$80\% of the simulation visits.  This tier will only request observations if it is not currently twilight, and there is at least 30 minutes before twilight begins.
+If there are no DDFs requesting observations, the decision tree moves to the second tier. This tier is the survey workhorse, executing $\sim$80\% of the simulation visits.  This tier will only request observations if it is not currently twilight, and there is at least 30 minutes before twilight begins. The name `blob' refers to the fact that this tier selects groups of fields for visits that are spatially close to one another; thus a `blob'. 
 
-A modified Markov Decision Process (MDP) is used to decide what sky region and filter combination to observe given the current conditions and observation history. Briefly, the MDP balances the desire to observe areas 1) that are closest to the optimal possible in terms of 5-sigma depth, 2) which have fallen behind the specified desired survey footprint, 3) are near the current telescope pointing and 4) in the currently loaded filter to minimize filter changes.  In addition to these core components, the MDP includes a mask around zenith, a 30 degree mask around the moon, and small masks around the bright planets (Venus, Mars, Jupiter). The end product of the MDP is a reward function that ranks the desirability of every point in the sky. Because this tier does not execute in twilight, we assume the reward function is relatively stable on 40 minute timescales.
+A modified Markov Decision Process (MDP) is used to decide what sky region (blob) and filter combination to observe given the current conditions and observation history. Briefly, the MDP balances the desire to observe areas 1) that are closest to the optimal possible in terms of 5-sigma depth, 2) which have fallen behind the specified desired survey footprint (have obtained a smaller fraction of the overall survey visits), 3) are near the current telescope pointing to minimize slew time, and 4) in the currently loaded filter to minimize filter changes.  In addition to these core components, the MDP includes a mask around zenith, a 30 degree mask around the moon, and small masks around the bright planets (Venus, Mars, Jupiter). The end product of the MDP is a reward function that ranks the desirability of every point in the sky. Because this tier does not execute in twilight, we assume the reward function is relatively stable on 40 minute timescales.
 
-A sky area around the reward function maximum that will take $\sim$22 minutes to observe ($\sim$35 pointings) is then selected. If possible, the area is selected to be be contiguous.  The exact position of the telescope pointings are determined by the sky tessellation, which is randomly oriented for each night. The camera rotator angle (relative to the telescope) is also randomized between $\pm 80$\ degrees each night.
+A sky area around the reward function maximum that will take $\sim$22 minutes to observe ($\sim$35 pointings - a blob) is then selected. If possible, the area is selected to be be contiguous.  The exact position of the telescope pointings are determined by the sky tessellation, which is randomly oriented for each night to provide a spatial dithering between nights. The camera rotator angle (relative to the telescope) is also randomized between $\pm 80$\ degrees each night.
 
 A traveling salesman algorithm is used to put the pointings in an order that minimizes the slew time. The list of pointings are then repeated, usually in a different filter, ensuring moving objects can be detected.  One of seven possible filter combinations is used: $u+g$, $u+r$, $g+r$, $r+i$, $i+z$, $z+y$, or $y+y$.  We use 30 second visits for the majority of simulations. The official baseline uses visits comprised of two 15 second snaps.  
 
@@ -158,7 +159,7 @@ A traveling salesman algorithm is used to put the pointings in an order that min
 
 If it is during morning or evening twilight, or close to morning twilight, the DDFs and Blob surveys will pass and the decision tree goes to the third and final tier, the greedy surveys. 
 
-The greedy surveys use a similar Markov Decision Process as in Tier 2, but rather than selecting large areas of sky to observe, the survey selects a single pointing at a time.  No attempt is made to observe greedy scheduled observations in pairs. The twilight period is short and the conditions rapidly changing, so pairs may not be optimal; however this is an area for potential improvement. Since this tier is primarily used in twilight time, it only schedules observations in the redder filters $r$, $i$, $z$, and $y$.  
+The greedy surveys use a similar Markov Decision Process as in Tier 2, but rather than selecting large areas of sky to observe, the survey selects a single pointing at a time.  No attempt is made to observe greedy scheduled observations in pairs of visits. The twilight period is short and the conditions rapidly changing, so pairs may not be optimal; however this is an area for potential improvement. Since this tier is primarily used in twilight time, it only schedules observations in the redder filters $r$, $i$, $z$, and $y$.  
 
 As with the Blob tier, the sky tessellation orientation is randomized each night so the final survey is spatially dithered. 
 
@@ -174,7 +175,7 @@ As with the Blob tier, the sky tessellation orientation is randomized each night
 \plotone{plots/night_plots/baseline_nexp1_v1_6_altAz_Count_note_like_blob_and_night810_HEAL_SkyMap.pdf}
 \plotone{plots/night_plots/baseline_nexp1_v1_6_altAz_Count_note_like_greedy_and_night810_HEAL_SkyMap.pdf}
 \epsscale{1}
-\caption{Examples of how the three scheduler tiers execute during a single night. Left panels show how a DDF sequence was observed during the night. Middle panels show observations taken as part of blob pairs. Right panels show the greedy observations taken in twilight time.  The panels from left to right show the different decision tiers the scheduler uses, with the DDFs as the top tier and the greedy algorithm as the bottom tier. } \label{fig:examplenight}
+\caption{Examples of how the three scheduler tiers execute during a single night. Left panels show how a DDF sequence was observed during the night. Middle panels show observations taken as part of blob pairs. Right panels show the greedy observations taken in twilight time.  The panels from left to right show the different decision tiers the scheduler uses, with the DDFs as the top tier and the greedy algorithm as the bottom tier.  The top row of panels show visits in RA/Dec coordinates, the bottom row show the same visits in Alt/Az coordinates. } \label{fig:examplenight}
 \end{figure}
 
 \subsection{Filter Mounting Schedule}

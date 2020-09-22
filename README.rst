@@ -18,7 +18,7 @@ Links
 - Live drafts: https://pstn-051.lsst.io
 - GitHub: https://github.com/lsst-pst/pstn-051
 
-- Reference DOI: see DOI badge on latest release https://github.com/lsst-pst/pstn-051/releases
+- Reference DOI: TBD
 
 
 Build

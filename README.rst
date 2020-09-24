@@ -18,7 +18,8 @@ Links
 - Live drafts: https://pstn-051.lsst.io
 - GitHub: https://github.com/lsst-pst/pstn-051
 
-- Reference DOI: TBD
+- DOI (v1.2): [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4048838.svg)](https://doi.org/10.5281/zenodo.4048838)
+
 
 
 Build

@@ -526,7 +526,7 @@ Figure~\ref{fig:dcr_radar} shows the science impact is fairly minimal, but we te
 
 
 %############ Even Filters ############
-\subsection{FBS 1.5 {\tt even\_filters}: Sky brightness and Filter choice}\label{ss:evenfilters}
+\subsection{FBS 1.6 {\tt even\_filters}: Sky brightness and Filter choice}\label{ss:evenfilters}
 
 The baseline simulation is fairly aggressive in using redder filters in bright time, in order to maximize the final coadded depths. However, this can create long gaps in light curves with no bluer observations. This family of simulations removes the per-filter consideration of sky brightness (in various combinations of filters) to avoid this effect. There is a simulation where only $u$ avoids bright time, and another with both the $u$ and $g$ filters avoid bright time; the simulations include both the standard baseline footprint and a variation on the `big sky' footprint (the `alt' runs). Figure~\ref{fig:even_filt_hourglass} shows the resulting filter distributions in year one. Unlike the baseline simulations, there are no longer sections of several days where only $y$\ is observed.
 

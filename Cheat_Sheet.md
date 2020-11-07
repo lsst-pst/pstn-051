@@ -111,5 +111,33 @@ bulges_cadence_i_heavy_v1.5_10yrs.db | -72 < Dec < +12; Galactic latitude > 8  |
 * [filter_dist](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/filter_dist/) 
 This family varies the distribution of visits between filters across the standard WFD footprint -- ie, taking more *u* band and less *z* or other variations. Our baseline filter distribution is nominally set to optimize photo-z measurements, but it would be nice to quantify how well photo-z and other transients perform with different filter distributions. We do not have a photo-z metric at this time, but generally we find transients and variable stars metrics favor bluer distributions of filters while solar system and galaxy metrics prefer redder distributions of filters. 
 
+Run | Filter distribution | u g r i z y ratios
+:-- | :------------------: | :---------:
+filterdist_indx1_v1.5_10yrs.db | Uniform  | 1.00 1.00 1.00 1.00 1.00 1.00
+filterdist_indx2_v1.5_10yrs.db | Baseline | 0.31 0.44 1.00 1.00 0.90 0.90
+filterdist_indx3_v1.5_10yrs.db | g heavy  | 0.31 1.00 1.00 1.00 0.90 0.90
+filterdist_indx4_v1.5_10yrs.db | u heavy  | 0.90 0.44 1.00 1.00 0.90 0.90
+filterdist_indx5_v1.5_10yrs.db | z and y heavy | 0.31 0.44 1.00 1.00 1.50 1.50
+filterdist_indx6_v1.5_10yrs.db | i heavy  | 0.31 0.44 1.00 1.50 0.90 0.90
+filterdist_indx7_v1.5_10yrs.db | Bluer    | 0.50 0.60 1.00 1.00 0.90 0.90
+filterdist_indx8_v1.5_10yrs.db | Redder   | 0.31 0.41 1.00 1.10 1.10 1.10
 
+* [alt_roll_dust](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/alt_roll_dust/) 
+These simulations use a non-standard survey footprint: an extended dust-limited WFD footprint (-72 < Dec < + 12; E(B-V)<0.2 dust extinction limits around GP) with light coverage of the GP, SCP and a northern extension instead of the NES. The versions with 'alt' in the name add an alt-scheduler nightly scheduling algorithm. The 'alt-scheduler' scheduling algorithm imposes a North/South nightly alternating cadence to observations; even nights would observe in a northern set of fields while odd nights would observe in a southern set of fields (for example). This adds a minimum 2-night revisit rate. The rolling cadence variations add a two-declination band rolling cadence. 
 
+Run |  alt-scheduler nightly alternation | 2-band declination rolling cadence 
+:-- |  :--------------------------------: | :-------------------------------:
+alt_dust_v1.5_10yrs.db | Yes | No 
+alt_roll_mod2_dust_sdf_0.20_v1.5_10yrs.db | Yes | Yes
+roll_mod2_dust_sdf_0.20_v1.5_10yrs.db | No | Yes
+
+* Rolling cadence. There are rolling_fpo runs in the report and simulation outputs. Unfortunately we've since learned that while the 2-band versions of these works as expected, the 3 and 6 band simulations don't seem to carry the appropriate weights on the rolling portion of the sky. We are in the process of replacing these simulations, using both an extended WFD footprint and a standard baseline footprint. 
+
+* [DDFs](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/DDFs/) 
+This contains implementations of both the AGN and the DESC requested DD strategy. [daily_ddf](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/daily_ddf/) is another DDF strategy, attempting to take daily DDF visits. 
+
+Run | DDF sequences 
+:--- | :-----------:
+agnddf_v1.5_10yrs.db |
+descddf_v1.5_10yrs.db |
+daily_ddf_v1.5_10yrs.db |

@@ -17,6 +17,7 @@ Please note that the MAF outputs are generally the same from 1.4, 1.5 to 1.6 HOW
 Family Details:
 
 * [u_pairs](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.4/u_pairs/)  Note this is FBS 1.4 [MAF](http://astro-lsst-01.astro.washington.edu:8083/)
+
 A family where we varied how *u* band visits were paired with other filters, pairing *u* with *g* or *r* band filters (previous simulations had taken *u* in singletons or only paired with *u* itself). We also varied the number of visits in *u* band and when the *u* band was loaded in or out of the camera. The takeaway from this family was that we should pair *u* with *g* or *r* (instead of taking single images) and we should load the filter in/out of the camera at 40% lunar illumation (about new moon +/- 6 nights), based primarily on vastly improved efficiency in detecting and identifying transients. 
 (note the typo in the run names below .. uparis should be translated to upairs, our apologies). 
 
@@ -36,6 +37,7 @@ uparis_illum_60_scale2v1.4_10yrs.db | 60 | 2 |
 uparis_illum_60_scale4v1.4_10yrs.db | 60 | 4 |
 
 * [baseline](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/baseline/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 The baseline 'standard survey strategy' run, which can be used as a general comparison point. Except for changes in the defaults, this is the same general survey strategy as in previous releases, using the standard survey footprint and pairs of visits in each night in mixed filters. There is a baseline using 1x30s visits (baseline_v1.5_10yrs) and one using 2x15s visits (baseline_2snaps_v1.5_10yrs). The project official baseline will remain 2x15s visits, so this is a good run to evaluate; however we have used the 1x30s visits as the default in the other families, so baseline_v1.5_10yrs is the one to use to compare survey strategy variation effects against standard strategy.  Note that in the SCOC report, the 'same_filter' run, where pairs of visits were taken in the same filter instead of mixed filters, is grouped into this family. The takeaway from this family is that we should use 1x30s visits if we can for a 9% efficiency boost (but we must carry 2x15s visits as contingency) and mixed filters provides useful information for transients and variables at a 4% cost in efficiency compared to the 'same_filter' run.
 
 Run | Visit Variation | Pairs |  Metric Comment | 
@@ -45,6 +47,7 @@ baseline_v1.5_10yrs.db | 1x30s visits | Mixed filters |  Great place to plan wit
 baseline_samefilt_v1.5_10yrs.db | 1x30s visits | Same filter | Improve efficiency 4% above mixed filters, improves SSO discovery by 3-4%, but decreases transient and variable metrics by as much as 75% (SNIa 'well-sampled').
 
 * [third_obs](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/third_obs/)  FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This family of simulations adds a third visit per night to augment the pairs of visits: adding a *g*, *r* or *i* visit at the end of the night in the WFD. The amount of the night dedicated to this third visit varies across the family, from 15 minutes to 120 minutes (corresponding to covering approximately one blob to about five, or half of the night's pairs receiving a third visit). We find the third visit decreases the amount of sky imaged in each night and has an accompanying  negative impact on metrics which prefer more sky area within a given time (such as solar system discovery and slower transient metrics, such as SNIa) -- the amount of this impact varies from negligible to noticeable depending on how much time is allocated to the third visit. 
 
 Run | Amount of time for third visit |
@@ -57,6 +60,7 @@ third_obs_pt90v1.5_10yrs.db  | 90 minutes
 third_obs_pt120v1.5_10yrs.db | 120 minutes
 
 * [wfd_depth](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/wfd_depth/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This family varies the emphasis or weight on the WFD, using a standard survey strategy. The amount of time spent on the WFD scales up and down .. while the time spent on other areas changes in response. This family helps demonstrate how metrics respond to the number of visits in the WFD, as well as highlighting how metrics depend on visits in the accompanying mini-survey regions. The fraction of visits spent on WFD varies from 60% to 99%, with and without the standard DDF mini-surveys, which require 5% of the total visits when present. From these simulations we determined that between 1.65 and 1.7M visits are required to cover 18K square degrees of the standard WFD to a minimum number of visits of 825 per pointing; some of the range in that required number of visits comes from over and under subscription in some parts of the sky leading to unevenness in coverage. 
 
 Run | DDF? | Weight on WFD footprint | Approximate Nvisits WFD (1x30s visits!) | Mean Nvisits per pointing WFD (1x30s visits!) |
@@ -79,6 +83,7 @@ wfd_depth_scale0.99_noddf_v1.5_10yrs.db | No | 99% | 2095078 |  1034 |
 wfd_depth_scale0.99_v1.5_10yrs.db | Yes | 99% (~95% after DDF) | 1995982 |  985 |
 
 * [footprints](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/footprints/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This family varies the footprint of the survey, primarily focusing on WFD variations - extending footprint for the WFD into the N/S ('extended WFD'), varying the coverage of the bulge, and adding Magellanic Clouds. This family should generally be paired with the `bulge` family, as coverage of the WFD -- especially when moving the borders of the WFD around the Galactic Plane -- is strongly linked to the coverage of the Galactic Plane and between these two families there are significant overlaps. The extended WFD footprint still contains 18K square degrees, but shifted so as to use only low-dust-extinction regions for those 18K square degrees. In general, DESC static science metrics improve for the extended WFD; however, without additional galactic plane coverage (continued in the `bulges` family), metrics for other science goals tied to galactic populations drop significantly. 
 
 
@@ -98,6 +103,7 @@ footprint_newAv1.5_10yrs.db | -72 < Dec < +12; galactic latitude > 15 | Attempt 
 footprint_newBv1.5_10yrs.db | -72 < Dec < +12; galactic latitude > 15 | Tweak on the previous attempt to 'do it all', covering NES, SCP as in classic baseline, with bigger WFD, GP toward the bulge covered to ~700 visits/pointing, but GP with longitude > ~90 only receives ~300 visits per pointing. | Number of visits per WFD pointing drops to 790 with 1x30s visits, but TVS, Galaxy, and DESC metrics all show improvements above standard baseline. 
 
 * [bulge](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/bulge/)  FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This family of runs brings a variety of survey strategies to bear on the galactic bulge region, when using the extended WFD. In general, this family should be considered together with the `footprints` family.  In each of these simulations, the metrics for DESC static science improve compared to the standard baseline because more area is included with low dust extinction. However, the number of visits per WFD pointing drops to 760-750 (with 1x30s visits!) due to the larger area included in the WFD (when combined with coverage in the galactic plane, northern region, and SCP). 
 
 Run | WFD limits | Description | Metric Comment | 
@@ -110,6 +116,7 @@ bulges_i_heavy_v1.5_10yrs.db | -72 < Dec < +12; Galactic latitude > 8  | Light c
 bulges_cadence_i_heavy_v1.5_10yrs.db | -72 < Dec < +12; Galactic latitude > 8  | Light coverage (~250) of galactic plane but WFD (825) level coverage of galactic bulge (galactic latitude < +/-10, galactic longitude < +/-20), with a shift toward i band visits. Adds a basis function to drive coverage in the bulge every 2.5 days. | Improves metrics for fast microlensing, due to increase in the number of visits, but only slightly above the bulge wfd simulation above.
 
 * [filter_dist](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/filter_dist/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This family varies the distribution of visits between filters across the standard WFD footprint -- ie, taking more *u* band and less *z* or other variations. Our baseline filter distribution is nominally set to optimize photo-z measurements, but it would be nice to quantify how well photo-z and other transients perform with different filter distributions. We do not have a photo-z metric at this time, but generally we find transients and variable stars metrics favor bluer distributions of filters while solar system and galaxy metrics prefer redder distributions of filters. 
 
 Run | Filter distribution | u g r i z y ratios
@@ -124,6 +131,7 @@ filterdist_indx7_v1.5_10yrs.db | Bluer    | 0.50 0.60 1.00 1.00 0.90 0.90
 filterdist_indx8_v1.5_10yrs.db | Redder   | 0.31 0.41 1.00 1.10 1.10 1.10
 
 * [alt_roll_dust](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/alt_roll_dust/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 These simulations use a non-standard survey footprint: an extended dust-limited WFD footprint (-72 < Dec < + 12; E(B-V)<0.2 dust extinction limits around GP) with light coverage of the GP, SCP and a northern extension instead of the NES. The versions with 'alt' in the name add an alt-scheduler nightly scheduling algorithm. The 'alt-scheduler' scheduling algorithm imposes a North/South nightly alternating cadence to observations; even nights would observe in a northern set of fields while odd nights would observe in a southern set of fields (for example). This adds a minimum 2-night revisit rate. The rolling cadence variations add a two-declination band rolling cadence. 
 
 Run |  alt-scheduler nightly alternation | 2-band declination rolling cadence 
@@ -135,6 +143,7 @@ roll_mod2_dust_sdf_0.20_v1.5_10yrs.db | No | Yes
 * Rolling cadence. There are rolling_fpo runs in the report and simulation outputs. Unfortunately we've since learned that while the 2-band versions of these works as expected, the 3 and 6 band simulations don't seem to carry the appropriate weights on the rolling portion of the sky. We are in the process of replacing these simulations, using both an extended WFD footprint and a standard baseline footprint. 
 
 * [DDFs](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/DDFs/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This contains implementations of both the AGN and the DESC requested DD strategy. [daily_ddf](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/daily_ddf/) is another DDF strategy, attempting to take daily DDF visits. 
 
 Run | DDF sequences 
@@ -144,6 +153,7 @@ descddf_v1.5_10yrs.db | DESC white paper sequences (5% overall DDF fraction)
 daily_ddf_v1.5_10yrs.db | Daily (shorter) sequences (5.5% overall DDF fraction)
 
 * [goodseeing](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/goodseeing/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This family of simulations adds a basis function which drives the acquisition of at least one of 'good seeing' (seeingFwhmGeom ~< 0.7") visits at each point on the sky each year, but varies in which filters this 'good seeing' visit is desired. These do improve the seeing distributions in the targeted bands, compared to baseline -- this improvement is most visible when comparing the achieved IQ against the standard baseline, within a given year. 
 
 Run | Good seeing filters 
@@ -155,6 +165,7 @@ goodseeing_griz_v1.5_10yrs.db | g, r, i and z band
 goodseeing_gz_v1.5_10yrs.db | g and z band
 
 * [twilight_neo](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/twilight_neo/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 These runs investigate the effect of adding a twilight, high-airmass, short (1s) exposure mini-survey to search for NEOs during twilight time. The amount of time dedicated to this mini-survey varies depending on whether the search is run every night, every other night, every third night, or every fourth night.
 
 Run | Twilight NEO survey frequency 
@@ -165,6 +176,7 @@ twilight_neo_mod3_v1.5_10yrs.db | Every third night
 twilight_neo_mod4_v1.5_10yrs.db | Every fourth night
 
 * [Short exposures](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/short_exp/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This family adds short exposures - either 1 second or 5 seconds long - over the entire sky in all filters. The short exposure survey obtains with 2 or 5 visits per year. The number of visits in the entire survey increases -- but some will be too short to be useful for some science -- and the amount of time used for the mini-survey varies in each of these examples, from 0.5% to 5%. 
 
 Run |  Number of short exposures per year | Short exposure visit time 
@@ -175,6 +187,7 @@ short_exp_5ns_1expt_v1.5_10yrs.db | 5 | 1s
 short_exp_5ns_5expt_v1.5_10yrs.db | 5 | 5s
 
 * [u60](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/u60/)  FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This simulation swaps 60 second *u* band visits for our standard 30 second visits.  We will add another run with longer u band visits and more visits. Going to only 15 visits over the survey is extremely detrimental for transient classification. 
 
 Run | u band visit time | number of u band visits
@@ -182,6 +195,7 @@ Run | u band visit time | number of u band visits
 u60_v1.5_10yrs.db | 30s  | Half the standard baseline (about 15)
 
 * [var_expt](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/var_expt/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This run changes the default exposure time per visit (becomes variable for every visit, between 20-100 seconds) to attempt to hold the single image visit depth roughly constant. 
 
 Run | Visit time | 
@@ -189,6 +203,7 @@ Run | Visit time |
 var_expt_v1.5_10yrs.db | Variable exposure time
 
 * [dcr](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/dcr/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This family adds additional high airmass observations each year to each point in the WFD, in various filters. This would allow DCR to be measured and corrected for in difference imaging, and potentially allow the measurement of astrometric shift caused by DCR for objects with sharp breaks in their SEDs (e.g., AGN with large emission lines). 
 
 Run | Number of high airmass visits per year | Filters with high airmass visits
@@ -201,6 +216,7 @@ dcr_nham2_ugr_v1.5_10yrs.db | 2 | u, g and r
 dcr_nham2_ugri_v1.5_10yrs.db | 2 | u, g, r, and i
 
 * [even_filters](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.6/even_filters/) FBS 1.6 [MAF](http://astro-lsst-01.astro.washington.edu:8080)
+
 This family investigates the effect of changing the filter-choice weighting. In standard runs, the choice of filter is weighted by the difference between the current five-sigma limiting magnitude and the darkest possible five-sigma limiting magnitude *in each filter*, as well as the number of visits in each filter and a penalty for changing the filter. This tends to result in *g* band visits being taken near new moon and a heavy preference for *z* and *y* near full moon, which leads to an uneven cadence in a particular filter over the lunar cycle. In these simulations, the weighting between the current five-sigma limiting magnitude and the darkest possible five-sigma limiting magnitude is not used for all bandpasses, to remove this lunar cycle weighting and avoidance of bright time for some filters. Some of the simulations also use the AltSched nightly-weighting algorithm and a big-sky WFD survey footprint. 
 
 Run | WFD footprint | Filters avoiding bright time
@@ -211,6 +227,7 @@ even_filters_altv1.6_10yrs.db | Extended N/S with dust limits | u
 even_filters_alt_g_v1.6_10yrs.db | Extended N/S with dust limits | u and g
 
 * [greedy_footprint](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/greedy_footprint/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
+
 This simulation prevents the greedy survey from running on the ecliptic, instead pushing those visits into the 'blob' survey. This means the ecliptic will only be observed in pairs of visits, instead of the unpaired visits that occur during the greedy survey (which typically runs during twilight). 
 NOTE: since this time, we have updated our simulations, to use a modified version of pairs during twilight. We found this new approach worked better for improving solar system object discovery. 
 
@@ -220,6 +237,7 @@ greedy_footprint_v1.5_10yrs.db | Twilight greedy survey footprint modified to re
 
 
 * [potential_schedulers](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.6/potential_schedulers/) FBS 1.6 [MAF](http://astro-lsst-01.astro.washington.edu:8080)
+
 This family is unique in that instead of varying a single survey strategy option (as in all other families), here we vary several options at once in pursuit of a particular science goal. The point here is to illustrate the effect of combinations of survey strategy variations; some are successful and sometimes we may meet technical goals but not science goals. For further details on each simulation, Section 5 in the Survey Strategy report for the SCOC (https://pstn-051.lsst.io/) is recommended.  
 
 Run | Visit time | Comment

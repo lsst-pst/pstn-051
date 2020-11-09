@@ -14,7 +14,7 @@ For example: `goodseeing_i_v1.5_10yrs.db` is from the `good seeing` family and c
 
 Please note that the MAF outputs are generally the same from 1.4, 1.5 to 1.6 HOWEVER they are not exactly the same. We have improved some metrics and added others, but not necessarily re-run those when they are minor changes for older runs. Likewise, the simulations themselves do not use exactly the same sets of parameters or underlying models; FBS 1.4 runs should be compared against the FBS 1.4 baseline, FBS 1.5 runs should be compared against the FBS 1.5 baseline, FBS 1.6 runs against the FBS 1.6 baseline, etc. Generally these runs are statistically comparable. 
 
-Family Details:
+**Family Details:**
 
 * [u_pairs](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.4/u_pairs/)  Note this is FBS 1.4 [MAF](http://astro-lsst-01.astro.washington.edu:8083/)
 

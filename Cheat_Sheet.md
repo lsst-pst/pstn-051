@@ -37,7 +37,7 @@ uparis_illum_60_scale4v1.4_10yrs.db | 60 | 4 |
 * [baseline](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/baseline/)  
 The baseline 'standard survey strategy' run, which can be used as a general comparison point. Except for changes in the defaults, this is the same general survey strategy as in previous releases, using the standard survey footprint and pairs of visits in each night in mixed filters. There is a baseline using 1x30s visits (baseline_v1.5_10yrs) and one using 2x15s visits (baseline_2snaps_v1.5_10yrs). The project official baseline will remain 2x15s visits, so this is a good run to evaluate; however we have used the 1x30s visits as the default in the other families, so baseline_v1.5_10yrs is the one to use to compare survey strategy variation effects against standard strategy.  Note that in the SCOC report, the 'same_filter' run, where pairs of visits were taken in the same filter instead of mixed filters, is grouped into this family. The takeaway from this family is that we should use 1x30s visits if we can for a 9% efficiency boost (but we must carry 2x15s visits as contingency) and mixed filters provides useful information for transients and variables at a 4% cost in efficiency compared to the 'same_filter' run.
 
-Run | Visit Variation | Pairs |  Comment | 
+Run | Visit Variation | Pairs |  Metric Comment | 
  :---- | :-----: | :------: | :-----: |
 baseline_2snaps_v1.5_10yrs.db | 2x15s visits | Mixed filters | Must maintain as project standard until on-sky, but loses 9% visits compared to 1x30s visits.
 baseline_v1.5_10yrs.db | 1x30s visits | Mixed filters |  Great place to plan with, as adds 9% additional visits. Can't be adopted as standard yet.
@@ -81,7 +81,7 @@ wfd_depth_scale0.99_v1.5_10yrs.db | Yes | 99% (~95% after DDF) | 1995982 |  985 
 This family varies the footprint of the survey, primarily focusing on WFD variations - extending footprint for the WFD into the N/S ('extended WFD'), varying the coverage of the bulge, and adding Magellanic Clouds. This family should generally be paired with the `bulge` family, as coverage of the WFD -- especially when moving the borders of the WFD around the Galactic Plane -- is strongly linked to the coverage of the Galactic Plane and between these two families there are significant overlaps. The extended WFD footprint still contains 18K square degrees, but shifted so as to use only low-dust-extinction regions for those 18K square degrees. In general, DESC static science metrics improve for the extended WFD; however, without additional galactic plane coverage (continued in the `bulges` family), metrics for other science goals tied to galactic populations drop significantly. 
 
 
-Run | WFD limits | Description | Comment | 
+Run | WFD limits | Description | Metric Comment | 
 :--- | :--------: | :---------: | :------: |
 footprint_standard_goalsv1.5_10yrs.db | -62 < Dec < +2; tapering GP limit based on longitude ('classic') |  Standard classic baseline | Not enough galactic plane coverage, less than 18K square degrees with E(B-V)<0.2 (WFD includes dusty regions).
 footprint_bluer_footprintv1.5_10yrs.db | -62 < Dec < +2; tapering GP limit based on longitude ('classic') | Baseline footprint but visit distribution is shifted toward bluer filters | Number of galaxies and SSOs falls with bluer filters; Transient detection improves (seen in filter_dist family also).
@@ -99,7 +99,7 @@ footprint_newBv1.5_10yrs.db | -72 < Dec < +12; galactic latitude > 15 | Tweak on
 * [bulge](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/bulge/) 
 This family of runs brings a variety of survey strategies to bear on the galactic bulge region, when using the extended WFD. In general, this family should be considered together with the `footprints` family.  In each of these simulations, the metrics for DESC static science improve compared to the standard baseline because more area is included with low dust extinction. However, the number of visits per WFD pointing drops to 760-750 (with 1x30s visits!) due to the larger area included in the WFD (when combined with coverage in the galactic plane, northern region, and SCP). 
 
-Run | WFD limits | Description | Comment | 
+Run | WFD limits | Description | Metric Comment | 
 :--- | :--------: | :---------: | :------: |
 bulges_bs_v1.5_10yrs.db | -72 < Dec < +12; Galactic latitude > 8 | Cover large, dust-free WFD, but very light coverage of the galactic plane and bulge (about 250-300 visits per pointing) | Using fast microlensing as a representative of galactic transients, metrics are similar to the standard baseline. 
 bulges_cadence_bs_v1.5_10yrs.db | -72 < Dec < +12; Galactic latitude > 8 | Cover large, dust-free WFD, but very light coverage of the galactic plane and bulge (about 300 visits per pointing). Adds a basis function to drive the cadence in the bulge region (galactic latitude < +/-10, galactic longitude < +/-20) to prioritize visits in bulge after 2.5 days. | Similar to standard baseline for fast microlensing.
@@ -143,7 +143,7 @@ descddf_v1.5_10yrs.db | DESC white paper sequences (5% overall DDF fraction)
 daily_ddf_v1.5_10yrs.db | Daily (shorter) sequences (5.5% overall DDF fraction)
 
 * [goodseeing](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/goodseeing/) 
-This family of simulations adds a basis function which drives the acquisition of at least one of 'good seeing' (seeingFwhmGeom ~< 0.7") visits at each point on the sky each year, but varies in which filters this 'good seeing' visit is desired. 
+This family of simulations adds a basis function which drives the acquisition of at least one of 'good seeing' (seeingFwhmGeom ~< 0.7") visits at each point on the sky each year, but varies in which filters this 'good seeing' visit is desired. These do improve the seeing distributions in the targeted bands, compared to baseline -- this improvement is most visible when comparing the achieved IQ against the standard baseline, within a given year. 
 
 Run | Good seeing filters 
 :-- | :------------------:

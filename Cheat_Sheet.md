@@ -138,6 +138,105 @@ This contains implementations of both the AGN and the DESC requested DD strategy
 
 Run | DDF sequences 
 :--- | :-----------:
-agnddf_v1.5_10yrs.db |
-descddf_v1.5_10yrs.db |
-daily_ddf_v1.5_10yrs.db |
+agnddf_v1.5_10yrs.db | AGN white paper sequences (3% overall DDF fraction)
+descddf_v1.5_10yrs.db | DESC white paper sequences (5% overall DDF fraction)
+daily_ddf_v1.5_10yrs.db | Daily (shorter) sequences (5.5% overall DDF fraction)
+
+* [goodseeing](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/goodseeing/) 
+This family of simulations adds a basis function which drives the acquisition of at least one of 'good seeing' (seeingFwhmGeom ~< 0.7") visits at each point on the sky each year, but varies in which filters this 'good seeing' visit is desired. 
+
+Run | Good seeing filters 
+:-- | :------------------:
+goodseeing_i_v1.5_10yrs.db | Only i band
+goodseeing_gi_v1.5_10yrs.db | g and i band
+goodseeing_gri_v1.5_10yrs.db | g, r, and i band
+goodseeing_griz_v1.5_10yrs.db | g, r, i and z band
+goodseeing_gz_v1.5_10yrs.db | g and z band
+
+* [twilight_neo](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/twilight_neo/) 
+These runs investigate the effect of adding a twilight, high-airmass, short (1s) exposure mini-survey to search for NEOs during twilight time. The amount of time dedicated to this mini-survey varies depending on whether the search is run every night, every other night, every third night, or every fourth night.
+
+Run | Twilight NEO survey frequency 
+:-- | :---------------------------:
+twilight_neo_mod1_v1.5_10yrs.db | Every night
+twilight_neo_mod2_v1.5_10yrs.db | Every second night
+twilight_neo_mod3_v1.5_10yrs.db | Every third night
+twilight_neo_mod4_v1.5_10yrs.db | Every fourth night
+
+* [Short exposures](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/short_exp/) 
+This family adds short exposures - either 1 second or 5 seconds long - over the entire sky in all filters. The short exposure survey obtains with 2 or 5 visits per year. The number of visits in the entire survey increases -- but some will be too short to be useful for some science -- and the amount of time used for the mini-survey varies in each of these examples, from 0.5% to 5%. 
+
+Run |  Number of short exposures per year | Short exposure visit time 
+:-- | :---------------------------------: | :-------------------------:
+short_exp_2ns_1expt_v1.5_10yrs.db | 2 | 1s
+short_exp_2ns_5expt_v1.5_10yrs.db | 2 | 5s
+short_exp_5ns_1expt_v1.5_10yrs.db | 5 | 1s
+short_exp_5ns_5expt_v1.5_10yrs.db | 5 | 5s
+
+* [u60](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/u60/) 
+This simulation swaps 60 second *u* band visits for our standard 30 second visits.  We will add another run with longer u band visits and more visits. Going to only 15 visits over the survey is extremely detrimental for transient classification. 
+
+Run | u band visit time | number of u band visits
+:-- | :---------------: | :---------------------:
+u60_v1.5_10yrs.db | 30s  | Half the standard baseline (about 15)
+
+* [var_expt](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/var_expt/) 
+This run changes the default exposure time per visit (becomes variable for every visit, between 20-100 seconds) to attempt to hold the single image visit depth roughly constant. 
+
+Run | Visit time | 
+:-- | :---------: 
+var_expt_v1.5_10yrs.db | Variable exposure time
+
+* [dcr](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/dcr/) 
+This family adds additional high airmass observations each year to each point in the WFD, in various filters. This would allow DCR to be measured and corrected for in difference imaging, and potentially allow the measurement of astrometric shift caused by DCR for objects with sharp breaks in their SEDs (e.g., AGN with large emission lines). 
+
+Run | Number of high airmass visits per year | Filters with high airmass visits
+:-- | :------------------------------------: | :-------------------------------:
+dcr_nham1_ug_v1.5_10yrs.db | 1 | u and g
+dcr_nham1_ugr_v1.5_10yrs.db | 1 | u, g, and r
+dcr_nham1_ugri_v1.5_10yrs.db | 1 | u, g, r, and i
+dcr_nham2_ug_v1.5_10yrs.db | 2 | u and g
+dcr_nham2_ugr_v1.5_10yrs.db | 2 | u, g and r
+dcr_nham2_ugri_v1.5_10yrs.db | 2 | u, g, r, and i
+
+* [even_filters](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.6/even_filters/) 
+This family investigates the effect of changing the filter-choice weighting. In standard runs, the choice of filter is weighted by the difference between the current five-sigma limiting magnitude and the darkest possible five-sigma limiting magnitude *in each filter*, as well as the number of visits in each filter and a penalty for changing the filter. This tends to result in *g* band visits being taken near new moon and a heavy preference for *z* and *y* near full moon, which leads to an uneven cadence in a particular filter over the lunar cycle. In these simulations, the weighting between the current five-sigma limiting magnitude and the darkest possible five-sigma limiting magnitude is not used for all bandpasses, to remove this lunar cycle weighting and avoidance of bright time for some filters. Some of the simulations also use the AltSched nightly-weighting algorithm and a big-sky WFD survey footprint. 
+
+Run | WFD footprint | Filters avoiding bright time
+:-- | :-----------: | :--------------------------:
+even_filtersv1.6_10yrs.db | Classic | u
+even_filters_g_v1.6_10yrs.db | Classic | u and g
+even_filters_altv1.6_10yrs.db | Extended N/S with dust limits | u
+even_filters_alt_g_v1.6_10yrs.db | Extended N/S with dust limits | u and g
+
+* [greedy_footprint](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/greedy_footprint/) 
+This simulation prevents the greedy survey from running on the ecliptic, instead pushing those visits into the 'blob' survey. This means the ecliptic will only be observed in pairs of visits, instead of the unpaired visits that occur during the greedy survey (which typically runs during twilight). 
+NOTE: since this time, we have updated our simulations, to use a modified version of pairs during twilight. We found this new approach worked better for improving solar system object discovery. 
+
+Run | Comment
+:-- | :------:
+greedy_footprint_v1.5_10yrs.db | Twilight greedy survey footprint modified to remove the ecliptic (forcing ecliptic visits into the paired blobs)
+
+
+* [potential_schedulers](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.6/potential_schedulers/) 
+This family is unique in that instead of varying a single survey strategy option (as in all other families), here we vary several options at once in pursuit of a particular science goal. The point here is to illustrate the effect of combinations of survey strategy variations; some are successful and sometimes we may meet technical goals but not science goals. For further details on each simulation, Section 5 in the Survey Strategy report for the SCOC (https://pstn-051.lsst.io/) is recommended.  
+
+Run | Visit time | Comment
+:-- | :--------: | :-----:
+barebones_nexp2_v1.6_10yrs.db | 2x15s | Classic WFD only, same filter pairs, DDF held at 2.5%
+barebones_v1.6_10yrs.db | 1x30s | Classic WFD only, same filter pairs, DDF held at 2.5%
+baseline_nexp2_scaleddown_v1.6_10yrs.db | 2x15s | Classic baseline survey strategy, heavier WFD to meet SRD design goals, 5% DDF
+baseline_nexp2_v1.6_10yrs.db | 2x15s | Classic baseline survey strategy, same configuration as 1x30s version below (WFD below design goals), 5% DDF
+baseline_nexp1_v1.6_10yrs.db | 1x30s | Classic baseline survey strategy, 5% DDF
+combo_dust_nexp2_v1.6_10yrs.db | 2x15s  | Extended N/S WFD with dust limits; heavy coverage of bulge; NES, SCP and remaining GP at standard levels. Rolling cadence on a two-year alternating scheme, using 4 declination bands (a N/S pair is focused each year). 5% DDF
+combo_dust_v1.6_10yrs.db | 1x30s | Extended N/S WFD with dust limits; heavy coverage of bulge; NES, SCP and remaining GP at standard levels. Rolling cadence on a two-year alternating scheme, using 4 declination bands (a N/S pair is focused each year). 5% DDF
+ddf_heavy_nexp2_v1.6_10yrs.db | 2x15s | Classic baseline but DDF at 13.4% of survey
+ddf_heavy_v1.6_10yrs.db | 1x30s | Classic baseline but DDF at 13.4% of survey
+dm_heavy_nexp2_v1.6_10yrs.db | 2x15s | Classic baseline, but with additional u, g and r band high airmass visits each year, rotator angle set so diffraction spikes align with CCD x/y, good seeing images in g, r and i each year. Large 1.5 degree dithers for the DDFs, 5% DDF.
+dm_heavy_v1.6_10yrs.db | 1x30s | Classic baseline, but with additional u, g and r band high airmass visits each year, rotator angle set so diffraction spikes align with CCD x/y, good seeing images in g, r and i each year. Large 1.5 degree dithers for the DDFs, 5% DDF.
+mw_heavy_nexp2_v1.6_10yrs.db | 2x15s | Classic baseline, but add LMC/SMC and bulge at WFD levels.
+mw_heavy_v1.6_10yrs.db | 1x30s | Classic baseline, but add LMC/SMC and bulge at WFD levels.
+rolling_exgal_mod2_dust_sdf_0.80_nexp2_v1.6_10yrs.db | 2x15s | Extended N/S WFD with dust limits; light coverage of NES, SCP and GP. Rolling cadence on a two-year alternating scheme, using 4 declination bands (a N/S pair is focused each year). 5% DDF
+rolling_exgal_mod2_dust_sdf_0.80_v1.6_10yrs.db | 1x30s | Extended N/S WFD with dust limits; light coverage of NES, SCP and GP. Rolling cadence on a two-year alternating scheme, using 4 declination bands (a N/S pair is focused each year). 5% DDF
+ss_heavy_nexp2_v1.6_10yrs.db | 2x15s | Classic baseline survey footprint, but add ecliptic plane coverage through the GP at WFD levels. Add twilight NEO survey in r band each night. Move ecliptic coverage outside of twilight NEO survey into blob coverage for pairs. 5% DDF.
+ss_heavy_v1.6_10yrs.db | 1x30s | Classic baseline survey footprint, but add ecliptic plane coverage through the GP at WFD levels. Add twilight NEO survey in r band each night. Move ecliptic coverage outside of twilight NEO survey into blob coverage for pairs. 5% DDF.

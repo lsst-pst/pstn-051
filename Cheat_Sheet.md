@@ -282,8 +282,8 @@ baseline_nexp2_v1.7_10yrs.db | The run to compare other v1.7 runs to, 2x15s expo
 
 This family looks at varying the size of the DDF spatial dithering scale from 0 to 2.0 degrees. Smaller dithers will help the overall depth and uniformity, but larger dithers may be needed for calibration. 
 
-Run | Dither Scale | Comment
-:-- | :----: | :----:
+Run | Dither Scale
+:-- | :----: 
 ddf_dither0.00_v1.7_10yrs.db  | no dither
 ddf_dither0.05_v1.7_10yrs.db  | 0.05 degrees
 ddf_dither0.10_v1.7_10yrs.db  | 0.10 degrees

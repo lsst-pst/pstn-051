@@ -2,7 +2,7 @@
 
 A high level description of the families of simulations investigated in the SCOC report. They are listed here in the order described in the SCOC report.
 Unless otherwise noted: 
-* Visits are always 1x30s long (not 2x15s). These 1x30s simulations achieve about 2.2M visits over 10 years. 
+* Visits are always 1x30s or 2x15s. For v1.4, 1.5 and 1.6 the default is 1x30s. For v1.7, the default is 2x15s. The 1x30s simulations achieve about 2.2M visits over 10 years. 
 * Pairs of visits in each night are in two filters as follows: u-g, u-r, g-r, r-i, i-z, z-y or y-y. Pairs are scheduled for approximately 22 minutes separation. Almost every visit in gri has another visit within 50 minutes.
 * The survey footprint is the standard baseline footprint, with 18K square degrees in the WFD reaching from -62 to +2 degrees (excluding the galactic plane), and additional coverage for the North Ecliptic Spur (NES), the Galactic Plane (GP) and South Celestial Pole (SCP). Five DD fields are included, with the fifth field being composed of two pointings covering the Euclid Deep Field - South (EDF-S), devoting 5% of the total survey time to DD fields. 
 * The standard balance of visits between filters is 6% in *u*, 9% in *g*, 22% in *r*, 22% in *i*, 20% in *z*, and 21 % in *y*. 
@@ -13,6 +13,9 @@ For example: `goodseeing_i_v1.5_10yrs.db` is from the `good seeing` family and c
 `footprint_gpsmooth_10yrs.db` is from the `footprint` family, and the variation on the survey footprint is that the Galactic Plane is covered at the same depth as the WFD. To decode the particular details of the survey strategy variation, it will likely be necessary to look at the description of the family in the release notes or the cheat sheet below. 
 
 Please note that the MAF outputs are generally the same from 1.4, 1.5 to 1.6 HOWEVER they are not exactly the same. We have improved some metrics and added others, but not necessarily re-run those when they are minor changes for older runs. Likewise, the simulations themselves do not use exactly the same sets of parameters or underlying models; FBS 1.4 runs should be compared against the FBS 1.4 baseline, FBS 1.5 runs should be compared against the FBS 1.5 baseline, FBS 1.6 runs against the FBS 1.6 baseline, etc. Generally these runs are statistically comparable. 
+
+
+## v1.4
 
 **Family Details:**
 
@@ -35,6 +38,8 @@ uparis_illum_40_scale4v1.4_10yrs.db | 40 | 4 |
 uparis_illum_60_scale1v1.4_10yrs.db | 60 | 1 |
 uparis_illum_60_scale2v1.4_10yrs.db | 60 | 2 |
 uparis_illum_60_scale4v1.4_10yrs.db | 60 | 4 |
+
+## v1.5
 
 * [baseline](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.5/baseline/) FBS 1.5 [MAF](http://astro-lsst-01.astro.washington.edu:8081/)
 
@@ -236,6 +241,8 @@ Run | Comment
 greedy_footprint_v1.5_10yrs.db | Twilight greedy survey footprint modified to remove the ecliptic (forcing ecliptic visits into the paired blobs)
 
 
+## v1.6
+
 * [potential_schedulers](https://epyc.astro.washington.edu/~lynnej/opsim_downloads/fbs_1.6/potential_schedulers/) FBS 1.6 [MAF](http://astro-lsst-01.astro.washington.edu:8080)
 
 This family is unique in that instead of varying a single survey strategy option (as in all other families), here we vary several options at once in pursuit of a particular science goal. The point here is to illustrate the effect of combinations of survey strategy variations; some are successful and sometimes we may meet technical goals but not science goals. For further details on each simulation, Section 5 in the Survey Strategy report for the SCOC (https://pstn-051.lsst.io/) is recommended.  
@@ -267,13 +274,13 @@ In this release, we have switched the default observing mode to be 2x15s visits 
 
 Run | Comment
 :-- | :----:
-baseline_nexp1_v1.7_10yrs.db | 
-baseline_nexp2_v1.7_10yrs.db | The run to compare other v1.7 runs to
+baseline_nexp1_v1.7_10yrs.db | visits of 1x30s exposures
+baseline_nexp2_v1.7_10yrs.db | The run to compare other v1.7 runs to, 2x15s exposures
 
 
 * ddf_dither
 
-This family looks at varying the size of the DDF spatial dithering scale from 0 to 2.0 degrees. 
+This family looks at varying the size of the DDF spatial dithering scale from 0 to 2.0 degrees. Smaller dithers will help the overall depth and uniformity, but larger dithers may be needed for calibration. 
 
 Run | Dither Scale | Comment
 :-- | :----: | :----:
@@ -288,79 +295,88 @@ ddf_dither2.00_v1.7_10yrs.db  | 2.0 degrees
 
 * euclid_dither
 
-Run | Dither Scale | Comment
+The Euclid deep drilling field is a double pointing. Here, we spatially dither with different scales in order to better fill the euclid footprint. We define a dither scale in the direction of the other pointing, and a scale perpendicular to the other pointing.
+
+Run | Direct scale (deg) |  Perpendicular scale (deg)
 :-- | :----: | :----:
-euclid_dither1_v1.7_10yrs.db 
-euclid_dither2_v1.7_10yrs.db 
-euclid_dither3_v1.7_10yrs.db 
-euclid_dither4_v1.7_10yrs.db 
-euclid_dither5_v1.7_10yrs.db 
+euclid_dither1_v1.7_10yrs.db | -0.25, 1 | 0.25
+euclid_dither2_v1.7_10yrs.db | -0.1, 0.1 | 0.25
+euclid_dither3_v1.7_10yrs.db | -0.25, 1 | 0.1
+euclid_dither4_v1.7_10yrs.db | -0.25, 1.5 | 0.25
+euclid_dither5_v1.7_10yrs.db | -0.25, 0.75 | 0.25
 
 * footprint_tune
 
-A handy notebook for seeing the goal footprints in this family:  https://github.com/lsst-sims/sims_featureScheduler_runs1.7/blob/main/footprint_tune/viz_fp.ipynb
+There has been a push to define the wide-fast-deep area to be predominantly low extinction. In this family, we look at a variety of ways one could shift or expand the WFD area. Most of these footprints include the LMC and SMC as part of the WFD.  
 
-Varying the size and location of the WFD survey area. Most include the LMC and SMC in the WFD area. All use dust maps to define the WFD area.
+A handy notebook for seeing the goal [footprints in this family](https://github.com/lsst-sims/sims_featureScheduler_runs1.7/blob/main/footprint_tune/viz_fp.ipynb).
+
 
 Run | WFD area | Footprint Description 
 :-- | :----: | :----:
 footprint_0_v1.710yrs.db   | 18,500 | Small northern stripe included 
-footprint_1_v1.710yrs.db    | 18,500 |  
-footprint_2_v1.710yrs.db    | 18,200 | 
-footprint_3_v1.710yrs.db    | 18,700 | Expanding outer MW bridge
-footprint_4_v1.710yrs.db    | 18,000 | Very expanded outer bridge
-footprint_5_v1.710yrs.db    | 18,700 | 
+footprint_1_v1.710yrs.db    | 18,500 |  -70.2 < WFD dec < 7.8
+footprint_2_v1.710yrs.db    | 18,200 | -67.4 < WFD dec < 8
+footprint_3_v1.710yrs.db    | 18,700 | Expanding outer MW bridge south, 20 degree bridfe
+footprint_4_v1.710yrs.db    | 18,000 | 33 degree bridge, -62.5 < WFD dec < 3.6
+footprint_5_v1.710yrs.db    | 18,700 | The same as 3 maybe?
 footprint_6_v1.710yrs.db    | 18,800 | outer bridge shifted south
-footprint_7_v1.710yrs.db    | 18,000 | shrink bulge coverage
+footprint_7_v1.710yrs.db    | 18,000 | No tracing ecliptic through south dust
 footprint_8_v1.710yrs.db    | 18,000 | WFD all low extinction
 
 * pair_times
 
-Run | Pair Time | Comment
-:-- | :----: | :----:
-pair_times_11_v1.7_10yrs.db 
-pair_times_22_v1.7_10yrs.db 
-pair_times_33_v1.7_10yrs.db 
-pair_times_44_v1.7_10yrs.db 
-pair_times_55_v1.7_10yrs.db 
+The baseline attempts to take most visits in pairs separated by 22 minutes. In this family we vary the pair time between 11 and 55 minutes. Longer pair times mean fewer filter changes, but also more chances for pairs to be interrupted. 
+
+Run | Pair Time 
+:-- | :----: 
+pair_times_11_v1.7_10yrs.db  | 11 minutes
+pair_times_22_v1.7_10yrs.db  | 22
+pair_times_33_v1.7_10yrs.db  | 33
+pair_times_44_v1.7_10yrs.db  | 44
+pair_times_55_v1.7_10yrs.db  | 55
 
 * rolling
 
-Run | Rolling Strength | Sky Fraction | Comment
-:-- | :----: | :----: | :----:
-rolling_scale0.2_nslice2_v1.7_10yrs.db 
-rolling_scale0.2_nslice3_v1.7_10yrs.db 
-rolling_scale0.4_nslice2_v1.7_10yrs.db 
-rolling_scale0.4_nslice3_v1.7_10yrs.db 
-rolling_scale0.6_nslice2_v1.7_10yrs.db 
-rolling_scale0.6_nslice3_v1.7_10yrs.db 
-rolling_scale0.8_nslice2_v1.7_10yrs.db 
-rolling_scale0.8_nslice3_v1.7_10yrs.db 
-rolling_scale0.9_nslice2_v1.7_10yrs.db 
-rolling_scale0.9_nslice3_v1.7_10yrs.db 
-rolling_scale1.0_nslice2_v1.7_10yrs.db 
-rolling_scale1.0_nslice3_v1.7_10yrs.db 
+This family updates previous rolling experiments. In this family, there are 6 seasons where a fraction of the sky is observed more often (and a fraction less often). The final visit count across the sky is a close match to the baseline, but some observing seasons should have much better sampled light curves.  In addition to the seaonsal rolling, this family alternates nightly between observing north and south.
+
+Run | Rolling Strength | Sky Fraction 
+:-- | :----: | :----: 
+rolling_scale0.2_nslice2_v1.7_10yrs.db  | 20% | half
+rolling_scale0.2_nslice3_v1.7_10yrs.db  | 20% | third
+rolling_scale0.4_nslice2_v1.7_10yrs.db  | 40% | half
+rolling_scale0.4_nslice3_v1.7_10yrs.db | 40% | third
+rolling_scale0.6_nslice2_v1.7_10yrs.db | 60% | half
+rolling_scale0.6_nslice3_v1.7_10yrs.db | 60% | third
+rolling_scale0.8_nslice2_v1.7_10yrs.db | 80% | half
+rolling_scale0.8_nslice3_v1.7_10yrs.db | 80% | third
+rolling_scale0.9_nslice2_v1.7_10yrs.db | 90% | half
+rolling_scale0.9_nslice3_v1.7_10yrs.db | 90% | third
+rolling_scale1.0_nslice2_v1.7_10yrs.db | 100% | half
+rolling_scale1.0_nslice3_v1.7_10yrs.db | 100% | third
 
 * rolling_nm
 
-Run | Rolling Strength | Sky Fraction | Comment
-:-- | :----: | :----: | :----:
-rolling_nm_scale0.2_nslice2_v1.7_10yrs.db  
-rolling_nm_scale0.2_nslice3_v1.7_10yrs.db  
-rolling_nm_scale0.4_nslice2_v1.7_10yrs.db  
-rolling_nm_scale0.4_nslice3_v1.7_10yrs.db  
-rolling_nm_scale0.6_nslice2_v1.7_10yrs.db  
-rolling_nm_scale0.6_nslice3_v1.7_10yrs.db  
-rolling_nm_scale0.8_nslice2_v1.7_10yrs.db  
-rolling_nm_scale0.8_nslice3_v1.7_10yrs.db  
-rolling_nm_scale0.9_nslice2_v1.7_10yrs.db  
-rolling_nm_scale0.9_nslice3_v1.7_10yrs.db  
-rolling_nm_scale1.0_nslice2_v1.7_10yrs.db  
-rolling_nm_scale1.0_nslice3_v1.7_10yrs.db  
+Very similar to the rolling family above, but does not attempt to alternate north/south nightly.
+
+Run | Rolling Strength | Sky Fraction 
+:-- | :----: | :----: 
+rolling_nm_scale0.2_nslice2_v1.7_10yrs.db    | 20% | half
+rolling_nm_scale0.2_nslice3_v1.7_10yrs.db    | 20% | third
+rolling_nm_scale0.4_nslice2_v1.7_10yrs.db    | 40% | half
+rolling_nm_scale0.4_nslice3_v1.7_10yrs.db   | 40% | third
+rolling_nm_scale0.6_nslice2_v1.7_10yrs.db   | 60% | half
+rolling_nm_scale0.6_nslice3_v1.7_10yrs.db   | 60% | third
+rolling_nm_scale0.8_nslice2_v1.7_10yrs.db   | 80% | half
+rolling_nm_scale0.8_nslice3_v1.7_10yrs.db   | 80% | third
+rolling_nm_scale0.9_nslice2_v1.7_10yrs.db   | 90% | half
+rolling_nm_scale0.9_nslice3_v1.7_10yrs.db   | 90% | third
+rolling_nm_scale1.0_nslice2_v1.7_10yrs.db   | 100% | half
+rolling_nm_scale1.0_nslice3_v1.7_10yrs.db   | 100% | third
 
 * twi_neo
 
-This family updates previous simulations that attempt to use twilight time to perform a NEO search with 1s exposures. If we use all twilight time for NEO searching, we 
+This family updates previous simulations that attempt to use twilight time to perform a NEO search with 1s exposures. If we use all twilight time for NEO searching, the SRD requirements for number of visits in the WFD region can not be met. Therefore, we test running the NEO survey on different fractions of the nights.
 
 Run | Survey pattern
 :-- | :----: 
@@ -396,13 +412,14 @@ u_long_ms_60_v1.7_10yrs.db   | 1x60s u-band visits
 
 * wfd_cadence_drive
 
+This family tests a strategy of forcing g-band observations if there has been a long gap in g. The gap filling observations are limited to be a certain number per night. We also test forcing the g filling observations to be contiguous regions on the sky, or allowing the observations to be non-contiguous. The extra g observations are paired with observations in r.
 
 
-Run |  g-limit | contiguous areas | Comment
-:-- |  :----:  | :----:  | :----:  
-cadence_drive_gl30_gcbv1.7_10yrs.db  
-cadence_drive_gl30v1.7_10yrs.db 
-cadence_drive_gl100_gcbv1.7_10yrs.db  
-cadence_drive_gl100v1.7_10yrs.db  
-cadence_drive_gl200_gcbv1.7_10yrs.db 
-cadence_drive_gl200v1.7_10yrs.db   
+Run |  g-limit | contiguous areas 
+:-- |  :----:  | :----:  
+cadence_drive_gl30_gcbv1.7_10yrs.db  | 30 per night | contiguous
+cadence_drive_gl30v1.7_10yrs.db  | 30 | non-contiguous
+cadence_drive_gl100_gcbv1.7_10yrs.db  | 100 | contiguous
+cadence_drive_gl100v1.7_10yrs.db  | 100 | non-contiguous
+cadence_drive_gl200_gcbv1.7_10yrs.db | 200 | contiguous
+cadence_drive_gl200v1.7_10yrs.db   | 200 | non-contiguous

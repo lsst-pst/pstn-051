@@ -259,3 +259,150 @@ rolling_exgal_mod2_dust_sdf_0.80_nexp2_v1.6_10yrs.db | 2x15s | Extended N/S WFD 
 rolling_exgal_mod2_dust_sdf_0.80_v1.6_10yrs.db | 1x30s | Extended N/S WFD with dust limits; light coverage of NES, SCP and GP. Rolling cadence on a two-year alternating scheme, using 4 declination bands (a N/S pair is focused each year). 5% DDF
 ss_heavy_nexp2_v1.6_10yrs.db | 2x15s | Classic baseline survey footprint, but add ecliptic plane coverage through the GP at WFD levels. Add twilight NEO survey in r band each night. Move ecliptic coverage outside of twilight NEO survey into blob coverage for pairs. 5% DDF.
 ss_heavy_v1.6_10yrs.db | 1x30s | Classic baseline survey footprint, but add ecliptic plane coverage through the GP at WFD levels. Add twilight NEO survey in r band each night. Move ecliptic coverage outside of twilight NEO survey into blob coverage for pairs. 5% DDF.
+
+
+## Release v1.7
+
+In this release, we have switched the default observing mode to be 2x15s visits rather than 1x30s. 
+
+Run | Comment
+:-- | :----:
+baseline_nexp1_v1.7_10yrs.db | 
+baseline_nexp2_v1.7_10yrs.db | The run to compare other v1.7 runs to
+
+
+* ddf_dither
+
+This family looks at varying the size of the DDF spatial dithering scale from 0 to 2.0 degrees. 
+
+Run | Dither Scale | Comment
+:-- | :----: | :----:
+ddf_dither0.00_v1.7_10yrs.db  | no dither
+ddf_dither0.05_v1.7_10yrs.db  | 0.05 degrees
+ddf_dither0.10_v1.7_10yrs.db  | 0.10 degrees
+ddf_dither0.30_v1.7_10yrs.db  | 0.30 degrees
+ddf_dither0.70_v1.7_10yrs.db  | 0.70 degrees
+ddf_dither1.00_v1.7_10yrs.db  | 1.0 degrees
+ddf_dither1.50_v1.7_10yrs.db  | 1.5 degrees
+ddf_dither2.00_v1.7_10yrs.db  | 2.0 degrees
+
+* euclid_dither
+
+Run | Dither Scale | Comment
+:-- | :----: | :----:
+euclid_dither1_v1.7_10yrs.db 
+euclid_dither2_v1.7_10yrs.db 
+euclid_dither3_v1.7_10yrs.db 
+euclid_dither4_v1.7_10yrs.db 
+euclid_dither5_v1.7_10yrs.db 
+
+* footprint_tune
+
+A handy notebook for seeing the goal footprints in this family:  https://github.com/lsst-sims/sims_featureScheduler_runs1.7/blob/main/footprint_tune/viz_fp.ipynb
+
+Varying the size and location of the WFD survey area. Most include the LMC and SMC in the WFD area. All use dust maps to define the WFD area.
+
+Run | WFD area | Footprint Description 
+:-- | :----: | :----:
+footprint_0_v1.710yrs.db   | 18,500 | Small northern stripe included 
+footprint_1_v1.710yrs.db    | 18,500 |  
+footprint_2_v1.710yrs.db    | 18,200 | 
+footprint_3_v1.710yrs.db    | 18,700 | Expanding outer MW bridge
+footprint_4_v1.710yrs.db    | 18,000 | Very expanded outer bridge
+footprint_5_v1.710yrs.db    | 18,700 | 
+footprint_6_v1.710yrs.db    | 18,800 | outer bridge shifted south
+footprint_7_v1.710yrs.db    | 18,000 | shrink bulge coverage
+footprint_8_v1.710yrs.db    | 18,000 | WFD all low extinction
+
+* pair_times
+
+Run | Pair Time | Comment
+:-- | :----: | :----:
+pair_times_11_v1.7_10yrs.db 
+pair_times_22_v1.7_10yrs.db 
+pair_times_33_v1.7_10yrs.db 
+pair_times_44_v1.7_10yrs.db 
+pair_times_55_v1.7_10yrs.db 
+
+* rolling
+
+Run | Rolling Strength | Sky Fraction | Comment
+:-- | :----: | :----: | :----:
+rolling_scale0.2_nslice2_v1.7_10yrs.db 
+rolling_scale0.2_nslice3_v1.7_10yrs.db 
+rolling_scale0.4_nslice2_v1.7_10yrs.db 
+rolling_scale0.4_nslice3_v1.7_10yrs.db 
+rolling_scale0.6_nslice2_v1.7_10yrs.db 
+rolling_scale0.6_nslice3_v1.7_10yrs.db 
+rolling_scale0.8_nslice2_v1.7_10yrs.db 
+rolling_scale0.8_nslice3_v1.7_10yrs.db 
+rolling_scale0.9_nslice2_v1.7_10yrs.db 
+rolling_scale0.9_nslice3_v1.7_10yrs.db 
+rolling_scale1.0_nslice2_v1.7_10yrs.db 
+rolling_scale1.0_nslice3_v1.7_10yrs.db 
+
+* rolling_nm
+
+Run | Rolling Strength | Sky Fraction | Comment
+:-- | :----: | :----: | :----:
+rolling_nm_scale0.2_nslice2_v1.7_10yrs.db  
+rolling_nm_scale0.2_nslice3_v1.7_10yrs.db  
+rolling_nm_scale0.4_nslice2_v1.7_10yrs.db  
+rolling_nm_scale0.4_nslice3_v1.7_10yrs.db  
+rolling_nm_scale0.6_nslice2_v1.7_10yrs.db  
+rolling_nm_scale0.6_nslice3_v1.7_10yrs.db  
+rolling_nm_scale0.8_nslice2_v1.7_10yrs.db  
+rolling_nm_scale0.8_nslice3_v1.7_10yrs.db  
+rolling_nm_scale0.9_nslice2_v1.7_10yrs.db  
+rolling_nm_scale0.9_nslice3_v1.7_10yrs.db  
+rolling_nm_scale1.0_nslice2_v1.7_10yrs.db  
+rolling_nm_scale1.0_nslice3_v1.7_10yrs.db  
+
+* twi_neo
+
+This family updates previous simulations that attempt to use twilight time to perform a NEO search with 1s exposures. If we use all twilight time for NEO searching, we 
+
+Run | Survey pattern
+:-- | :----: 
+twi_neo_pattern1_v1.7_10yrs.db    | on every night 
+twi_neo_pattern2_v1.7_10yrs.db    | on, off
+twi_neo_pattern3_v1.7_10yrs.db    | on, off, off
+twi_neo_pattern4_v1.7_10yrs.db    | on, off 3 nights
+twi_neo_pattern5_v1.7_10yrs.db    | on 4 nights, off 4 nights
+twi_neo_pattern6_v1.7_10yrs.db    | on 3 nights, off 4 nights
+twi_neo_pattern7_v1.7_10yrs.db    | on 2 nights, off 4 nights
+
+* twi_pairs
+
+In the baseline, twilight observations are taken one at a time using a greedy algorithm. In this family, we look at taking twilight observations in pairs similar to how observations are done in non-twilight. Observations are taken with 15 minute separation. We test taking pairs in the same filter (r+r, i+i, z+z, or y+y) , or mixed filters (r+i, i+z, z+y or y+y). We also test preferentially targeting areas that have already been observed in the night with twilight observations. 
+
+Run |  Comment
+:-- |  :----:
+twi_pairs_mixed_repeat_v1.7_10yrs.db   | Twilight pairs in different filters, prefer area that has already been observed in night
+twi_pairs_mixed_v1.7_10yrs.db  | Twilight pairs in different filters
+twi_pairs_repeat_v1.7_10yrs.db  | Twilight pairs in same filter, prefer area that has already been observed in night
+twi_pairs_v1.7_10yrs.db | Twilight pairs in same filter
+
+* u_long
+
+In the baseline, u-band observations are often readnoise limited. This family explores increasing the u-band exposure times and using 1 snap rather than 2 for u-band only. We do not decrease the number of u-band exposures, so increasing u exposure time should come at the expense of other filters. The DDF observations were left unchanged (DDF u exposures are still 2x15s).
+
+Run |  Comment
+:-- |  :----:
+u_long_ms_30_v1.7_10yrs.db   | 1x30s u-band visits
+u_long_ms_40_v1.7_10yrs.db   | 1x40s u-band visits
+u_long_ms_50_v1.7_10yrs.db   | 1x50s u-band visits
+u_long_ms_60_v1.7_10yrs.db   | 1x60s u-band visits
+
+* wfd_cadence_drive
+
+
+
+Run |  g-limit | contiguous areas | Comment
+:-- |  :----:  | :----:  | :----:  
+cadence_drive_gl30_gcbv1.7_10yrs.db  
+cadence_drive_gl30v1.7_10yrs.db 
+cadence_drive_gl100_gcbv1.7_10yrs.db  
+cadence_drive_gl100v1.7_10yrs.db  
+cadence_drive_gl200_gcbv1.7_10yrs.db 
+cadence_drive_gl200v1.7_10yrs.db   

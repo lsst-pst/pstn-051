@@ -21,7 +21,6 @@ Links
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4048838.svg
  :target: https://doi.org/10.5281/zenodo.4048838
 
-(DOI for v1.2, initial public release)
 
 
 

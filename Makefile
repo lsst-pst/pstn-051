@@ -21,7 +21,7 @@ acronyms.tex: $(tex) myacronyms.txt
 	$(TEXMFHOME)/../bin/generateAcronyms.py -t "DM" $(tex)
 
 authors.tex:  authors.yaml
-	python3 $(TEXMFHOME)/../bin/db2authors.py > authors.tex 
+	python3 $(TEXMFHOME)/../bin/db2authors.py -m aas7 > authors.tex
 
 .PHONY: clean
 clean:

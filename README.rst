@@ -17,6 +17,7 @@ Links
 
 - Live drafts: https://pstn-051.lsst.io
 - GitHub: https://github.com/lsst-pst/pstn-051
+- Tech note DOI: [10.71929/rubin/2584084](https://doi.org/10.71929/rubin/2584084)
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4048838.svg
  :target: https://doi.org/10.5281/zenodo.4048838

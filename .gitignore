@@ -12,3 +12,5 @@ meta.tex
 *.out
 *.xdv
 PSTN-051.pdf
+*.glsdefs
+aglossary.tex

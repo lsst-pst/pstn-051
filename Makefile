@@ -13,12 +13,12 @@ endif
 
 export TEXMFHOME ?= lsst-texmf/texmf
 
-$(DOCNAME).pdf: $(tex) meta.tex local.bib authors.tex acronyms.tex
+$(DOCNAME).pdf: $(tex) meta.tex local.bib authors.tex aglossary.tex
 	latexmk -bibtex -xelatex -f $(DOCNAME)
 
 # Acronym tool allows for selection of acronyms based on tags - you may want more than DM
-acronyms.tex: $(tex) myacronyms.txt
-	$(TEXMFHOME)/../bin/generateAcronyms.py -t "DM" $(tex)
+aglossary.tex :$(tex) myacronyms.txt
+	python3 $(TEXMFHOME)/../bin/generateAcronyms.py -t"Sci DM Gen" -g $(tex)
 
 authors.tex:  authors.yaml
 	python3 $(TEXMFHOME)/../bin/db2authors.py -m aas7 > authors.tex

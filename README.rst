@@ -1,7 +1,5 @@
 .. image:: https://img.shields.io/badge/pstn--051-lsst.io-brightgreen.svg
    :target: https://pstn-051.lsst.io
-.. image:: https://travis-ci.com/lsst-pst/pstn-051.svg
-   :target: https://travis-ci.com/lsst-pst/pstn-051
 
 ############################################################################################################
 Survey Strategy and Cadence Choices For the Vera C. Rubin Observatory Legacy Survey of Space and Time (LSST)

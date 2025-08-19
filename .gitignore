@@ -7,4 +7,8 @@
 *.toc
 authors.tex
 acronyms.tex
+meta.tex
 *.png
+*.out
+*.xdv
+PSTN-051.pdf

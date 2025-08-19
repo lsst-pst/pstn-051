@@ -1,9 +1,10 @@
-\documentclass[modern]{aastex631}
+\documentclass[modern]{aastex7}
 \setcounter{secnumdepth}{3}
 % lsstdoc documentation: https://lsst-texmf.lsst.io/lsstdoc.html
 \input{meta}
 
 % Package imports go here.
+\usepackage{glossaries}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{multirow}
@@ -23,10 +24,11 @@
 %\author{Eric~H.~Neilsen~Jr.}
 %\affiliation{Fermi National Accelerator Laboratory, P. O. Box 500, Batavia, IL 60510, USA}
 
-\date{\today}
+% Float if document is edited for content again.
+\date{2021-03-11}
 \title{Survey Strategy and Cadence Choices for the Vera C. Rubin Observatory Legacy Survey of Space and Time (LSST)}
 \hypersetup{pdftitle={\@title}, pdfauthor={\@author}, pdfkeywords={\@keywords}}
-
+\doi{10.71929/rubin/2584084}
 \input{abstract}
 
 \tableofcontents
@@ -54,13 +56,13 @@
 % Include all the relevant bib files.
 % https://lsst-texmf.lsst.io/lsstdoc.html#bibliographies
 %\section{References} \label{sec:bib}
-\bibliographystyle{yahapj}
+\bibliographystyle{aasjournal}
 \bibliography{local,lsst,lsst-dm,refs_ads,refs,books}
 
 \clearpage
 % Make sure lsst-texmf/bin/generateAcronyms.py is in your path
 \section{Acronyms} \label{sec:acronyms}
-\input{acronyms.tex}
+\input{aglossary.tex}
 
 
 \end{document}
